@@ -11,6 +11,7 @@ public class MusicManager : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(this);
         _instance = this;
     }
 

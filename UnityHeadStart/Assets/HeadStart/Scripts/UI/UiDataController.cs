@@ -42,6 +42,11 @@ public class UiDataController : MonoBehaviour
         }
     }
 
+    public void QuitGame()
+    {
+        Debug.Log("Quit Game");
+        UIController._.DialogController.ShowDialog(true, GameplayState.Failed);
+    }
 }
 
 public enum UiDataType

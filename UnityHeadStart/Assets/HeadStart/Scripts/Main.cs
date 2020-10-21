@@ -14,6 +14,9 @@ public class Main : MonoBehaviour
 
     void Awake()
     {
+        var domainLogic = FindObjectOfType<DomainLogic>();
+        Destroy(domainLogic.gameObject);
+
         GameObject go;
         var settings = FindObjectOfType<HiddenSettings>();
         if (settings == null)
