@@ -56,7 +56,7 @@ public class LoadingController : MonoBehaviour
         if (instant == false)
         {
             _onTransitionEnd = onTransitionEnd;
-            _overlay.color = show ? HiddenSettings._.BlackColor : HiddenSettings._.BlackColor;
+            _overlay.color = show ? HiddenSettings._.BlackColor : HiddenSettings._.TransparentColor;
             _fadeAnimationId = LeanTween.color(_overlay.gameObject.GetComponent<RectTransform>(),
             show ? HiddenSettings._.TransparentColor : HiddenSettings._.BlackColor,
             _timeBetweenFadings).id;

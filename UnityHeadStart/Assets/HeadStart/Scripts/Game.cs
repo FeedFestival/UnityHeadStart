@@ -75,6 +75,10 @@ public class Game : MonoBehaviour
 
     public void LoadFirstLevel()
     {
-        Debug.Log("Load First Level");
+        LevelToLoad = "Game";
+        UIController._.LoadingController.TransitionOverlay(show: false, instant: false, () =>
+        {
+            SceneManager.LoadScene(LevelToLoad);
+        });
     }
 }

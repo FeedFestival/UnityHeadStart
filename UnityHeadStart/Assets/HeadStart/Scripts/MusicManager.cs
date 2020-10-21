@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    private static string version = "1.0.0";
     private static MusicManager _instance;
     public static MusicManager _ { get { return _instance; } }
 

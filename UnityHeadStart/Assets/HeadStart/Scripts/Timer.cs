@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Timer : MonoBehaviour
 {
+    private static string version = "1.0.0";
     private static Timer _Timer;
     public static Timer _ { get { return _Timer; } }
 
