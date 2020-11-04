@@ -11,6 +11,7 @@ public class DomainLogic : MonoBehaviour
     public void RecreateDataBase()
     {
         var dataService = new DataService();
+        dataService.CleanDB();
         dataService.CreateDB();
     }
 

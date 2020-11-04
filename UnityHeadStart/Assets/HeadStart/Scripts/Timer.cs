@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0414 // private field assigned but not used.
+using UnityEngine;
 using System.Collections;
 
 public class Timer : MonoBehaviour
 {
-    private static string version = "1.0.0";
+    public static readonly string _version = "1.0.1";
     private static Timer _Timer;
     public static Timer _ { get { return _Timer; } }
 

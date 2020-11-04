@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿#pragma warning disable 0414 // private field assigned but not used.
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Main : MonoBehaviour
 {
+    public static readonly string _version = "1.0.1";
     public bool IsThisTheLoadingScene;
     public GameObject HiddenSettingsPrefab;
 
@@ -61,12 +63,24 @@ public class Main : MonoBehaviour
             }
 
             var player = FindObjectOfType<Player>();
-            if (_game.Player == null)
+            if (player == null)
             {
-                _game.Player = player;
+                Debug.LogError("No Player");
+            }
+            else
+            {
+                if (_game.Player == null)
+                {
+                    _game.Player = player;
+                }
             }
         }
         go = null;
+
+#if UNITY_EDITOR
+        VersionChecker versionChecker = gameObject.AddComponent<VersionChecker>();
+        versionChecker.Check();
+#endif
     }
 
     void Start()

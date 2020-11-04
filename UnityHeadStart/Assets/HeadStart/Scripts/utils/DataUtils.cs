@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable 0414 // private field assigned but not used.
+using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Assets.Scripts.utils
 {
     public static class DataUtils
     {
-        public static string _version = "1.0.0";
+        public static readonly string _version = "1.0.1";
         public static string GetDataValue(string data, string index)
         {
             string value = data.Substring(data.IndexOf(index, System.StringComparison.Ordinal) + index.Length);

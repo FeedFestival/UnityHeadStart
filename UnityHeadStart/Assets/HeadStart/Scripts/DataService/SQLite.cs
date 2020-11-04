@@ -127,6 +127,7 @@ namespace SQLite4Unity3d
     /// </summary>
     public partial class SQLiteConnection : IDisposable
     {
+        public static readonly string _version = "1.0.1";
         private bool _open;
         private TimeSpan _busyTimeout;
         private Dictionary<string, TableMapping> _mappings = null;
@@ -214,7 +215,7 @@ namespace SQLite4Unity3d
 
         static SQLiteConnection()
         {
-            if (_preserveDuringLinkMagic)
+            if (PreserveDuringLinkMagic)
             {
                 var ti = new ColumnInfo();
                 ti.Name = "magic";
@@ -243,7 +244,7 @@ namespace SQLite4Unity3d
         /// Used to list some code that we want the MonoTouch linker
         /// to see, but that we never want to actually execute.
         /// </summary>
-        static bool _preserveDuringLinkMagic;
+        public static bool PreserveDuringLinkMagic;
 
         /// <summary>
         /// Sets a busy handler to sleep the specified amount of time when a table is locked.

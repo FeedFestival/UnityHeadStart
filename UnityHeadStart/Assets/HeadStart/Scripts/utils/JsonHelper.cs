@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0414 // private field assigned but not used.
+using UnityEngine;
 using System.Collections;
 
 namespace Assets.Scripts.utils
 {
-
     public interface IJsonConsole
     {
         string ToJsonString();
@@ -11,6 +11,7 @@ namespace Assets.Scripts.utils
 
     public static class JsonHelper
     {
+        public static readonly string _version = "1.0.1";
         public static T[] FromJson<T>(string json)
         {
             json = FixJson(json);

@@ -281,6 +281,7 @@ MonoBehaviour:
   IsMainMenu: 1
   LevelName: MainMenu
   GameplayState: 0
+  LevelGo: {fileID: 0}
 --- !u!1001 &585765139944657930
 PrefabInstance:
   m_ObjectHideFlags: 0

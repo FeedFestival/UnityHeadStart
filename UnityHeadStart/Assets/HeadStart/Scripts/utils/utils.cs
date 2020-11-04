@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -10,7 +12,7 @@ namespace Assets.Scripts.utils
 {
     public static class utils
     {
-        public static string _version = "1.0.0";
+        public static readonly string _version = "1.0.1";
         public static string ConvertNumberToK(int num)
         {
             if (num >= 1000)
@@ -23,6 +25,18 @@ namespace Assets.Scripts.utils
         {
             var randomNumber = Random.Range(0, 100);
             return (randomNumber > 50) ? 1 : 0;
+        }
+
+        public static void VarDump<T>(T obj)
+        {
+            foreach (var propertyInfo in obj.GetType()
+                                .GetProperties(
+                                        BindingFlags.Public
+                                        | BindingFlags.Instance))
+            {
+                var x = propertyInfo;
+                Debug.Log(propertyInfo);
+            }
         }
 
         public static void DumpToConsole(object obj, bool isArray = false)
@@ -53,11 +67,33 @@ namespace Assets.Scripts.utils
                 .Where(c => !Char.IsWhiteSpace(c))
                 .ToArray());
         }
+
+        public static string DebugList(List<int> array, string name)
+        {
+            string debug = string.Empty;
+            foreach (int bId in array)
+            {
+                debug += bId + ",";
+            }
+            return name + " (" + debug + ")[" + array.Count + "]";
+        }
+
+        public static void AddIfNone(int value, ref List<int> array, string debugAdd = null)
+        {
+            if (array.Contains(value))
+            {
+                return;
+            }
+            array.Add(value);
+            if (string.IsNullOrEmpty(debugAdd))
+            {
+                Debug.Log(debugAdd);
+            }
+        }
     }
 
     public static class percent
     {
-        public static string _version = "1.0.0";
         public static float Find(float _percent, float _of)
         {
             return (_of / 100f) * _percent;

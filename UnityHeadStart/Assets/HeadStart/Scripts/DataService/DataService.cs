@@ -8,9 +8,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using Assets.Scripts.utils;
 
 public class DataService
 {
+    public static readonly string _version = "1.0.1";
     public string DefaultDatabaseName = "Database.db";
     const string _assetsPath = "Assets/HeadStart";
     private SQLiteConnection _connection;
@@ -79,14 +81,27 @@ public class DataService
         _connection.CreateTable<User>();
     }
 
-    public void CreateDB()
+    public void CleanDB()
     {
         _connection.DropTable<User>();
+    }
 
-        // if (_connection.Table<User>().Where(x => x.Id == 1).FirstOrDefault() == null)
-        // {
-        //     _connection.CreateTable<User>();
-        // }
+    public void CreateDB()
+    {
+        _connection.CreateTable<User>();
+    }
+
+    public void CreateDBIfNotExists()
+    {
+        try
+        {
+            _connection.Table<User>().Where(x => x.Id == 1).FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            CreateDB();
+        }
     }
 
     /*

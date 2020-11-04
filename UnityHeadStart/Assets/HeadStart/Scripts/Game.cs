@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
+    public static readonly string _version = "1.0.1";
     private static Game _game;
     public static Game _ { get { return _game; } }
 
@@ -16,6 +17,7 @@ public class Game : MonoBehaviour
     public User User;
     public bool RestartLevel;
     private string LevelToLoad;
+    private int _uniqueId;
 
     void Awake()
     {
@@ -40,6 +42,7 @@ public class Game : MonoBehaviour
     private void GetUser()
     {
         DataService = new DataService();
+        DataService.CreateDBIfNotExists();
         User = DataService.GetLastUser();
         if (User == null)
         {
@@ -80,5 +83,16 @@ public class Game : MonoBehaviour
         {
             SceneManager.LoadScene(LevelToLoad);
         });
+    }
+
+    public T Level<T>()
+    {
+        return (T) Convert.ChangeType(LevelController.Level, typeof(T));
+    }
+
+    public int GetUniqueId()
+    {
+        _uniqueId++;
+        return _uniqueId;
     }
 }

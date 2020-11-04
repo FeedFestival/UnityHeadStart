@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿#pragma warning disable 0414 // private field assigned but not used.
+using System.Collections;
 using System.Collections.Generic;
 using Hellmade.Sound;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    private static string version = "1.0.0";
+    public static readonly  string _version = "1.0.1";
     private static MusicManager _instance;
     public static MusicManager _ { get { return _instance; } }
 

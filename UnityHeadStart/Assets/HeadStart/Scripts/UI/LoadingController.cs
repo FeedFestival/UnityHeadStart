@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class LoadingController : MonoBehaviour
 {
+    public static readonly string _version = "1.0.1";
     private static LoadingController _loadingController;
-
     void Awake()
     {
         _loadingController = this;
