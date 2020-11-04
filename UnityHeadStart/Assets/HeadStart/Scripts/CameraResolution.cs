@@ -1,11 +1,10 @@
-﻿#pragma warning disable 0414 // private field assigned but not used.
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraResolution : MonoBehaviour
 {
+    #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "1.0.1";
+    #pragma warning restore 0414 //
     private int ScreenSizeX = 0;
     private int ScreenSizeY = 0;
     public bool IsPortrait;

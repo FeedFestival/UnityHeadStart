@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
+    #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "1.0.1";
+    #pragma warning restore 0414 //
     private static Game _game;
     public static Game _ { get { return _game; } }
 

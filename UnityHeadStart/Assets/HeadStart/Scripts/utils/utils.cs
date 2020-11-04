@@ -12,7 +12,7 @@ namespace Assets.Scripts.utils
 {
     public static class utils
     {
-        public static readonly string _version = "1.0.1";
+        public static readonly string _version = "1.0.2";
         public static string ConvertNumberToK(int num)
         {
             if (num >= 1000)
@@ -74,6 +74,16 @@ namespace Assets.Scripts.utils
             foreach (int bId in array)
             {
                 debug += bId + ",";
+            }
+            return name + " (" + debug + ")[" + array.Count + "]";
+        }
+
+        public static string DebugQueue<T>(Queue<T> array, string name)
+        {
+            string debug = string.Empty;
+            foreach (T t in array)
+            {
+                debug += JsonHelper.ToJson<T>(t);
             }
             return name + " (" + debug + ")[" + array.Count + "]";
         }

@@ -1,10 +1,14 @@
-﻿#pragma warning disable 0414 // private field assigned but not used.
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
+using static Timer;
+using System.Collections.Generic;
+using Assets.Scripts.utils;
 
 public class Timer : MonoBehaviour
 {
-    public static readonly string _version = "1.0.1";
+#pragma warning disable 0414 //
+    public static readonly string _version = "1.0.2";
+#pragma warning restore 0414 //
     private static Timer _Timer;
     public static Timer _ { get { return _Timer; } }
 
@@ -12,10 +16,10 @@ public class Timer : MonoBehaviour
     {
         _Timer = this;
         DontDestroyOnLoad(gameObject);
+        _internalWaits = new Queue<WaitOption>();
     }
 
     public delegate void InternalWaitCallback();
-    private InternalWaitCallback _internalWait;
     private InternalWaitCallback _debounceWait;
     public delegate void AsyncForEachCallback(int index);
     private AsyncForEachCallback _asyncForEach;
@@ -27,33 +31,29 @@ public class Timer : MonoBehaviour
     private bool _waitOneFrameIteration;
     private Texture2D _currentLoadedPicture;
     private string _fileName;
+    private Queue<WaitOption> _internalWaits;
 
-    public void InternalWait(InternalWaitCallback internalWait, float? seconds = null)
+    public void InternalWait(InternalWaitCallback internalWaitCallback, float? seconds = null)
     {
-        if (seconds == null)
-        {
-            _waitOneFrame = true;
-        }
-        else
-        {
-            _seconds = seconds.Value;
-        }
-        _internalWait = internalWait;
-        StartCoroutine(InternalWaitFunction());
+        var waitOption = new WaitOption(internalWaitCallback, seconds);
+        waitOption.WaitFunc = InternalWaitFunction(waitOption);
+        _internalWaits.Enqueue(waitOption);
+        StartCoroutine(waitOption.WaitFunc);
     }
 
-    private IEnumerator InternalWaitFunction()
+    private IEnumerator InternalWaitFunction(WaitOption waitOption)
     {
-        if (_waitOneFrame)
+        if (waitOption.WaitOneFrame)
         {
-            _waitOneFrame = false;
             yield return 0;
         }
         else
         {
-            yield return new WaitForSeconds(_seconds);
+            yield return new WaitForSeconds(waitOption.Seconds);
         }
-        _internalWait();
+        waitOption.WaitCallback();
+        _internalWaits.Dequeue();
+        // Debug.Log(utils.DebugQueue<WaitOption>(_internalWaits, "_internalWaits"));
     }
 
     public void Debounce(InternalWaitCallback debounceWait, float? seconds = null)
@@ -117,5 +117,27 @@ public class Timer : MonoBehaviour
         {
             _waitOneFrameIteration = false;
         }
+    }
+}
+
+public class WaitOption
+{
+    public InternalWaitCallback WaitCallback { get; set; }
+    public IEnumerator WaitFunc { get; set; }
+    public bool WaitOneFrame { get; set; }
+    public float Seconds { get; set; }
+
+    public WaitOption(InternalWaitCallback waitCallback, float? seconds)
+    {
+        WaitCallback = waitCallback;
+        WaitOneFrame = !seconds.HasValue;
+        if (WaitOneFrame == false)
+        {
+            Seconds = seconds.Value;
+        }
+    }
+
+    public WaitOption()
+    {
     }
 }

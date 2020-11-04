@@ -1,12 +1,12 @@
-﻿#pragma warning disable 0414 // private field assigned but not used.
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FpsDisplay : MonoBehaviour
 {
+    #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "1.0.1";
+    #pragma warning restore 0414 //
     public Text Text;
     float deltaTime = 0.0f;
     public bool TemperTime;

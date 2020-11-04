@@ -1,16 +1,16 @@
-﻿#pragma warning disable 0414 // private field assigned but not used.
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.utils
 {
     public static class DataUtils
     {
+        #pragma warning disable 0414 // private field assigned but not used.
         public static readonly string _version = "1.0.1";
+        #pragma warning restore 0414 //
         public static string GetDataValue(string data, string index)
         {
             string value = data.Substring(data.IndexOf(index, System.StringComparison.Ordinal) + index.Length);

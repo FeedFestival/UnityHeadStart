@@ -1,5 +1,4 @@
-﻿#pragma warning disable 0414 // private field assigned but not used.
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.LevelService;
@@ -8,7 +7,9 @@ using System.Linq;
 
 public class LevelController : MonoBehaviour
 {
+    #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "1.0.1";
+    #pragma warning restore 0414 //
     public bool DebugThis;
     public bool IsMainMenu;
     public string LevelName;

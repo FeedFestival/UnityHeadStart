@@ -13,7 +13,7 @@ public class UiDataController : MonoBehaviour
 
     internal void Init()
     {
-
+        
     }
 
     public void Update()

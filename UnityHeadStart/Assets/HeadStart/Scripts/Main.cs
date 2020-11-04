@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
+    #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "1.0.1";
+    #pragma warning restore 0414 //
     public bool IsThisTheLoadingScene;
     public GameObject HiddenSettingsPrefab;
 

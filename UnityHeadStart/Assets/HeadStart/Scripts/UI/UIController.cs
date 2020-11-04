@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
         if (UIController._.UiDataController != null)
         {
             UIController._.UiDataController.Init();
+            UIController._.UiDataController.gameObject.SetActive(false);
         }
 
         if (DialogController != null)
