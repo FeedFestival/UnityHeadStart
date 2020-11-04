@@ -7,7 +7,7 @@ using Assets.Scripts.utils;
 public class Timer : MonoBehaviour
 {
 #pragma warning disable 0414 //
-    public static readonly string _version = "1.0.2";
+    public static readonly string _version = "1.0.1";
 #pragma warning restore 0414 //
     private static Timer _Timer;
     public static Timer _ { get { return _Timer; } }
