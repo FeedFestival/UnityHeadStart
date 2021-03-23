@@ -127,7 +127,9 @@ namespace SQLite4Unity3d
     /// </summary>
     public partial class SQLiteConnection : IDisposable
     {
-        public static readonly string _version = "1.0.1";
+        #pragma warning disable 0414 // private field assigned but not used.
+        public static readonly string _version = "1.0.3";
+        #pragma warning restore 0414 //
         private bool _open;
         private TimeSpan _busyTimeout;
         private Dictionary<string, TableMapping> _mappings = null;

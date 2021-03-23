@@ -28,9 +28,9 @@ public class DialogController : MonoBehaviour
                 case GameplayState.Failed:
                 default:
                     Title.text = "Too bad!";
-                    Info.text = "Snake fell over...";
+                    Info.text = "You lost...";
                     RetryButton.SetActive(true);
-                    ContinueButton.SetActive(false);
+                    ContinueButton.SetActive(true);
                     break;
             }
         }
@@ -38,7 +38,7 @@ public class DialogController : MonoBehaviour
 
     public void OnContinue()
     {
-        Game._.Restart();
+        Game._.GoToMainMenu();
     }
 
     public void OnRestart()

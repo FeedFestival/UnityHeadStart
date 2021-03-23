@@ -47,5 +47,15 @@ MonoBehaviour:
     type: 3}
   MusicManagerPrefab: {fileID: 3900219681629069348, guid: bddde7f7c1b9bcc488c7ae22b16ed2f0,
     type: 3}
+  ColorBankPrefab: {fileID: 3700913593499266697, guid: a45b515be5fa60143a38e95c7fcdaa2e,
+    type: 3}
   TimerPrefab: {fileID: 5362190555284511845, guid: 0783c4afc08e364458e8e2a712d51b8e,
+    type: 3}
+  Blob: {fileID: 5860757720808198434, guid: 9d7cad3ca956a4a4983bb1907fb23121, type: 3}
+  NewBlob: {fileID: 485944421924740932, guid: 7be4a1cbef7bcc24c8bdb084012c56c7, type: 3}
+  BlobDebugInfoPrefab: {fileID: 9205759509074552445, guid: c83c86be79c09fa4f8f14eb70bbb4c68,
+    type: 3}
+  SmallHitParticle: {fileID: 2160214357854624232, guid: a03cc52b8c92ae842bf6134ea1626100,
+    type: 3}
+  ExplosionParticle: {fileID: 4916094281174691089, guid: 13d69336d4c31cd47be5eeeb893af3e4,
     type: 3}

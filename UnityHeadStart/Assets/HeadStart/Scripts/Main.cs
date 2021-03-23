@@ -1,14 +1,11 @@
-﻿#pragma warning disable 0414 // private field assigned but not used.
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-    #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "1.0.1";
-    #pragma warning restore 0414 //
-    public bool IsThisTheLoadingScene;
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "1.0.3";
+#pragma warning restore 0414 //
     public GameObject HiddenSettingsPrefab;
 
     [Header("GOs")]
@@ -16,8 +13,21 @@ public class Main : MonoBehaviour
     private Game _game;
     private IEnumerator _waitForLevelLoad;
 
+    private IEnumerator _firstCheck;
+    private IEnumerator _afterCheck;
+
     void Awake()
     {
+        Debug.Log("Starting... Checking to Make Sure Everything is running");
+
+        _firstCheck = FirstCheck();
+        StartCoroutine(_firstCheck);
+    }
+
+    IEnumerator FirstCheck()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         var domainLogic = FindObjectOfType<DomainLogic>();
         if (domainLogic != null)
         {
@@ -30,6 +40,7 @@ public class Main : MonoBehaviour
         {
             go = Instantiate(HiddenSettingsPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             settings = go.GetComponent<HiddenSettings>();
+            settings.ActualScreenSize = new Vector2Int(CameraResolution._.ScreenSizeX, CameraResolution._.ScreenSizeY);
         }
 
         var prefabBank = FindObjectOfType<PrefabBank>();
@@ -57,13 +68,21 @@ public class Main : MonoBehaviour
             MusicManager._.Init();
         }
 
-        if (IsThisTheLoadingScene == false)
+        if (FindObjectOfType<ColorBank>() == null)
         {
-            if (_game.LevelController == null)
-            {
-                _game.LevelController = LevelController;
-            }
+            go = Instantiate(prefabBank.ColorBankPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            ColorBank._.CalculateColors();
+        }
 
+        if (_game.LevelController == null)
+        {
+            _game.LevelController = LevelController;
+        }
+
+        Debug.Log("_game.AfterLoading: " + _game.AfterLoading);
+
+        if (_game.AfterLoading == AfterLoading.GoToGame || _game.AfterLoading == AfterLoading.Nothing)
+        {
             var player = FindObjectOfType<Player>();
             if (player == null)
             {
@@ -82,29 +101,36 @@ public class Main : MonoBehaviour
 #if UNITY_EDITOR
         VersionChecker versionChecker = gameObject.AddComponent<VersionChecker>();
         versionChecker.Check();
+        Destroy(gameObject.GetComponent<VersionChecker>());
 #endif
+
+        _afterCheck = AfterCheck();
+        StartCoroutine(_afterCheck);
     }
 
-    void Start()
+    IEnumerator AfterCheck()
     {
         Debug.Log("Main - Check Completed, starting...");
-        Timer._.InternalWait(() =>
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (_game.LevelController.LevelType == LevelType.Loading)
         {
-            if (IsThisTheLoadingScene)
-            {
-                _waitForLevelLoad = WaitForLevelLoad();
-                StartCoroutine(_waitForLevelLoad);
-            }
-            else
-            {
-                _game.Init();
-            }
-        }, 0.1f);
+            _waitForLevelLoad = WaitForLevelLoad();
+            StartCoroutine(_waitForLevelLoad);
+        }
+        else
+        {
+            _game.Init();
+        }
     }
 
     private IEnumerator WaitForLevelLoad()
     {
-        yield return new WaitForSeconds(_game != null && _game.RestartLevel ? 0.5f : 2f);
+        float loadingWait = _game != null
+            && _game.AfterLoading == AfterLoading.RestartLevel ? 0.5f : 2f;
+        Debug.Log("loadingWait: " + loadingWait);
+        yield return new WaitForSeconds(loadingWait);
 
         _game.LoadWaitedLevel();
         StopCoroutine(_waitForLevelLoad);

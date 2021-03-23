@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 public class LoadingController : MonoBehaviour
 {
-    public static readonly string _version = "1.0.1";
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "1.0.3";
+#pragma warning restore 0414 //
     private static LoadingController _loadingController;
     void Awake()
     {
         _loadingController = this;
-        _overlay = GetComponent<Image>();
     }
 
-    private Image _overlay;
+    public Image _overlay;
     public Text LoadingText;
     public Button ContinueButton;
     public List<GameObject> PlaceholderElements;
@@ -22,7 +23,7 @@ public class LoadingController : MonoBehaviour
     public delegate void OnTransitionEnd();
 
     [SerializeField]
-    private float _timeBetweenFadings = 1.2f;
+    private float _timeBetweenFadings = 2.2f;
     [SerializeField]
     private float _fadeInTimeout = 0.5f;
     [SerializeField]
@@ -35,10 +36,11 @@ public class LoadingController : MonoBehaviour
     private int? _fadeAnimationId;
     private OnContinueButtonPress _onContinueButtonPress;
     private OnTransitionEnd _onTransitionEnd;
-
+    public Color Faded;
+    public Color Clear;
     private bool _isFadeIn;
 
-    public void Init()
+    public void Init(bool totalBlackness = false)
     {
         if (ContinueButton != null)
         {
@@ -48,6 +50,10 @@ public class LoadingController : MonoBehaviour
         {
             LoadingText.gameObject.SetActive(false);
         }
+        if (totalBlackness)
+        {
+            TransitionOverlay(show: false, instant: true);
+        }
     }
 
     public void TransitionOverlay(bool show = true, bool instant = false, OnTransitionEnd onTransitionEnd = null)
@@ -56,9 +62,9 @@ public class LoadingController : MonoBehaviour
         if (instant == false)
         {
             _onTransitionEnd = onTransitionEnd;
-            _overlay.color = show ? HiddenSettings._.BlackColor : HiddenSettings._.TransparentColor;
+            _overlay.color = show ? Faded : Clear;
             _fadeAnimationId = LeanTween.color(_overlay.gameObject.GetComponent<RectTransform>(),
-            show ? HiddenSettings._.TransparentColor : HiddenSettings._.BlackColor,
+            show ? Clear : Faded,
             _timeBetweenFadings).id;
             LeanTween.descr(_fadeAnimationId.Value).setEase(LeanTweenType.linear);
             if (_onTransitionEnd != null)
@@ -67,13 +73,14 @@ public class LoadingController : MonoBehaviour
             }
             return;
         }
-        _overlay.color = show ? HiddenSettings._.TransparentColor : HiddenSettings._.BlackColor;
+
+        _overlay.color = show ? Clear : Faded;
     }
 
     public void ShowLoading()
     {
         LoadingText.gameObject.SetActive(true);
-        var color = HiddenSettings._.RedColor;
+        var color = ColorBank._.Red_Torch;
         color.a = 0;
         LoadingText.color = color;
 
@@ -150,7 +157,7 @@ public class LoadingController : MonoBehaviour
             leanTweenType = LeanTweenType.easeOutBack;
         }
 
-        var color = HiddenSettings._.RedColor;
+        var color = ColorBank._.Red_Torch;
         color.a = from;
 
         LoadingText.color = color;

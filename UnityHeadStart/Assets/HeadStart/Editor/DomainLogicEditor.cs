@@ -15,7 +15,7 @@ public class DomainLogicEditor : Editor
 
     public enum InspectorButton
     {
-        RecreateDataBase, CleanUpUsers, LoadLevelsCsv, UpdateMap, CreateSpecialityTable
+        DeleteDataBase, RecreateDataBase, CleanUpUsers, LoadLevelsCsv, UpdateMap, CreateSpecialityTable
     }
 
     private InspectorButton _actionTool;
@@ -39,6 +39,8 @@ public class DomainLogicEditor : Editor
         GUILayout.Label("Database");
         GUILayout.Space(5);
 
+        if (GUILayout.Button("Delete Database"))
+            _action = InspectorButton.DeleteDataBase;
         if (GUILayout.Button("Recreate Database"))
             _action = InspectorButton.RecreateDataBase;
 
@@ -84,6 +86,11 @@ public class DomainLogicEditor : Editor
         Debug.Log(_action);
         switch (_action)
         {
+            case InspectorButton.DeleteDataBase:
+
+                _myScript.DeleteDataBase();
+                break;
+
             case InspectorButton.RecreateDataBase:
 
                 _myScript.RecreateDataBase();

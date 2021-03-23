@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly  string _version = "1.0.1";
-    #pragma warning restore 0414 //
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "1.0.3";
+#pragma warning restore 0414 //
     private static MusicManager _instance;
     public static MusicManager _ { get { return _instance; } }
 
@@ -45,6 +45,11 @@ public class MusicManager : MonoBehaviour
         if (_backgroundMusicId.HasValue)
         {
             audio = EazySoundManager.GetAudio(_backgroundMusicId.Value);
+            if (audio == null)
+            {
+                Debug.LogError("audio has a problem");
+                return;
+            }
             audio.Stop();
         }
         _backgroundMusicId = EazySoundManager.PrepareMusic(Sounds[musicName].AudioClip, 0.7f, loop, false);
@@ -77,6 +82,11 @@ public class MusicManager : MonoBehaviour
         {
             Audio audio = null;
             audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
+            if (audio == null)
+            {
+                Debug.LogError("audio has a problem");
+                return;
+            }
             audio.Stop();
             audio = null;
         }

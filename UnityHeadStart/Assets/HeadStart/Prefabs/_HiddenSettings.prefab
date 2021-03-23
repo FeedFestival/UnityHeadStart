@@ -43,16 +43,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a3e780a35c121489583875b30256b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActualScreenSize: {x: 1280, y: 720}
-  Database: Database.db
+  ActualScreenSize: {x: 720, y: 1280}
   InstantDebug: 0
+  CeilId: 0
+  WallStickLimit: 4.44
+  NeighborTestDistance: 0.55
+  NeighborProximity: 1.3
+  MinNeighborCountToDestroy: 2
+  GameOverOffsetY: 3.95
+  BlobKillAnimationLength: 0.3
+  BlobExplodeAnimationLength: 0.3
+  BlobForcePushAnimL: 0.15
+  BlobElasticBackAnimL: 0.5
+  BallStickyReflectDistanceModifier: 0.33
+  StretchSpeed: 4.44
+  StretchSpeedSticky: 2.5
+  StartTravelSpeed: 7
+  TravelSpeed: 2
   PrefabBankPrefab: {fileID: 4110335019297747375, guid: ab4ac96b18902cd4290bc37e629eb5aa,
     type: 3}
-  BlackColor: {r: 0, g: 0, b: 0, a: 1}
   TransparentColor: {r: 0, g: 0, b: 0, a: 0}
-  RedColor: {r: 0, g: 0, b: 0, a: 0}
-  PinkColor: {r: 0, g: 0, b: 0, a: 0}
-  GreyColor: {r: 0, g: 0, b: 0, a: 0}
-  BlueColor: {r: 0, g: 0, b: 0, a: 0}
-  YellowColor: {r: 0, g: 0, b: 0, a: 0}
-  LightBlueColor: {r: 0, g: 0, b: 0, a: 0}
+  White: {r: 1, g: 1, b: 1, a: 1}

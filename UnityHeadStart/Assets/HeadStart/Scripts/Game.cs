@@ -1,22 +1,25 @@
 ﻿using System;
+using Assets.Scripts.utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-    #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "1.0.1";
-    #pragma warning restore 0414 //
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "1.0.3";
+#pragma warning restore 0414 //
     private static Game _game;
     public static Game _ { get { return _game; } }
-
     public LevelController LevelController;
     public Player Player;
     public DataService DataService;
     public User User;
-    public bool RestartLevel;
+    public User PlayingUser;
+    public AfterLoading AfterLoading;
+    public HighScoreType HighScoreType;
     private string LevelToLoad;
     private int _uniqueId;
+    public bool GameOver;
 
     void Awake()
     {
@@ -28,21 +31,34 @@ public class Game : MonoBehaviour
     {
         Debug.Log("Game - Init");
 
-        GetUser();
-        Debug.Log(User.Name);
+        LoadUser();
 
         UIController._.Init();
-
         LevelController.Init();
 
-        UIController._.LoadingController.TransitionOverlay(show: true, instant: false);
+        if (LevelController.LevelType == LevelType.MainMenu)
+        {
+            if (User.IsFirstTime)
+            {
+                UIController._.ShowInputNameView();
+            }
+            else
+            {
+                UIController._.InitMainMenu();
+            }
+        }
+        else
+        {
+            UIController._.DestroyMainMenu();
+        }
     }
 
-    private void GetUser()
+    private void LoadUser()
     {
         DataService = new DataService();
         DataService.CreateDBIfNotExists();
-        User = DataService.GetLastUser();
+        User = DataService.GetTheUser();
+
         if (User == null)
         {
             User = new User()
@@ -50,43 +66,122 @@ public class Game : MonoBehaviour
                 Id = 1,
                 Name = "no-name-user",
                 IsFirstTime = true,
-                HasSavedGame = false,
                 IsUsingSound = true,
                 Language = "en"
             };
             DataService.CreateUser(User);
         }
+        Debug.Log("User: " + User.Id + " " + User.Name);
     }
 
     public void Restart()
     {
-        RestartLevel = true;
+        AfterLoading = AfterLoading.RestartLevel;
         LevelToLoad = LevelController.LevelName;
-        SceneManager.LoadScene("Loading");
+        LoadScene(SCENE.Loading);
+    }
+
+    public void GoToMainMenu()
+    {
+        AfterLoading = AfterLoading.Nothing;
+        LevelToLoad = SCENE.MainMenu;
+        Debug.Log("LevelToLoad: " + LevelToLoad);
+        LoadScene(LevelToLoad);
     }
 
     public void LoadWaitedLevel()
     {
-        if (RestartLevel)
+        switch (AfterLoading)
         {
-            RestartLevel = false;
-            SceneManager.LoadScene(LevelToLoad);
-            return;
+            case AfterLoading.RestartLevel:
+                LoadScene(LevelToLoad);
+                break;
+            case AfterLoading.GoToGame:
+                LoadScene(SCENE.Game);
+                break;
+            case AfterLoading.Nothing:
+            default:
+                break;
         }
+        AfterLoading = AfterLoading.Nothing;
     }
 
     public void LoadFirstLevel()
     {
-        LevelToLoad = "Game";
+        AfterLoading = AfterLoading.GoToGame;
         UIController._.LoadingController.TransitionOverlay(show: false, instant: false, () =>
         {
-            SceneManager.LoadScene(LevelToLoad);
+            LoadScene(SCENE.Loading);
         });
+    }
+
+    private void LoadScene(string level)
+    {
+        GameOver = false;
+        SceneManager.LoadScene(level);
+    }
+
+    internal void OnGameOver()
+    {
+        GameOver = true;
+        UIController._.DialogController.ShowDialog(true, GameplayState.Failed);
+
+        int points = 0;
+        // points = Level<LevelRandomRanked>().Points;
+        WeekDetails week = __data.GetWeekDetails();
+
+        if (HighScoreType == HighScoreType.RANKED)
+        {
+            TryUpdateLatestWeekScore(week, points);
+        }
+        UpdateHighScore(week, points);
+    }
+
+    private void TryUpdateLatestWeekScore(WeekDetails week, int points)
+    {
+        WeekScore weekScore = DataService.GetHighestWeekScore(week.Id);
+        if (weekScore == null)
+        {
+            weekScore = new WeekScore()
+            {
+                Id = week.Id,
+                Points = points,
+                Year = week.Year,
+                Week = week.Nr,
+                UserId = User.Id
+            };
+            DataService.AddWeekHighScore(weekScore);
+        }
+        else
+        {
+            if (weekScore.Points >= points)
+            {
+                Debug.Log("weekScore: " + weekScore.Points);
+            }
+            else
+            {
+                weekScore.Points = points;
+                DataService.UpdateWeekHighScore(weekScore);
+            }
+        }
+    }
+
+    private void UpdateHighScore(WeekDetails week, int points)
+    {
+        HighScore highScore = new HighScore()
+        {
+            Points = points,
+            Type = HighScoreType,
+            WeekId = week.Id,
+            UserId = PlayingUser.Id,
+            UserName = PlayingUser.Name
+        };
+        DataService.AddHighScore(highScore);
     }
 
     public T Level<T>()
     {
-        return (T) Convert.ChangeType(LevelController.Level, typeof(T));
+        return (T)Convert.ChangeType(LevelController.Level, typeof(T));
     }
 
     public int GetUniqueId()
@@ -94,4 +189,9 @@ public class Game : MonoBehaviour
         _uniqueId++;
         return _uniqueId;
     }
+}
+
+public enum AfterLoading
+{
+    Nothing, RestartLevel, GoToGame
 }

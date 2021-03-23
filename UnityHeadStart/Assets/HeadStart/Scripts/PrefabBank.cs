@@ -9,6 +9,7 @@ public class PrefabBank : MonoBehaviour
 
     public GameObject GamePrefab;
     public GameObject MusicManagerPrefab;
+    public GameObject ColorBankPrefab;
     public GameObject TimerPrefab;
 
     void Awake()

@@ -11,21 +11,21 @@ public class VersionChecker : MonoBehaviour
 #if UNITY_EDITOR
     readonly List<VersionCheckFile> versionCheckFiles = new List<VersionCheckFile>()
     {
-        new VersionCheckFile("utils",
-            "HeadStart/Assets/HeadStart/Scripts/utils/utils.cs",
-            utils._version
+        new VersionCheckFile("__utils",
+            "HeadStart/Assets/HeadStart/Scripts/utils/__utils.cs",
+            __utils._version
         ),
-        new VersionCheckFile("DataUtils",
-            "HeadStart/Assets/HeadStart/Scripts/utils/DataUtils.cs",
-            DataUtils._version
+        new VersionCheckFile("__data",
+            "HeadStart/Assets/HeadStart/Scripts/utils/__data.cs",
+            __data._version
         ),
         new VersionCheckFile("FpsDisplay",
             "HeadStart/Assets/HeadStart/Scripts/utils/FpsDisplay.cs",
             FpsDisplay._version
         ),
-        new VersionCheckFile("JsonHelper",
-            "HeadStart/Assets/HeadStart/Scripts/utils/JsonHelper.cs",
-            JsonHelper._version
+        new VersionCheckFile("__json",
+            "HeadStart/Assets/HeadStart/Scripts/utils/__json.cs",
+            __json._version
         ),
         new VersionCheckFile("CameraResolution",
             "HeadStart/Assets/HeadStart/Scripts/CameraResolution.cs",
@@ -83,7 +83,7 @@ public class VersionChecker : MonoBehaviour
     {
         foreach (VersionCheckFile versionCheckFile in versionCheckFiles)
         {
-            utils.VarDump<VersionCheckFile>(versionCheckFile);
+            __debug.VarDump<VersionCheckFile>(versionCheckFile);
         }
         string version = string.Empty;
         VERSION_CHANGE versionChange = VERSION_CHANGE.OUTDATED;

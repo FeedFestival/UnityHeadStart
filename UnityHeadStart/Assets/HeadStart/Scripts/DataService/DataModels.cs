@@ -11,15 +11,11 @@ public class User
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string MiddleName { get; set; }
-    public string LastName { get; set; }
     public string Email { get; set; }
     public string Name { get; set; }
 
     // Game Settings
     public bool IsFirstTime { get; set; }
-    public bool HasSavedGame { get; set; }
     public bool IsUsingSound { get; set; }
     public string Language { get; set; }
 
@@ -30,13 +26,59 @@ public class User
     {
         return new User
         {
-            Id = DataUtils.GetIntDataValue(properties, "ID:"),
-            Name = DataUtils.GetDataValue(properties, "Name:"),
-            IsUsingSound = DataUtils.GetBoolDataValue(properties, "IsUsingSound:")
+            Id = __data.GetIntDataValue(properties, "ID:"),
+            Name = __data.GetDataValue(properties, "Name:"),
+            IsUsingSound = __data.GetBoolDataValue(properties, "IsUsingSound:")
             //FacebookApp = new FacebookApp
             //{
-            //    FacebookId = utils.GetLongDataValue(properties, "FacebookId:")
+            //    FacebookId = __utils.GetLongDataValue(properties, "FacebookId:")
             //}
         };
     }
+}
+
+
+public class WeekScore
+{
+    [PrimaryKey]
+    public int Id { get; set; }
+    public int UserId { get; set; }
+    public int Week { get; set; }
+    public int Year { get; set; }
+    public int Points { get; set; }
+}
+
+public class HighScore
+{
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+    public int TypeId { get; set; }
+    [Ignore]
+    public HighScoreType Type
+    {
+        get
+        {
+            return (HighScoreType)TypeId;
+        }
+        set
+        {
+            TypeId = (int)value;
+        }
+    }
+    public int WeekId { get; set; }
+    public int UserId { get; set; }
+    public string UserName { get; set; }
+    public int Points { get; set; }
+}
+
+public enum HighScoreType
+{
+    RANKED, HOTSEAT
+}
+
+public class WeekDetails
+{
+    public int Id;
+    public int Year;
+    public int Nr;
 }

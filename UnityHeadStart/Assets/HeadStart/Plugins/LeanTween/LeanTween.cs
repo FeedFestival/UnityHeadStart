@@ -871,7 +871,7 @@ public class LeanTween : MonoBehaviour {
 	// LeanTween 2.0 Methods
 
 	public static LTDescr options(LTDescr seed){ Debug.LogError("error this function is no longer used"); return null; }
-	public static LTDescr options(){
+	public static LTDescr options() {
 		init();
 
 		bool found = false;

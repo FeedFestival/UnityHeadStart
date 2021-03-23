@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SQLite4Unity3d;
 using UnityEngine;
 #if !UNITY_EDITOR
@@ -7,12 +7,12 @@ using System.IO;
 #endif
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Assets.Scripts.utils;
 
 public class DataService
 {
-    public static readonly string _version = "1.0.1";
+    #pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "1.0.3";
+    #pragma warning restore 0414 //
     public string DefaultDatabaseName = "Database.db";
     const string _assetsPath = "Assets/HeadStart";
     private SQLiteConnection _connection;
@@ -73,8 +73,6 @@ public class DataService
         Debug.Log("Final PATH: " + dbPath);
     }
 
-
-
     public void CleanUpUsers()
     {
         _connection.DropTable<User>();
@@ -84,11 +82,16 @@ public class DataService
     public void CleanDB()
     {
         _connection.DropTable<User>();
+        _connection.DropTable<WeekScore>();
+        _connection.DropTable<HighScore>();
     }
 
     public void CreateDB()
     {
         _connection.CreateTable<User>();
+        _connection.CreateTable<WeekScore>();
+        _connection.CreateTable<HighScore>();
+        Debug.Log("Created Tables: User, WeekScore, HighScore");
     }
 
     public void CreateDBIfNotExists()
@@ -100,7 +103,25 @@ public class DataService
         catch (Exception ex)
         {
             Debug.LogError(ex.Message);
-            CreateDB();
+            _connection.CreateTable<User>();
+        }
+        try
+        {
+            _connection.Table<WeekScore>().Where(x => x.Id == 1).FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            _connection.CreateTable<WeekScore>();
+        }
+        try
+        {
+            _connection.Table<HighScore>().Where(x => x.Id == 1).FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            _connection.CreateTable<HighScore>();
         }
     }
 
@@ -133,13 +154,84 @@ public class DataService
         }
     }
 
-    public User GetLastUser()
+    public User GetTheUser()
     {
         if (_connection.Table<User>().Count() > 0)
         {
-            return _connection.Table<User>().Last();
+            return _connection.Table<User>().First();
         }
         return null;
+    }
+
+    internal WeekScore GetHighestWeekScore(int weekId)
+    {
+        WeekScore weekScore = _connection.Table<WeekScore>().FirstOrDefault(ws => ws.Id == weekId);
+        return weekScore;
+    }
+
+    internal void AddWeekHighScore(WeekScore weekScore)
+    {
+        _connection.Insert(weekScore);
+    }
+
+    internal void UpdateWeekHighScore(WeekScore weekScore)
+    {
+        int rowsAffected = _connection.Update(weekScore);
+        Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
+    }
+
+    internal void AddHighScore(HighScore highScore)
+    {
+        int rowsAffected = _connection.Insert(highScore);
+        Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
+    }
+
+    internal List<HighScore> GetHotSeatScores()
+    {
+        // _connection.Table<HighScore>().Where(hs => hs.);
+        List<HighScore> highscores = _connection.Query<HighScore>(@"
+SELECT
+	hs.TypeId,
+	hs.UserId,
+	hs.Points,
+	usr.Name as UserName
+FROM HighScore as hs
+	INNER JOIN User as usr ON usr.Id = hs.UserId
+WHERE TypeId = " + (int)HighScoreType.HOTSEAT + @"
+ORDER BY Points DESC
+        ");
+        return highscores;
+    }
+
+    internal List<User> GetUsers()
+    {
+        List<User> users = _connection.Query<User>(@"
+SELECT
+    usr.Id,
+    usr.Name
+FROM User as usr
+ORDER BY usr.Id DESC
+LIMIT 4
+        ");
+        return users;
+    }
+
+    internal User GetUserByName(string name)
+    {
+        string sql = @"
+SELECT *
+FROM User as usr
+WHERE lower(usr.Name) = """ + name.ToLower() + @"""
+ORDER BY usr.Id DESC
+        ";
+        Debug.Log("sql: " + sql);
+        List<User> users = _connection.Query<User>(sql);
+
+        if (users == null || users.Count == 0)
+        {
+            return null;
+        }
+        return users[0];
     }
 
     //public User GetUserByFacebookId(int facebookId)

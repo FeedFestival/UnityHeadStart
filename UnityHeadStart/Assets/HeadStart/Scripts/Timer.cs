@@ -2,12 +2,11 @@
 using System.Collections;
 using static Timer;
 using System.Collections.Generic;
-using Assets.Scripts.utils;
 
 public class Timer : MonoBehaviour
 {
 #pragma warning disable 0414 //
-    public static readonly string _version = "1.0.1";
+    public static readonly string _version = "1.0.3";
 #pragma warning restore 0414 //
     private static Timer _Timer;
     public static Timer _ { get { return _Timer; } }
@@ -53,7 +52,7 @@ public class Timer : MonoBehaviour
         }
         waitOption.WaitCallback();
         _internalWaits.Dequeue();
-        // Debug.Log(utils.DebugQueue<WaitOption>(_internalWaits, "_internalWaits"));
+        // Debug.Log(__utils.DebugQueue<WaitOption>(_internalWaits, "_internalWaits"));
     }
 
     public void Debounce(InternalWaitCallback debounceWait, float? seconds = null)
