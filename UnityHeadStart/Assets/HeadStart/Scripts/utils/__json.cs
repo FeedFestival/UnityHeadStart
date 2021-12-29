@@ -2,10 +2,15 @@
 
 namespace Assets.Scripts.utils
 {
+    public interface IJsonConsole
+    {
+        string ToJsonString();
+    }
+    
     public static class __json
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "1.0.3";
+        public static readonly string _version = "2.0.0";
 #pragma warning restore 0414 //
         public static T[] FromJson<T>(string json)
         {

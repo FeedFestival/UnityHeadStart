@@ -3,162 +3,185 @@ using System.Collections.Generic;
 using Hellmade.Sound;
 using UnityEngine;
 
-public class SFXBase : MonoBehaviour, IDependency, ISFX
+namespace Assets.HeadStart.Core.SFX
 {
-#pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.0";
-#pragma warning restore 0414 //
-    private Dictionary<string, MAudio> Sounds;
-    public AudioClip MainMenuMusic;
-    public AudioClip ClickSound;
-
-    public void Init()
+    public class SFXBase : MonoBehaviour, IDependency, ISFX
     {
-        Sounds = new Dictionary<string, MAudio>()
+#pragma warning disable 0414 // private field assigned but not used.
+        public static readonly string _version = "2.0.0";
+#pragma warning restore 0414 //
+        private Dictionary<string, MAudio> Sounds;
+        public AudioClip MainMenuMusic;
+        public AudioClip ClickSound;
+
+        public void Init()
+        {
+            Sounds = new Dictionary<string, MAudio>()
         {
             { "MainMenuMusic", new MAudio() { AudioClip = MainMenuMusic } },
             { "Click", new MAudio() { AudioClip = ClickSound } }
         };
-    }
+        }
 
-    private int? _backgroundMusicId;
-    private string _backgroundMusic;
-    private int? _ambientMusicId;
-    private string _ambientMusic;
+        private int? _backgroundMusicId;
+        private string _backgroundMusic;
+        private int? _ambientMusicId;
+        private string _ambientMusic;
 
-    private int? _soundId;
-    private string _sound;
+        private int? _soundId;
+        private string _sound;
 
-    public void PlayBackgroundMusic(string musicName, bool loop = true, float? time = null)
-    {
-        Audio audio;
-        if (_backgroundMusicId.HasValue)
+        public void PlayBackgroundMusic(MusicOpts opts)
         {
+            Audio audio;
+            if (_backgroundMusicId.HasValue)
+            {
+                audio = EazySoundManager.GetAudio(_backgroundMusicId.Value);
+                if (audio == null)
+                {
+                    Debug.LogError("audio has a problem");
+                    return;
+                }
+                audio.Stop();
+            }
+            _backgroundMusicId = EazySoundManager
+                .PrepareMusic(Sounds[opts.MusicName].AudioClip, opts.Volume, opts.Loop, false, opts.FadeInSeconds, opts.FadeOutSeconds);
+            _backgroundMusic = opts.MusicName;
             audio = EazySoundManager.GetAudio(_backgroundMusicId.Value);
-            if (audio == null)
+            audio.Play();
+            if (opts.Time.HasValue)
             {
-                Debug.LogError("audio has a problem");
+                audio.AudioSource.time = opts.Time.Value;
+            }
+        }
+
+        public void PlayAmbient(string musicName, bool loop = true)
+        {
+            ClearAmbientQueue();
+            _ambientMusic = musicName;
+            if (Sounds[_ambientMusic].AudioClip != null)
+            {
+                PlayAmbientAudio(Sounds[musicName], loop: loop);
+            }
+            else
+            {
+                StartCoroutine(PlayAllAmbientAudio(Sounds[musicName], loop));
+            }
+        }
+
+        private void ClearAmbientQueue()
+        {
+            if (_ambientMusicId.HasValue)
+            {
+                Audio audio = null;
+                audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
+                if (audio == null)
+                {
+                    Debug.LogError("audio has a problem");
+                    return;
+                }
+                audio.Stop();
+                audio = null;
+            }
+        }
+
+        private Audio PlayAmbientAudio(MAudio mAudio, float volume = 0.2f, bool loop = false, bool loadMany = false)
+        {
+            ClearAmbientQueue();
+            _ambientMusicId = EazySoundManager.PrepareMusic(
+                loadMany ? mAudio.AudioClips[mAudio.GetRandomIndex()] : mAudio.AudioClip,
+                volume,
+                loop,
+                false
+                );
+            Audio audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
+            audio.Play();
+            return audio;
+        }
+
+        private IEnumerator PlayAllAmbientAudio(MAudio mAudio, bool loop)
+        {
+            var audio = PlayAmbientAudio(mAudio, loop: loop, loadMany: true);
+            var time = audio.AudioSource.clip.length;
+
+            yield return new WaitForSeconds(time);
+
+            StartCoroutine(PlayAllAmbientAudio(mAudio, loop));
+        }
+
+        public void PlayRequiredBackgroundMusic(string musicName, bool loop = true, float? time = null)
+        {
+            if (_backgroundMusic == musicName)
+            {
                 return;
             }
-            audio.Stop();
-        }
-        _backgroundMusicId = EazySoundManager.PrepareMusic(Sounds[musicName].AudioClip, 0.7f, loop, false);
-        _backgroundMusic = musicName;
-        audio = EazySoundManager.GetAudio(_backgroundMusicId.Value);
-        audio.Play();
-        if (time.HasValue)
-        {
-            audio.AudioSource.time = time.Value;
-        }
-    }
 
-    public void PlayAmbient(string musicName, bool loop = true)
-    {
-        ClearAmbientQueue();
-        _ambientMusic = musicName;
-        if (Sounds[_ambientMusic].AudioClip != null)
-        {
-            PlayAmbientAudio(Sounds[musicName], loop);
+            MusicOpts opts = new MusicOpts(musicName, loop: loop, time: time);
+            PlayBackgroundMusic(opts);
         }
-        else
-        {
-            StartCoroutine(PlayAllAmbientAudio(Sounds[musicName], loop));
-        }
-    }
 
-    private void ClearAmbientQueue()
-    {
-        if (_ambientMusicId.HasValue)
+        public void PlayRequiredAmbient(string musicName, bool loop = false)
         {
-            Audio audio = null;
-            audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
-            if (audio == null)
+            if (_ambientMusic == musicName)
             {
-                Debug.LogError("audio has a problem");
                 return;
             }
-            audio.Stop();
-            audio = null;
+
+            PlayAmbient(musicName, loop);
         }
-    }
 
-    private Audio PlayAmbientAudio(MAudio mAudio, bool loop, bool loadMany = false)
-    {
-        ClearAmbientQueue();
-        _ambientMusicId = EazySoundManager.PrepareMusic(
-            loadMany ? mAudio.AudioClips[mAudio.GetRandomIndex()] : mAudio.AudioClip,
-            0.2f,
-            loop,
-            false
-            );
-        Audio audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
-        audio.Play();
-        return audio;
-    }
-
-    private IEnumerator PlayAllAmbientAudio(MAudio mAudio, bool loop)
-    {
-        var audio = PlayAmbientAudio(mAudio, loop, true);
-        var time = audio.AudioSource.clip.length;
-
-        yield return new WaitForSeconds(time);
-
-        StartCoroutine(PlayAllAmbientAudio(mAudio, loop));
-    }
-
-    public void PlayRequiredBackgroundMusic(string musicName, bool loop = true, float? time = null)
-    {
-        if (_backgroundMusic == musicName)
+        public void PlaySound(string soundName, bool loop = false)
         {
-            return;
+            _sound = soundName;
+            if (Sounds[_sound].AudioClip != null)
+            {
+                PlayAmbientAudio(Sounds[soundName], loop: loop);
+            }
         }
 
-        PlayBackgroundMusic(musicName, loop, time);
-    }
-
-    public void PlayRequiredAmbient(string musicName, bool loop = false)
-    {
-        if (_ambientMusic == musicName)
+        void ISFX.PlaySound(MusicOpts opts)
         {
-            return;
+            _sound = opts.MusicName;
+            if (Sounds[_sound].AudioClip != null)
+            {
+                PlayAmbientAudio(Sounds[_sound], volume: opts.Volume, loop: opts.Loop);
+            }
         }
 
-        PlayAmbient(musicName, loop);
-    }
-
-    public void PlaySound(string soundName, bool loop = false)
-    {
-        _sound = soundName;
-        if (Sounds[_sound].AudioClip != null)
+        void ISFX.PlaySFX(MusicOpts opts)
         {
-            PlayAmbientAudio(Sounds[soundName], loop);
+            _sound = opts.MusicName;
+            if (Sounds[_sound].AudioClip != null)
+            {
+                PlaySoundAudio(Sounds[_sound], volume: opts.Volume, loop: opts.Loop);
+            }
         }
-    }
 
-    private void PlaySoundAudio(MAudio mAudio, bool loop)
-    {
-        _soundId = EazySoundManager.PrepareMusic(
-            mAudio.AudioClip,
-            0.2f,
-            loop,
-            false
-            );
-        Audio audio = EazySoundManager.GetAudio(_soundId.Value);
-        audio.Play();
-    }
-}
-
-public class MAudio
-{
-    public AudioClip AudioClip;
-    public AudioClip[] AudioClips;
-
-    public int GetRandomIndex()
-    {
-        if (AudioClips != null && AudioClips.Length > 0)
+        private void PlaySoundAudio(MAudio mAudio, float volume = 0.2f, bool loop = false)
         {
-            return (int)Mathf.Ceil(Random.Range(0, AudioClips.Length));
+            _soundId = EazySoundManager.PrepareMusic(
+                mAudio.AudioClip,
+                volume,
+                loop,
+                false
+                );
+            Audio audio = EazySoundManager.GetAudio(_soundId.Value);
+            audio.Play();
         }
-        return 0;
+    }
+
+    public class MAudio
+    {
+        public AudioClip AudioClip;
+        public AudioClip[] AudioClips;
+
+        public int GetRandomIndex()
+        {
+            if (AudioClips != null && AudioClips.Length > 0)
+            {
+                return (int)Mathf.Ceil(Random.Range(0, AudioClips.Length));
+            }
+            return 0;
+        }
     }
 }

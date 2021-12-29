@@ -1,5 +1,11 @@
-public interface ISFX
+using Assets.HeadStart.Core.SFX;
+
+namespace Assets.HeadStart.Core
 {
-    void PlayBackgroundMusic(string musicName, bool loop = true, float? time = null);
-    void PlaySound(string soundName, bool loop = false);
+    public interface ISFX
+    {
+        void PlayBackgroundMusic(MusicOpts opts);
+        void PlaySound(MusicOpts opts);
+        void PlaySFX(MusicOpts opts);
+    }
 }
