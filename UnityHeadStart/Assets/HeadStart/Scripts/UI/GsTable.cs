@@ -1,13 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GsTable : MonoBehaviour
 {
+    public GsTableRow DefaultRow;
     public List<GsTableRow> Rows;
     private bool _initialized;
     void Init()
     {
+        GameObject go;
+        GsTableRow gsRow;
+        for (var i = 0; i < 9; i++)
+        {
+            go = Instantiate(
+                DefaultRow.gameObject,
+                Vector3.zero,
+                Quaternion.identity,
+                transform
+            );
+            var localP = (go.transform as RectTransform).localPosition;
+            (go.transform as RectTransform).localPosition = Vector3.zero;
+            gsRow = go.GetComponent<GsTableRow>();
+            if (i % 2 != 0)
+            {
+                gsRow.GetComponent<Image>().enabled = false;
+            }
+            Rows.Add(gsRow);
+        }
+
+        DefaultRow.GetComponent<Image>().enabled = false;
+        Rows.Insert(0, DefaultRow);
+
         foreach (GsTableRow row in Rows)
         {
             row.SetData();
@@ -22,7 +47,7 @@ public class GsTable : MonoBehaviour
             Init();
         }
 
-        Timer._.InternalWait(() =>
+        __.Time.RxWait(() =>
         {
             int i = 0;
             foreach (GsTableRow row in Rows)

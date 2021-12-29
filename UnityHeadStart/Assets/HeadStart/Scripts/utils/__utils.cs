@@ -26,14 +26,14 @@ namespace Assets.Scripts.utils
 
         public static float GetAlphaValue(int value)
         {
-            var perc = percent.What(value, 255);
+            var perc = __percent.What(value, 255);
             return perc * 0.01f;
         }
 
         public static int GetRGBAAlphaValue(float value)
         {
             float perc = value * 100;
-            return (int)percent.Find(perc, 255);
+            return (int)__percent.Find(perc, 255);
         }
 
         public static void AddIfNone(int value, ref List<int> array, string debugAdd = null)
@@ -60,7 +60,7 @@ namespace Assets.Scripts.utils
         }
     }
 
-    public static class percent
+    public static class __percent
     {
         public static float Find(float _percent, float _of)
         {
@@ -118,7 +118,7 @@ namespace Assets.Scripts.utils
         }
     }
 
-    public static class world2d
+    public static class __world2d
     {
         public static Vector2 GetNormalizedDirection(Vector2 lastVelocity, Vector2 collisionNormal)
         {
@@ -135,6 +135,38 @@ namespace Assets.Scripts.utils
                 return new Vector3(q.eulerAngles.x, q.eulerAngles.y, q.eulerAngles.z - 90);
             }
             return q.eulerAngles;
+        }
+
+        public static void PositionRtBasedOnScreenAnchors(
+            Vector3 topLeftAnchor,
+            Vector3 bottomRightAnchor,
+            RectTransform rt,
+            Vector2 screenSize
+        )
+        {
+            var left = topLeftAnchor.x;
+            var top = bottomRightAnchor.y;
+            var width = Mathf.Abs(topLeftAnchor.x - bottomRightAnchor.x);
+            var height = Mathf.Abs(topLeftAnchor.y - bottomRightAnchor.y);
+
+            rt.pivot = Vector2.zero;
+            rt.anchorMax = Vector2.zero;
+            rt.anchorMin = Vector2.zero;
+
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+
+            rt.SetLeft(left);
+
+            rt.offsetMax = new Vector2(
+                rt.offsetMin.x + rt.offsetMax.x + width,
+                rt.offsetMin.y + (height + top)
+            );
+
+            rt.offsetMin = new Vector2(
+                rt.offsetMin.x,
+                rt.offsetMax.y + rt.offsetMin.y - height
+            );
         }
     }
 }

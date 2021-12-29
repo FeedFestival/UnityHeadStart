@@ -63,10 +63,10 @@ public class DomainLogicEditor : Editor
 
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Confirm", GUILayout.Width(percent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
+            if (GUILayout.Button("Confirm", GUILayout.Width(__percent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
                 ConfirmAccepted();
 
-            if (GUILayout.Button("Cancel", GUILayout.Width(percent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
+            if (GUILayout.Button("Cancel", GUILayout.Width(__percent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
                 _setupConfirm = false;
 
             GUILayout.FlexibleSpace();

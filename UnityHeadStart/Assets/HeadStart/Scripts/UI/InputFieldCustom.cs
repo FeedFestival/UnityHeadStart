@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,7 +60,7 @@ public class InputFieldCustom : MonoBehaviour
         }
         else
         {
-            var color = ColorBank._.Red_Brown_Eggplant;
+            var color = __gameColor.GetColor(COLOR.Red_Brown_Eggplant);
             color.a = 0;
             Label.color = color;
             LeanTween.alphaText(Label.gameObject.GetComponent<RectTransform>(), 1, _animationSpeed);
@@ -100,7 +101,7 @@ public class InputFieldCustom : MonoBehaviour
         }
         else
         {
-            var color = ColorBank._.Red_Brown_Eggplant;
+            var color = __gameColor.GetColor(COLOR.Red_Brown_Eggplant);
             color.a = 255;
             Label.color = color;
             LeanTween.alphaText(Label.gameObject.GetComponent<RectTransform>(), 0, _animationSpeed);

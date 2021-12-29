@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // Core.Inject(Dependency.SFX);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public PlayerMouse PlayerMouse;
+    public PlayerIntention PlayerIntention;
+}
+
+public enum PlayerMouse
+{
+    None
+}
+
+public enum PlayerIntention
+{
+    None
 }

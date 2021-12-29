@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Assets.HeadStart.Time;
 using Assets.Scripts.utils;
 using SQLite4Unity3d;
 using UnityEngine;
@@ -27,35 +28,14 @@ public class VersionChecker : MonoBehaviour
             "HeadStart/Assets/HeadStart/Scripts/utils/__json.cs",
             __json._version
         ),
-        new VersionCheckFile("CameraResolution",
-            "HeadStart/Assets/HeadStart/Scripts/CameraResolution.cs",
-            CameraResolution._version
-        ),
-        new VersionCheckFile("Game",
-            "HeadStart/Assets/HeadStart/Scripts/Game.cs",
-            Game._version
-        ),
-        // HiddenSettings           - GameSpecific
-        new VersionCheckFile("LevelController",
-            "HeadStart/Assets/HeadStart/Scripts/LevelController.cs",
-            LevelController._version
-        ),
         new VersionCheckFile("Main",
             "HeadStart/Assets/HeadStart/Scripts/Main.cs",
             Main._version
         ),
-        new VersionCheckFile("MusicManager",
-            "HeadStart/Assets/HeadStart/Scripts/Main.cs",
-            MusicManager._version
-        ),
-        // Player                   - GameSpecific
-        // PrefabBank               - GameSpecific
         new VersionCheckFile("Timer",
             "HeadStart/Assets/HeadStart/Scripts/Timer.cs",
-            Timer._version
+            TimeBase._version
         ),
-        // UpdateController         - GameSpecific
-        // DataModels               - GameSpecific
         new VersionCheckFile("DataService",
             "HeadStart/Assets/HeadStart/Scripts/DataService/DataService.cs",
             DataService._version
@@ -64,15 +44,7 @@ public class VersionChecker : MonoBehaviour
         new VersionCheckFile("SQLite",
             "HeadStart/Assets/HeadStart/Scripts/DataService/SQLite.cs",
             SQLiteConnection._version
-        ),
-        new VersionCheckFile("LoadingController",
-            "HeadStart/Assets/HeadStart/Scripts/UI/LoadingController.cs",
-            LoadingController._version
-        ),
-        new VersionCheckFile("LoadingController",
-            "HeadStart/Assets/HeadStart/Scripts/UI/LoadingController.cs",
-            LoadingController._version
-        ),
+        )
     };
     private const string _onlineUrl = "https://raw.githubusercontent.com/FeedFestival/UnityHeadStart/main/Unity";   // no / required
     private const string _key = "_version = \"";
@@ -134,14 +106,11 @@ public class VersionChecker : MonoBehaviour
         }
         using (Stream stream = _webClient.OpenRead(url))
         {
-            // Stream stream = _webClient.OpenRead(url);
             using (StreamReader reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }
         }
-        // StreamReader reader = new StreamReader(stream);
-        // return reader.ReadToEnd();
     }
 
     private VERSION_CHANGE CompareVersions(string thisVersion, string onlineVersion)
