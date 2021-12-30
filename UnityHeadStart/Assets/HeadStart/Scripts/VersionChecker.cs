@@ -32,8 +32,8 @@ public class VersionChecker : MonoBehaviour
             "HeadStart/Assets/HeadStart/Scripts/Main.cs",
             Main._version
         ),
-        new VersionCheckFile("Timer",
-            "HeadStart/Assets/HeadStart/Scripts/Timer.cs",
+        new VersionCheckFile("TimeBase",
+            "HeadStart/Assets/HeadStart/Scripts/TimeBase.cs",
             TimeBase._version
         ),
         new VersionCheckFile("DataService",

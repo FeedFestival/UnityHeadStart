@@ -168,5 +168,26 @@ namespace Assets.Scripts.utils
                 rt.offsetMax.y + rt.offsetMin.y - height
             );
         }
+
+        public static void SetPivot(ref RectTransform rectTransform, Vector2 pivot)
+        {
+            if (rectTransform == null) return;
+
+            Vector2 size = rectTransform.rect.size;
+            Vector2 deltaPivot = rectTransform.pivot - pivot;
+            Vector3 deltaPosition = new Vector3(deltaPivot.x * size.x, deltaPivot.y * size.y);
+            rectTransform.pivot = pivot;
+            rectTransform.localPosition -= deltaPosition;
+        }
+
+        public static Vector2 GetCenterPosition(List<Vector2> positions)
+        {
+            Vector2 groupVectors = Vector2.zero;
+            foreach (Vector2 pos in positions)
+            {
+                groupVectors += pos;
+            }
+            return groupVectors / positions.Count;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Assets.HeadStart.Core;
+using Assets.HeadStart.Core.Player;
 using Assets.HeadStart.Core.SceneService;
 using MyBox;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class GameBase : MonoBehaviour, IGame
     [HideInInspector]
     public DataService DataService;
     private int _uniqueId;
+    private bool _isGamePaused;
 
     public virtual void PreStartGame()
     {
@@ -27,6 +29,21 @@ public class GameBase : MonoBehaviour, IGame
     public virtual void GameOver()
     {
         Debug.Log("Game Over");
+    }
+
+    public virtual bool IsGamePaused()
+    {
+        return _isGamePaused;
+    }
+
+    public virtual void PauseGame()
+    {
+        _isGamePaused = true;
+    }
+
+    public virtual void ResumeGame()
+    {
+        _isGamePaused = false;
     }
 
     public int GetUniqueId()

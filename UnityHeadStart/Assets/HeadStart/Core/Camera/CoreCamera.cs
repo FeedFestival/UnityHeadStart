@@ -17,10 +17,15 @@ public class CoreCamera : MonoBehaviour
     private int? _alignCameraToHelperTwid;
     public const float CAMERA_SETUP_TIME = 2f;
     private bool _foundTheSweetSpot;
+    public bool NoCameraSizeCalculation;
 
     void Start()
     {
         _camera = gameObject.GetComponent<Camera>();
+        if (NoCameraSizeCalculation)
+        {
+            return;
+        }
         _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
         _camera.orthographicSize = _currentCameraSize;
     }

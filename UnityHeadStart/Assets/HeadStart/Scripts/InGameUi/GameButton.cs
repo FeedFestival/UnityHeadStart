@@ -1,3 +1,5 @@
+using Assets.HeadStart.Core;
+using Assets.HeadStart.Core.SFX;
 using UnityEngine;
 
 public class GameButton : MonoBehaviour
@@ -30,7 +32,8 @@ public class GameButton : MonoBehaviour
         {
             return;
         }
-        // __.SFX.PlaySound("Click");
+        MusicOpts mOpts = new MusicOpts("Click");
+        __.SFX.PlaySound(mOpts);
         _clicked();
     }
 }

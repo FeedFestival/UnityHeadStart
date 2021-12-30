@@ -1,24 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Assets.HeadStart.Core.Player
 {
-    void Start()
+
+    public class Player : MonoBehaviour
     {
-        // Core.Inject(Dependency.SFX);
+        void Start()
+        {
+            // Core.Inject(Dependency.SFX);
+        }
+
+        public PlayerMouse PlayerMouse;
+        public PlayerIntention PlayerIntention;
     }
 
-    public PlayerMouse PlayerMouse;
-    public PlayerIntention PlayerIntention;
-}
+    public enum PlayerMouse
+    {
+        None
+    }
 
-public enum PlayerMouse
-{
-    None
-}
-
-public enum PlayerIntention
-{
-    None
+    public enum PlayerIntention
+    {
+        None
+    }
 }

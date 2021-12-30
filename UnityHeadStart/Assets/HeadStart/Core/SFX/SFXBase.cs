@@ -10,11 +10,11 @@ namespace Assets.HeadStart.Core.SFX
 #pragma warning disable 0414 // private field assigned but not used.
         public static readonly string _version = "2.0.0";
 #pragma warning restore 0414 //
-        private Dictionary<string, MAudio> Sounds;
+        protected  Dictionary<string, MAudio> Sounds;
         public AudioClip MainMenuMusic;
         public AudioClip ClickSound;
 
-        public void Init()
+        public virtual  void Init()
         {
             Sounds = new Dictionary<string, MAudio>()
         {
