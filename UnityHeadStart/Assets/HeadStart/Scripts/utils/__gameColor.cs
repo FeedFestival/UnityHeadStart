@@ -23,7 +23,6 @@ namespace Assets.Scripts.utils
             {
                 SetupHexes();
             }
-            Debug.Log(colorEnum.ToString());
             return GetColor(_hexes[colorEnum.ToString()]);
         }
 

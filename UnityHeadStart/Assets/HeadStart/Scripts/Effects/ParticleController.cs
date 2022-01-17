@@ -97,7 +97,6 @@ public class ParticleController : MonoBehaviour
     public void InternalPlay()
     {
         int index = 0;
-        // Debug.Log("OriginalEmits.Count: " + OriginalEmits.Count);
         foreach (ParticleSystem ps in ParticleSystems)
         {
             ps.Emit(OriginalEmits[index].maxCount);

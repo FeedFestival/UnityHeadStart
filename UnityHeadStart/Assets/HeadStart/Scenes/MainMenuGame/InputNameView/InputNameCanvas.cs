@@ -29,6 +29,24 @@ public class InputNameCanvas : MonoBehaviour
             screenSize: Main._.CoreCamera.Canvas.sizeDelta
         );
 
+        if (Main._.Game.DeviceUser().IsFirstTime)
+        {
+            InputFieldCustom.OnBlurDelegate = () =>
+            {
+                _name = InputFieldCustom.InputField.text;
+                if (string.IsNullOrWhiteSpace(_name))
+                {
+                    _coreCallback(null);
+                }
+                else
+                {
+                    _coreCallback(_name);
+                }
+            };
+
+            return;
+        }
+
         InputFieldCustom.OnBlurDelegate = () =>
         {
             _name = InputFieldCustom.InputField.text;
@@ -63,6 +81,11 @@ public class InputNameCanvas : MonoBehaviour
         _name = "";
 
         InputFieldCustom.gameObject.SetActive(true);
+
+        if (Main._.Game.DeviceUser().IsFirstTime)
+        {
+            return;
+        }
         ShowPreviousChallengers();
     }
 
@@ -112,19 +135,15 @@ public class InputNameCanvas : MonoBehaviour
         User playingUser = Main._.Game.DataService.GetUserByName(InputFieldCustom.InputField.text);
         if (playingUser == null)
         {
-            Debug.Log("NEW USER");
             playingUser = new User()
             {
                 Name = InputFieldCustom.InputField.text
             };
-            Main._.Game.DataService.CreateUser(playingUser);
         }
-        Debug.Log("playingUser: " + playingUser.Name);
 
         return new SessionOpts()
         {
-            User = playingUser,
-            HighScoreType = HighScoreType.HOTSEAT
+            User = playingUser
         };
     }
 

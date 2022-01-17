@@ -17,6 +17,7 @@ public class Main : MonoBehaviour
     }
 
     public bool ConsoleLog;
+    public bool CheckForUpdates;
     public GameBase Game;
     [HideInInspector]
     public CoreCamera CoreCamera;
@@ -38,10 +39,15 @@ public class Main : MonoBehaviour
             .Delay(TimeSpan.FromMilliseconds(MILISECONDS_BETWEEN_CHECKS))
             .Subscribe((bool _) =>
             {
+#if UNITY_ANDROID
+                CheckForUpdates = false;
+#endif
 #if UNITY_EDITOR
-                VersionChecker versionChecker = gameObject.AddComponent<VersionChecker>();
-                versionChecker.Check();
-                Destroy(gameObject.GetComponent<VersionChecker>());
+                if (CheckForUpdates) {
+                    VersionChecker versionChecker = gameObject.AddComponent<VersionChecker>();
+                    versionChecker.Check();
+                    Destroy(gameObject.GetComponent<VersionChecker>());
+                }
 #endif
                 _preStartGameSub__.OnNext(true);
             });

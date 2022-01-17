@@ -91,7 +91,6 @@ public class VersionChecker : MonoBehaviour
     private string GetOnlineVersion(string url)
     {
         var fileContent = GetOnlineFile(url);
-        // Debug.Log(fileContent);
         var index = fileContent.IndexOf(_key) + _key.Length;
         var endIndex = fileContent.IndexOf(_endKey);
         var versionLength = endIndex - index;

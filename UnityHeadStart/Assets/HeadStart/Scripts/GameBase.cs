@@ -19,7 +19,6 @@ public class GameBase : MonoBehaviour, IGame
 
     public virtual void PreStartGame()
     {
-        Debug.Log("PreStart...");
     }
     public virtual void StartGame()
     {
@@ -28,7 +27,6 @@ public class GameBase : MonoBehaviour, IGame
 
     public virtual void GameOver()
     {
-        Debug.Log("Game Over");
     }
 
     public virtual bool IsGamePaused()
@@ -65,9 +63,12 @@ public class GameBase : MonoBehaviour, IGame
         {
             _user = new User()
             {
-                Id = 1,
-                Name = "no-name-user",
+                Id = 0,
+                LocalId = 0,
                 IsFirstTime = true,
+                Name = "no-name-user",
+                ToiletPaper = 10,
+                UserType = UserType.CASUAL,
                 IsUsingSound = true,
                 Language = "en"
             };
@@ -75,7 +76,7 @@ public class GameBase : MonoBehaviour, IGame
         }
         if (Main._.ConsoleLog)
         {
-            Debug.Log("User: " + _user.Id + " " + _user.Name);
+            Debug.Log(JsonUtility.ToJson(_user.Debug()));
         }
         return _user;
     }

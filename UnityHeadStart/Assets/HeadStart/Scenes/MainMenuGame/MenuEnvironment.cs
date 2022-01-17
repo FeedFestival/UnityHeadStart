@@ -90,11 +90,14 @@ public class MenuEnvironment : MonoBehaviour
         _sessionOpts = sessionOpts;
     }
 
+    internal void UpdateSessionUserId(int userLocalId)
+    {
+        _sessionOpts.User.LocalId = userLocalId;
+    }
+
     internal SessionOpts GetHotseatSession()
     {
-        var copy = _sessionOpts;
-        ClearHotseatSession();
-        return copy;
+        return _sessionOpts;
     }
 
     internal void ClearHotseatSession()
@@ -119,7 +122,6 @@ public class MenuEnvironment : MonoBehaviour
     internal void Back()
     {
         VIEW lastView = _history.Pop();
-        Debug.Log("_history.Depth(): " + _history.Depth());
         SwitchView(lastView, storeHistory: false);
     }
 

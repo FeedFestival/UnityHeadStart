@@ -7,6 +7,7 @@ using System.IO;
 #endif
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.utils;
 
 public class DataService
 {
@@ -71,7 +72,7 @@ public class DataService
 
         _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 #if UNITY_ANDROID
-        // Debug.Log("Final PATH: " + dbPath);
+        Debug.Log("Final PATH: " + dbPath);
 #endif
     }
 
@@ -79,32 +80,36 @@ public class DataService
     {
         _connection.DropTable<User>();
         _connection.CreateTable<User>();
+        Debug.Log("Removed all from User");
     }
 
     public void CleanDB()
     {
         _connection.DropTable<User>();
+        _connection.DropTable<Score>();
         _connection.DropTable<WeekScore>();
-        _connection.DropTable<HighScore>();
+        _connection.DropTable<ChallengerScore>();
+        Debug.Log("Dropped Tables: User, WeekScore, WeekScore, ChallengerScore");
     }
 
     public void CreateDB()
     {
         _connection.CreateTable<User>();
+        _connection.CreateTable<Score>();
         _connection.CreateTable<WeekScore>();
-        _connection.CreateTable<HighScore>();
-        Debug.Log("Created Tables: User, WeekScore, HighScore");
+        _connection.CreateTable<ChallengerScore>();
+        Debug.Log("Created Tables: User, WeekScore, WeekScore, ChallengerScore");
     }
 
     public void CreateDBIfNotExists()
     {
         try
         {
-            _connection.Table<User>().Where(x => x.Id == 1).FirstOrDefault();
+            _connection.Table<User>().Where(x => x.LocalId == 1).FirstOrDefault();
         }
         catch (Exception ex)
         {
-            Debug.LogError(ex.Message);
+            Debug.LogWarning(ex.Message);
             _connection.CreateTable<User>();
         }
         try
@@ -113,17 +118,8 @@ public class DataService
         }
         catch (Exception ex)
         {
-            Debug.LogError(ex.Message);
+            Debug.LogWarning(ex.Message);
             _connection.CreateTable<WeekScore>();
-        }
-        try
-        {
-            _connection.Table<HighScore>().Where(x => x.Id == 1).FirstOrDefault();
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError(ex.Message);
-            _connection.CreateTable<HighScore>();
         }
     }
 
@@ -132,27 +128,26 @@ public class DataService
      * * --------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    public void CreateUser(User user)
+    public int CreateUser(User user)
     {
-        _connection.Insert(user);
+        return _connection.Insert(user);
     }
 
     public void UpdateUser(User user)
     {
         int rowsAffected = _connection.Update(user);
-        Debug.Log("(UPDATE User) rowsAffected : " + rowsAffected);
     }
 
     public User GetUser()
     {
         try
         {
-            return _connection.Table<User>().Where(x => x.Id == 1).FirstOrDefault();
+            return _connection.Table<User>().Where(x => x.LocalId == 1).FirstOrDefault();
         }
         catch (Exception)
         {
             _connection.CreateTable<User>();
-            return _connection.Table<User>().Where(x => x.Id == 1).FirstOrDefault();
+            return _connection.Table<User>().Where(x => x.LocalId == 1).FirstOrDefault();
         }
     }
 
@@ -163,46 +158,6 @@ public class DataService
             return _connection.Table<User>().First();
         }
         return null;
-    }
-
-    internal WeekScore GetHighestWeekScore(int weekId)
-    {
-        WeekScore weekScore = _connection.Table<WeekScore>().FirstOrDefault(ws => ws.Id == weekId);
-        return weekScore;
-    }
-
-    internal void AddWeekHighScore(WeekScore weekScore)
-    {
-        _connection.Insert(weekScore);
-    }
-
-    internal void UpdateWeekHighScore(WeekScore weekScore)
-    {
-        int rowsAffected = _connection.Update(weekScore);
-        Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
-    }
-
-    internal void AddHighScore(HighScore highScore)
-    {
-        int rowsAffected = _connection.Insert(highScore);
-        Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
-    }
-
-    internal List<HighScore> GetHotSeatScores()
-    {
-        // _connection.Table<HighScore>().Where(hs => hs.);
-        List<HighScore> highscores = _connection.Query<HighScore>(@"
-SELECT
-	hs.TypeId,
-	hs.UserId,
-	hs.Points,
-	usr.Name as UserName
-FROM HighScore as hs
-	INNER JOIN User as usr ON usr.Id = hs.UserId
-WHERE TypeId = " + (int)HighScoreType.HOTSEAT + @"
-ORDER BY Points DESC
-        ");
-        return highscores;
     }
 
     internal List<User> GetUsers()
@@ -225,10 +180,9 @@ SELECT *
 FROM User as usr
 WHERE lower(usr.Name) = """ + name.ToLower() + @"""
 ORDER BY usr.Id DESC
+LIMIT 1
         ";
-        Debug.Log("sql: " + sql);
         List<User> users = _connection.Query<User>(sql);
-
         if (users == null || users.Count == 0)
         {
             return null;
@@ -236,63 +190,124 @@ ORDER BY usr.Id DESC
         return users[0];
     }
 
-    //public User GetUserByFacebookId(int facebookId)
-    //{
-    //    return _connection.Table<User>().Where(x => x.FacebookApp.FacebookId == facebookId).FirstOrDefault();
-    //}
+    internal void AddToiletPaper(int userLocalId, int toiletPaper)
+    {
+        string sql = "UPDATE User SET ToiletPaper = " + toiletPaper + " WHERE LocalId = " + userLocalId;
+        _connection.Execute(sql);
+    }
 
-    /*
-    * User - END
-    * * --------------------------------------------------------------------------------------------------------------------------------------
-    */
+    //------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //      CHALLENGE
+    //----------------------------------------------
+    //-----------------------
 
-    /*
-     * Map
-     * * --------------------------------------------------------------------------------------------------------------------------------------
-     */
+    internal ChallengerResult GetChallengerScore(int userLocalId)
+    {
+        List<ChallengerResult> challengerScores = _connection.Query<ChallengerResult>(@"
+SELECT
+    c.Id, c.ScoreId, s.UserLocalId, s.Points
+FROM ChallengerScore as c
+    INNER JOIN Score as s ON s.Id = c.ScoreId
+WHERE
+    s.UserLocalId = " + userLocalId + @"
+ORDER BY Points DESC
+        ");
+        if (challengerScores != null && challengerScores.Count > 0)
+        {
+            return challengerScores.First();
+        }
+        return null;
+    }
 
-    // X : 0 - 11
-    // Y : 0 - 8
-    //public int CreateMap(Map map)
-    //{
-    //    _connection.Insert(map);
-    //    return map.Id;
-    //}
+    internal void UpdateChallengerScore(int challengeId, int newScoreId)
+    {
+        ChallengerScore challenge = new ChallengerScore()
+        {
+            Id = challengeId,
+            ScoreId = newScoreId
+        };
+        int rowsAffected = _connection.Update(challenge);
+    }
 
-    //public int UpdateMap(Map map)
-    //{
-    //    _connection.Update(map);
-    //    return map.Id;
-    //}
+    internal void AddChallengerScore(Score score)
+    {
+        ChallengerScore challenge = new ChallengerScore()
+        {
+            ScoreId = score.Id
+        };
+        _connection.Insert(challenge);
+    }
 
-    //public Map GetMap(int mapId)
-    //{
-    //    return _connection.Table<Map>().Where(x => x.Id == mapId).FirstOrDefault();
-    //}
+    internal List<HighScore> GetChallengersHighscores()
+    {
+        List<HighScore> highscores = _connection.Query<HighScore>(@"
+SELECT
+    u.Name as Name,
+	s.Points as Points
+FROM ChallengerScore as c
+	INNER JOIN Score as s ON s.Id = c.ScoreId
+	INNER JOIN User as u ON u.LocalId = s.UserLocalId
+GROUP BY s.UserLocalId
+ORDER BY Points DESC
+LIMIT 10;
+        ");
+        return highscores;
+    }
 
-    //public int GetNextMapId(int number)
-    //{
-    //    return _connection.Table<Map>().Where(x => x.Number == number).FirstOrDefault().Id;
-    //}
+    //-----------------------
+    //----------------------------------------------
+    //      CHALLENGE - END
+    //--------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //      WEEKSCORE
+    //----------------------------------------------
+    //-----------------------
 
-    //public void CreateTiles(List<MapTile> mapTiles)
-    //{
-    //    _connection.InsertAll(mapTiles);
-    //}
+    internal WeekScoreResult GetHighestScoreThisWeek(int userLocalId, League league)
+    {
+        string sql = @"
+SELECT
+    w.Id, w.ScoreId, s.Points
+FROM WeekScore as w
+    INNER JOIN Score as s ON s.Id = w.ScoreId
+WHERE
+    s.UserLocalId = " + userLocalId + @" AND
+    s.Week  = " + league.Week + @" AND
+    s.Year  = " + league.Year + @"
+ORDER BY Points DESC
+        ";
+        List<WeekScoreResult> weekScoreResult = _connection.Query<WeekScoreResult>(sql);
+        return weekScoreResult.FirstOrDefault();
+    }
 
-    //public IEnumerable<Map> GetMaps()
-    //{
-    //    return _connection.Table<Map>();
-    //}
+    internal int AddWeekScore(WeekScore weekScore)
+    {
+        return _connection.Insert(weekScore);
+    }
 
-    //public IEnumerable<MapTile> GetTiles(int mapId)
-    //{
-    //    return _connection.Table<MapTile>().Where(x => x.MapId == mapId);
-    //}
+    internal void UpdateWeekScore(WeekScore weekScore)
+    {
+        int rowsAffected = _connection.Update(weekScore);
+        Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
+    }
 
-    //public void DeleteMapTiles(int mapId)
-    //{
-    //    var sql = string.Format("delete from MapTile where MapId = {0}", mapId);
-    //    _connection.ExecuteSql(sql);
-    //}
+    //-----------------------
+    //----------------------------------------------
+    //      WEEKSCORE - END
+    //--------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------
+
+    internal int AddScore(Score weekScore)
+    {
+        return _connection.Insert(weekScore);
+    }
+
+    internal void AddHighScore(HighScore highScore)
+    {
+        int rowsAffected = _connection.Insert(highScore);
+        Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
+    }
 }

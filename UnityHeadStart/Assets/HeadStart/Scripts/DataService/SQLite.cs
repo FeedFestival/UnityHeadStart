@@ -1376,6 +1376,7 @@ namespace SQLite4Unity3d
             {
                 var id = SQLite3.LastInsertRowid(Handle);
                 map.SetAutoIncPK(obj, id);
+                return (int)id;
             }
 
             return count;

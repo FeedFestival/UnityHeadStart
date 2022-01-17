@@ -18,14 +18,14 @@ public class MainMenuGame : GameBase
     {
         __.Time.RxWait(() =>
         {
-            LoadUser();
-            if (DeviceUser().IsFirstTime)
+            bool isFirstTime = DeviceUser().IsFirstTime;
+            __.Transition.Do(Transition.END);
+            if (isFirstTime)
             {
                 MenuEnvironment._.SwitchView(VIEW.InputName);
             }
             else
             {
-                __.Transition.Do(Transition.END);
                 MenuEnvironment._.SwitchView(VIEW.MainMenu);
             }
         }, TIMEWAIT_INIT);

@@ -83,7 +83,6 @@ public class DomainLogicEditor : Editor
 
     private void ConfirmAccepted()
     {
-        Debug.Log(_action);
         switch (_action)
         {
             case InspectorButton.DeleteDataBase:

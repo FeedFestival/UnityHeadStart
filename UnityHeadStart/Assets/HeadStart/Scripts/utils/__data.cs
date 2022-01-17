@@ -61,7 +61,6 @@ namespace Assets.Scripts.utils
         public static string SavePic(Texture2D pic, int width, int height, string picName)
         {
             string path = Application.persistentDataPath + string.Format("/{0}.png", picName);
-            Debug.Log(path);
             try
             {
                 byte[] bytes = pic.EncodeToPNG();
@@ -70,7 +69,7 @@ namespace Assets.Scripts.utils
             }
             catch (Exception e)
             {
-                Debug.Log(e);
+                Debug.LogWarning(e);
             }
 
             return path;
@@ -79,7 +78,6 @@ namespace Assets.Scripts.utils
         public static Texture2D ReadPic(string picName)
         {
             string path = Application.persistentDataPath + string.Format("/{0}.png", picName);
-            Debug.Log(path);
 
             try
             {
@@ -90,7 +88,7 @@ namespace Assets.Scripts.utils
             }
             catch (Exception e)
             {
-                Debug.Log(e);
+                Debug.LogWarning(e);
             }
             return null;
         }
@@ -126,25 +124,6 @@ namespace Assets.Scripts.utils
 
             // For testing purposes, also write to a file in the project folder
             File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
-
-
-            //// Create a Web Form
-            //WWWForm form = new WWWForm();
-            //form.AddField("frameCount", Time.frameCount.ToString());
-            //form.AddBinaryData("fileUpload", bytes);
-
-            //// Upload to a cgi script
-            //WWW w = new WWW("http://localhost/cgi-bin/env.cgi?post", form);
-            //yield return w;
-
-            //if (w.error != null)
-            //{
-            //    Debug.Log(w.error);
-            //}
-            //else
-            //{
-            //    Debug.Log("Finished Uploading Screenshot");
-            //}
         }
 
         public static string EncodeTextInBytes(string text)
@@ -231,22 +210,19 @@ namespace Assets.Scripts.utils
             return new string(chArray);
         }
 
-        public static int GetWeekNumberOfTheYear(out int year)
+        public static int GetWeekNumberOfTheYear(DateTime now, int year)
         {
-            DateTime now = DateTime.Now;
-            year = now.Year;
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
 
-        public static WeekDetails GetWeekDetails()
+        public static League GetThisWeeksLeague()
         {
             DateTime now = DateTime.Now;
-            WeekDetails week = new WeekDetails {
+            return new League()
+            {
                 Year = now.Year,
-                Nr = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Sunday),
+                Week = __data.GetWeekNumberOfTheYear(now, now.Year)
             };
-            week.Id = (Convert.ToInt32(week.Year.ToString() + "00") + week.Nr);
-            return week;
         }
     }
 }

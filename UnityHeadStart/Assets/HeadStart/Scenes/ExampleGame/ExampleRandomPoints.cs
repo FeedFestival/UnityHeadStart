@@ -13,9 +13,9 @@ public class ExampleRandomPoints : MonoBehaviour
 
         ButtonGenerateRandom.onClick.AddListener(() =>
         {
-            CoreSession._.SessionOpts.Points = Random.Range(500, 3000);
+            CoreSession._.SessionOpts.Points = Random.Range(800, 1500);
+            CoreSession._.SessionOpts.ToiletPaper = Random.Range(0, 5);
             TextRandomPoints.text = CoreSession._.SessionOpts.Points.ToString();
-            Debug.Log("TextRandomPoints: " + TextRandomPoints);
             Main._.Game.GameOver();
         });
     }

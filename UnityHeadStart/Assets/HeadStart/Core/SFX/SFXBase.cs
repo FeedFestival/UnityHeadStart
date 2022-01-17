@@ -77,7 +77,7 @@ namespace Assets.HeadStart.Core.SFX
                 audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
                 if (audio == null)
                 {
-                    Debug.LogError("audio has a problem");
+                    Debug.LogWarning("audio has a problem");
                     return;
                 }
                 audio.Stop();

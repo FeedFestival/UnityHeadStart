@@ -43,10 +43,6 @@ namespace Assets.Scripts.utils
                 return;
             }
             array.Add(value);
-            if (string.IsNullOrEmpty(debugAdd) == false)
-            {
-                Debug.Log(debugAdd);
-            }
         }
 
         public static int CreateLayerMask(bool aExclude, params int[] aLayers)

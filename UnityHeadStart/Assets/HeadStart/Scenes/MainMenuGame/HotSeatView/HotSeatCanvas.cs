@@ -31,7 +31,7 @@ public class HotSeatCanvas : MonoBehaviour
             Init(TLPoint, BRPoint);
         }
 
-        List<HighScore> highscores = Main._.Game.DataService.GetHotSeatScores();
+        List<HighScore> highscores = Main._.Game.DataService.GetChallengersHighscores();
 
         if (highscores == null || highscores.Count == 0)
         {
@@ -46,7 +46,7 @@ public class HotSeatCanvas : MonoBehaviour
             {
                 Values = new List<string>() {
                     orderNr.ToString(),
-                    hs.UserName.ToString(),
+                    hs.Name.ToString(),
                     hs.Points.ToString()
                 }
             });
@@ -55,5 +55,5 @@ public class HotSeatCanvas : MonoBehaviour
 
         HotSeatTable.gameObject.SetActive(true);
         HotSeatTable.SetData(tableData);
-    }    
+    }
 }

@@ -14,7 +14,6 @@ public class ExampleGame : GameBase
         {
             SessionOpts sessionOpts = new SessionOpts()
             {
-                HighScoreType = HighScoreType.RANKED,
                 User = LoadUser()
             };
             CoreIoC.IoCDependencyResolver.CreateSession(sessionOpts);

@@ -39,14 +39,11 @@ namespace Assets.HeadStart.Time
         {
             var waitOptionRx = new WaitOptionRx(internalWaitCallback, DequeueRx, seconds);
             _internalWaitsRx.Enqueue(waitOptionRx);
-            // Debug.Log(__debug.DebugQueue<WaitOptionRx>(_internalWaitsRx, "_internalWaitsRx"));
-            // waitOptionRx.WaitSubject__.OnNext(true);
         }
 
         private void DequeueRx()
         {
             _internalWaitsRx.Dequeue();
-            // Debug.Log(__debug.DebugQueue<WaitOptionRx>(_internalWaitsRx, "_internalWaitsRx"));
         }
 
         public void Wait(InternalWaitCallback internalWaitCallback, float? seconds = null)

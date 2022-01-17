@@ -10,6 +10,7 @@ public class InputNameView : MonoBehaviour, IUiView
     private InputNameCanvas _inputNameCanvas;
     public InputNameSettings InputNameSettings;
     private bool _isInitialized;
+    private string _userInputChangedName;
 
     private void Init()
     {
@@ -24,6 +25,30 @@ public class InputNameView : MonoBehaviour, IUiView
         {
             _inputNameCanvas.CancelChallenge();
             _inputNameCanvas.gameObject.SetActive(false);
+
+            if (Main._.Game.DeviceUser().IsFirstTime)
+            {
+                User changedUser = Main._.Game.DeviceUser();
+                changedUser.Name = _userInputChangedName;
+                changedUser.IsFirstTime = false;
+                Main._.Game.DataService.UpdateUser(changedUser);
+                Main._.Game.LoadUser();
+            }
+            else
+            {
+                User playingUser = MenuEnvironment._.GetHotseatSession().User;
+                if (playingUser.LocalId == 0)
+                {
+                    playingUser.LocalId = Main._.Game.DataService.CreateUser(playingUser);
+                    MenuEnvironment._.UpdateSessionUserId(playingUser.LocalId);
+                    Debug.Log(JsonUtility.ToJson(MenuEnvironment._.GetHotseatSession().User.Debug()));
+                }
+                else
+                {
+                    Debug.Log("User exists");
+                }
+                MenuEnvironment._.GetHotseatSession().IsChallenge = true;
+            }
             MenuEnvironment._.SwitchView(VIEW.GameSession);
         });
 
@@ -39,6 +64,19 @@ public class InputNameView : MonoBehaviour, IUiView
         _isInitialized = true;
     }
 
+    private void ReInit()
+    {
+        bool isFirstTime = Main._.Game.DeviceUser().IsFirstTime;
+        if (isFirstTime)
+        {
+            ButtonBack.gameObject.SetActive(false);
+        }
+        else
+        {
+            ButtonBack.gameObject.SetActive(true);
+        }
+    }
+
     GameObject IUiView.GO()
     {
         return gameObject;
@@ -51,6 +89,7 @@ public class InputNameView : MonoBehaviour, IUiView
             Init();
         }
 
+        ReInit();
         ButtonPlay.Interactable = false;
 
         __.Time.RxWait(() =>
@@ -60,9 +99,17 @@ public class InputNameView : MonoBehaviour, IUiView
             {
                 bool isValid = obj != null;
                 ButtonPlay.Interactable = isValid;
+
+                if (Main._.Game.DeviceUser().IsFirstTime)
+                {
+                    _userInputChangedName = (obj as string);
+                    return;
+                }
+
                 if (isValid)
                 {
-                    MenuEnvironment._.SetHotseatSession(obj as SessionOpts);
+                    SessionOpts sessionOpts = obj as SessionOpts;
+                    MenuEnvironment._.SetHotseatSession(sessionOpts);
                 }
             });
 

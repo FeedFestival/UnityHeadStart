@@ -10,10 +10,7 @@ namespace Assets.Scripts.utils
     {
         public static void VarDump<T>(T obj)
         {
-            foreach (var propertyInfo in obj.GetType()
-                                .GetProperties(
-                                        BindingFlags.Public
-                                        | BindingFlags.Instance))
+            foreach (var propertyInfo in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 var x = propertyInfo;
                 Debug.Log(propertyInfo);
