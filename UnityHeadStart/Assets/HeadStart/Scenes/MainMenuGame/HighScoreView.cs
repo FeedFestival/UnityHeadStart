@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UniRx;
 using System.Collections.Generic;
+using Assets.HeadStart.Core;
 
 public class HighScoreView : MonoBehaviour, IUiView
 {
@@ -72,6 +73,14 @@ public class HighScoreView : MonoBehaviour, IUiView
                 RankingLeague rLeague = JsonUtility.FromJson<RankingLeague>(responseBody);
                 CheckLeague(rLeague);
             });
+    }
+
+    public void OnFocussed()
+    {
+        __.Time.RxWait(() =>
+        {
+            // ButtonHighscore.Interactable = false;
+        }, 1f);
     }
 
     private void CheckLeague(RankingLeague rLeague)

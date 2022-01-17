@@ -101,6 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab117e26e5214442ad2914d644f03fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnableColor: {r: 0.94117653, g: 0.003921569, b: 0.3137255, a: 1}
+  DisableColor: {r: 0.47450984, g: 0.3019608, b: 0.89019614, a: 1}
+  ActionDisabler: {fileID: 1630463376}
 --- !u!58 &2712825084410937385
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -626,6 +629,18 @@ Transform:
   m_Father: {fileID: 2712825084807653566}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1630463376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8047002964120424786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e6249fbb97a7ca4f9f51df5e5a1d4d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2712825084400810474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -902,6 +917,12 @@ PrefabInstance:
 --- !u!4 &6698638760148876648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8742538545776668643, guid: 854b5419db8711b41b46b92307b2effa,
+    type: 3}
+  m_PrefabInstance: {fileID: 2712825086078587531}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8047002964120424786 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3888481672020999207, guid: 854b5419db8711b41b46b92307b2effa,
     type: 3}
   m_PrefabInstance: {fileID: 2712825086078587531}
   m_PrefabAsset: {fileID: 0}

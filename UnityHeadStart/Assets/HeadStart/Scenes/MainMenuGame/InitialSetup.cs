@@ -1,3 +1,4 @@
+using Assets.HeadStart.Core;
 using UnityEngine;
 
 public class InitialSetup : MonoBehaviour, IUiView
@@ -21,5 +22,13 @@ public class InitialSetup : MonoBehaviour, IUiView
     GameObject IUiView.GO()
     {
         return gameObject;
+    }
+
+    public void OnFocussed()
+    {
+        __.Time.RxWait(() =>
+        {
+            // ButtonHighscore.Interactable = false;
+        }, 1f);
     }
 }

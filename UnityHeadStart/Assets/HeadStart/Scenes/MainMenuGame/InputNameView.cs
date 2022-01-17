@@ -10,6 +10,7 @@ public class InputNameView : MonoBehaviour, IUiView
     private InputNameCanvas _inputNameCanvas;
     public InputNameSettings InputNameSettings;
     private bool _isInitialized;
+    private bool _isInputInitialized;
     private string _userInputChangedName;
 
     private void Init()
@@ -21,6 +22,8 @@ public class InputNameView : MonoBehaviour, IUiView
             MenuEnvironment._.ClearChallengeSession();
             MenuEnvironment._.Back();
         });
+
+        ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
             _inputNameCanvas.CancelChallenge();
@@ -90,39 +93,52 @@ public class InputNameView : MonoBehaviour, IUiView
         }
 
         ReInit();
-        ButtonPlay.Interactable = false;
+        ResetActions();
+    }
 
-        __.Time.RxWait(() =>
+    public void OnFocussed()
+    {
+        InitNameCanvas();
+    }
+
+    private void InitNameCanvas()
+    {
+        if (_isInputInitialized)
         {
-            _inputNameCanvas.gameObject.SetActive(true);
-            _inputNameCanvas.Show(TLPoint, BRPoint, (object obj) =>
+            return;
+        }
+        _isInputInitialized = true;
+        _inputNameCanvas.gameObject.SetActive(true);
+        _inputNameCanvas.Show(TLPoint, BRPoint, (object obj) =>
+        {
+            bool isValid = obj != null;
+            ButtonPlay.Interactable = isValid;
+
+            if (Main._.Game.DeviceUser().IsFirstTime)
             {
-                bool isValid = obj != null;
-                ButtonPlay.Interactable = isValid;
-
-                if (Main._.Game.DeviceUser().IsFirstTime)
-                {
-                    _userInputChangedName = (obj as string);
-                    return;
-                }
-
-                if (isValid)
-                {
-                    SessionOpts sessionOpts = obj as SessionOpts;
-                    MenuEnvironment._.SetChallengeSession(sessionOpts);
-                }
-            });
-
-            ButtonPlay.Interactable = true;
-
-            if (TLPoint == null)
-            {
+                _userInputChangedName = (obj as string);
                 return;
             }
-            Destroy(TLPoint.gameObject);
-            TLPoint = null;
-            Destroy(BRPoint.gameObject);
-            BRPoint = null;
-        }, MenuEnvironment._.MOVE_CAMERA_TIME);
+
+            if (isValid)
+            {
+                SessionOpts sessionOpts = obj as SessionOpts;
+                MenuEnvironment._.SetChallengeSession(sessionOpts);
+            }
+        });
+
+        if (TLPoint == null)
+        {
+            return;
+        }
+        Destroy(TLPoint.gameObject);
+        TLPoint = null;
+        Destroy(BRPoint.gameObject);
+        BRPoint = null;
+    }
+
+    private void ResetActions()
+    {
+        ButtonPlay.Reset();
     }
 }

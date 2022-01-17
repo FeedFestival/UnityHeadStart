@@ -79,6 +79,7 @@ public class MenuEnvironment : MonoBehaviour
                 _moveCameraTo.y,
                 Main._.CoreCamera.transform.position.z
             );
+            __.Time.RxWait(() => { Views[View].OnFocussed(); }, 1);
             return;
         }
 
@@ -133,6 +134,10 @@ public class MenuEnvironment : MonoBehaviour
             MOVE_CAMERA_TIME
         ).id;
         LeanTween.descr(_moveCameraTwid.Value).setEase(LeanTweenType.easeInOutQuart);
+        LeanTween.descr(_moveCameraTwid.Value).setOnComplete(() =>
+        {
+            Views[View].OnFocussed();
+        });
 
         _scaleCameraTwid = LeanTween.value(
             Main._.CoreCamera.gameObject,

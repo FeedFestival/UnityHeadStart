@@ -55,6 +55,14 @@ public class GameSession : MonoBehaviour, IUiView
         }, MenuEnvironment._.MOVE_CAMERA_TIME);
     }
 
+    public void OnFocussed()
+    {
+        __.Time.RxWait(() =>
+        {
+            // ButtonHighscore.Interactable = false;
+        }, 1f);
+    }
+
     private void AfterTheGame()
     {
         Main._.Game.InitDatabaseConnection();

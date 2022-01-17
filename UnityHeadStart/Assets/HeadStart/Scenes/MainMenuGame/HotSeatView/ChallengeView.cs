@@ -19,6 +19,8 @@ public class ChallengeView : MonoBehaviour, IUiView
             _challengeCanvas.gameObject.SetActive(false);
             MenuEnvironment._.Back();
         });
+
+        ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
             _challengeCanvas.gameObject.SetActive(false);
@@ -50,6 +52,8 @@ public class ChallengeView : MonoBehaviour, IUiView
             Init();
         }
 
+        ResetActions();
+
         __.Time.RxWait(() =>
         {
             _challengeCanvas.gameObject.SetActive(true);
@@ -63,6 +67,21 @@ public class ChallengeView : MonoBehaviour, IUiView
             Destroy(BRPoint.gameObject);
             BRPoint = null;
         }, MenuEnvironment._.MOVE_CAMERA_TIME);
+    }
 
+    public void OnFocussed()
+    {
+        EnableActions();
+    }
+
+
+    private void ResetActions()
+    {
+        ButtonPlay.Reset();
+    }
+
+    private void EnableActions()
+    {
+        ButtonPlay.Enable();
     }
 }

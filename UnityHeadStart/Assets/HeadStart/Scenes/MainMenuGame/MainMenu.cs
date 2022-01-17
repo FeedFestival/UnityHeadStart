@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.utils;
+﻿using Assets.HeadStart.Core;
+using Assets.Scripts.utils;
 using TMPro;
 using UnityEngine;
 
@@ -18,14 +19,19 @@ public class MainMenu : MonoBehaviour, IUiView
 
     private void Init()
     {
+        ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
             MenuEnvironment._.SwitchView(VIEW.GameSession);
         });
-        ButtonHighscore.OnClick(() =>
-        {
-            MenuEnvironment._.SwitchView(VIEW.HighScore);
-        });
+
+        ButtonHighscore.Init();
+        // ButtonHighscore.OnClick(() =>
+        // {
+        //     MenuEnvironment._.SwitchView(VIEW.HighScore);
+        // });
+
+        ButtonChallenge.Init();
         ButtonChallenge.OnClick(() =>
         {
             MenuEnvironment._.SwitchView(VIEW.Challenge);
@@ -50,11 +56,33 @@ public class MainMenu : MonoBehaviour, IUiView
             Init();
         }
 
+        ResetActions();
+
         User user = Main._.Game.DeviceUser();
         League league = __data.GetThisWeeksLeague();
         WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
         UserNameTxt.text = user.Name;
         ToiletPaperTxt.text = user.ToiletPaper.ToString();
         HighWeekPointsTxt.text = weekScoreResult.Points.ToString();
+    }
+
+    public void OnFocussed()
+    {
+        EnableActions();
+    }
+
+
+    private void ResetActions()
+    {
+        ButtonPlay.Reset();
+        ButtonHighscore.Reset();
+        ButtonChallenge.Reset();
+    }
+
+    private void EnableActions()
+    {
+        ButtonPlay.Enable();
+        // ButtonHighscore.Enable();
+        ButtonChallenge.Enable();
     }
 }

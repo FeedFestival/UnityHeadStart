@@ -4,4 +4,5 @@ public interface IUiView
 {
     GameObject GO();
     void Focus();
+    void OnFocussed();
 }
