@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c949dcf5825ff1440b3fb4fdb56254dc, type: 3}
-  m_Name: HotseatSettings
+  m_Name: ChallengeSettings
   m_EditorClassIdentifier: 
-  HotseatConvas: {fileID: 9058708727535304945, guid: 0e67468be9e910f4aa256f49a5f4e878,
+  ChallengeConvas: {fileID: 9058708727535304945, guid: 0e67468be9e910f4aa256f49a5f4e878,
     type: 3}

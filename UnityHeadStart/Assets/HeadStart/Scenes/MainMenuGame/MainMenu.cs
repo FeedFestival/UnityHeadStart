@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Assets.HeadStart.Core.SceneService;
+﻿using Assets.Scripts.utils;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public delegate void Clicked();
 
@@ -11,6 +10,9 @@ public class MainMenu : MonoBehaviour, IUiView
     public GameButton ButtonHighscore;
     public GameButton ButtonChallenge;
     public GameButton ButtonSettings;
+    public TextMeshPro UserNameTxt;
+    public TextMeshPro ToiletPaperTxt;
+    public TextMeshPro HighWeekPointsTxt;
 
     private bool _isInitialized;
 
@@ -26,7 +28,7 @@ public class MainMenu : MonoBehaviour, IUiView
         });
         ButtonChallenge.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.HotSeat);
+            MenuEnvironment._.SwitchView(VIEW.Challenge);
         });
         ButtonSettings.OnClick(() =>
         {
@@ -47,5 +49,12 @@ public class MainMenu : MonoBehaviour, IUiView
         {
             Init();
         }
+
+        User user = Main._.Game.DeviceUser();
+        League league = __data.GetThisWeeksLeague();
+        WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
+        UserNameTxt.text = user.Name;
+        ToiletPaperTxt.text = user.ToiletPaper.ToString();
+        HighWeekPointsTxt.text = weekScoreResult.Points.ToString();
     }
 }

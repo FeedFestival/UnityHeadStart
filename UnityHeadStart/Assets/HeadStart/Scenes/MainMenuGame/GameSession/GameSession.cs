@@ -36,8 +36,8 @@ public class GameSession : MonoBehaviour, IUiView
 
         __.Time.RxWait(() =>
         {
-            SessionOpts sessionOpts = MenuEnvironment._.GetHotseatSession();
-            MenuEnvironment._.ClearHotseatSession();
+            SessionOpts sessionOpts = MenuEnvironment._.GetChallengeSession();
+            MenuEnvironment._.ClearChallengeSession();
 
             if (sessionOpts == null)
             {
@@ -69,17 +69,24 @@ public class GameSession : MonoBehaviour, IUiView
 
             UpdateToiletPaper();
 
+            User deviceUser = Main._.Game.DeviceUser();
+            bool isDeviceUser = deviceUser.LocalId == _sessionOpts.User.LocalId;
+
             if (_sessionOpts.IsChallenge)
             {
                 TryUpdateChallengerScore(score);
-                MenuEnvironment._.SetupBackToMainMenuFor(VIEW.HotSeat);
-                MenuEnvironment._.SwitchView(VIEW.HotSeat);
+                if (isDeviceUser)
+                {
+                    TryUpdateWeekScore(deviceUser, score);
+                }
+                
+                MenuEnvironment._.SetupBackToMainMenuFor(VIEW.Challenge);
+                MenuEnvironment._.SwitchView(VIEW.Challenge);
+
                 return;
             }
 
-            User deviceUser = Main._.Game.DeviceUser();
-
-            if (deviceUser.LocalId == _sessionOpts.User.LocalId)
+            if (isDeviceUser)
             {
                 TryUpdateChallengerScore(score);
 

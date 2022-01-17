@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 5940408262426272620}
   - component: {fileID: 5940408262426272621}
   m_Layer: 0
-  m_Name: HotSeat
+  m_Name: Challenge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ButtonBack: {fileID: 7886475685636935816}
   ButtonPlay: {fileID: 9021634878255673871}
-  HotseatSettings: {fileID: 11400000, guid: b618149e51969bb43ababa533dad3bab, type: 2}
+  ChallengeSettings: {fileID: 11400000, guid: b618149e51969bb43ababa533dad3bab, type: 2}
   TLPoint: {fileID: 5940408261926312515}
   BRPoint: {fileID: 5940408262761173504}
 --- !u!1 &5940408262761173507

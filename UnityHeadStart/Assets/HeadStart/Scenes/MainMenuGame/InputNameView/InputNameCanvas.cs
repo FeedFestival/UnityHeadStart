@@ -34,14 +34,13 @@ public class InputNameCanvas : MonoBehaviour
             InputFieldCustom.OnBlurDelegate = () =>
             {
                 _name = InputFieldCustom.InputField.text;
-                if (string.IsNullOrWhiteSpace(_name))
+                if (string.IsNullOrWhiteSpace(_name) || _name.Length > 25)
                 {
                     _coreCallback(null);
+                    return;
                 }
-                else
-                {
-                    _coreCallback(_name);
-                }
+                
+                _coreCallback(_name);
             };
 
             return;

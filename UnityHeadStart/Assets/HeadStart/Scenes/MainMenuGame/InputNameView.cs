@@ -18,7 +18,7 @@ public class InputNameView : MonoBehaviour, IUiView
         {
             _inputNameCanvas.gameObject.SetActive(false);
             _inputNameCanvas.CancelChallenge();
-            MenuEnvironment._.ClearHotseatSession();
+            MenuEnvironment._.ClearChallengeSession();
             MenuEnvironment._.Back();
         });
         ButtonPlay.OnClick(() =>
@@ -36,18 +36,18 @@ public class InputNameView : MonoBehaviour, IUiView
             }
             else
             {
-                User playingUser = MenuEnvironment._.GetHotseatSession().User;
+                User playingUser = MenuEnvironment._.GetChallengeSession().User;
                 if (playingUser.LocalId == 0)
                 {
                     playingUser.LocalId = Main._.Game.DataService.CreateUser(playingUser);
                     MenuEnvironment._.UpdateSessionUserId(playingUser.LocalId);
-                    Debug.Log(JsonUtility.ToJson(MenuEnvironment._.GetHotseatSession().User.Debug()));
+                    Debug.Log(JsonUtility.ToJson(MenuEnvironment._.GetChallengeSession().User.Debug()));
                 }
                 else
                 {
                     Debug.Log("User exists");
                 }
-                MenuEnvironment._.GetHotseatSession().IsChallenge = true;
+                MenuEnvironment._.GetChallengeSession().IsChallenge = true;
             }
             MenuEnvironment._.SwitchView(VIEW.GameSession);
         });
@@ -109,7 +109,7 @@ public class InputNameView : MonoBehaviour, IUiView
                 if (isValid)
                 {
                     SessionOpts sessionOpts = obj as SessionOpts;
-                    MenuEnvironment._.SetHotseatSession(sessionOpts);
+                    MenuEnvironment._.SetChallengeSession(sessionOpts);
                 }
             });
 

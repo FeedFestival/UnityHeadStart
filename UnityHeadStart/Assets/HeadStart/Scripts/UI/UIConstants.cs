@@ -1,4 +1,4 @@
 ﻿public enum VIEW
 {
-    Initial, InputName, MainMenu, Settings, HighScore, HotSeat, GameSession
+    Initial, InputName, MainMenu, Settings, HighScore, Challenge, GameSession
 }

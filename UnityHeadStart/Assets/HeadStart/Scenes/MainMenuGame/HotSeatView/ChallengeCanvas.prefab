@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 9058708727535304940}
   - component: {fileID: 9058708727535304941}
   m_Layer: 5
-  m_Name: HotSeatCanvas
+  m_Name: ChallengeCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,10 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6cc1bb3a6ea4e4789b736e4d3f63f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HotSeatTable: {fileID: 9058708727119028152}
-  NewChallengerDialog: {fileID: 0}
-  PredefinedNames: []
-  NewChallengerInput: {fileID: 0}
+  ChallengeTable: {fileID: 9058708727119028152}
 --- !u!1 &9058708727767813370
 GameObject:
   m_ObjectHideFlags: 0

@@ -85,7 +85,7 @@ public class MenuEnvironment : MonoBehaviour
         playCameraTransition();
     }
 
-    internal void SetHotseatSession(SessionOpts sessionOpts)
+    internal void SetChallengeSession(SessionOpts sessionOpts)
     {
         _sessionOpts = sessionOpts;
     }
@@ -95,12 +95,12 @@ public class MenuEnvironment : MonoBehaviour
         _sessionOpts.User.LocalId = userLocalId;
     }
 
-    internal SessionOpts GetHotseatSession()
+    internal SessionOpts GetChallengeSession()
     {
         return _sessionOpts;
     }
 
-    internal void ClearHotseatSession()
+    internal void ClearChallengeSession()
     {
         _sessionOpts = null;
     }
@@ -110,7 +110,7 @@ public class MenuEnvironment : MonoBehaviour
         switch (view)
         {
             case VIEW.HighScore:
-            case VIEW.HotSeat:
+            case VIEW.Challenge:
                 _history.Clear();
                 _history.Push(VIEW.MainMenu);
                 break;
