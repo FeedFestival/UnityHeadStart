@@ -27,6 +27,9 @@ public class CoreCamera : MonoBehaviour
             return;
         }
         _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
+        if (_currentCameraSize == 0) {
+            _currentCameraSize = 1;
+        }
         _camera.orthographicSize = _currentCameraSize;
     }
 

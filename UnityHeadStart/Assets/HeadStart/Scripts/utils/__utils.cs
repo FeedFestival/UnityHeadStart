@@ -43,6 +43,10 @@ namespace Assets.Scripts.utils
                 return;
             }
             array.Add(value);
+            if (string.IsNullOrEmpty(debugAdd) == false)
+            {
+                Debug.Log(debugAdd);
+            }
         }
 
         public static int CreateLayerMask(bool aExclude, params int[] aLayers)
@@ -163,6 +167,36 @@ namespace Assets.Scripts.utils
                 rt.offsetMin.x,
                 rt.offsetMax.y + rt.offsetMin.y - height
             );
+        }
+
+        public static void ShowOnScreen(
+            ref RectTransform rt,
+            Vector3 worldPosition,
+            Vector2 canvasSize,
+            bool isAtCenter = true
+        )
+        {
+            rt.anchoredPosition = GetWorldObjScreenPos(worldPosition, canvasSize, isAtCenter);
+        }
+
+        // then you calculate the position of the UI element
+        // 0,0 for the canvas is at the center of the screen, whereas WorldToViewPortPoint treats the lower left corner as 0,0.
+        // Because of this, you need to subtract the height / width of the canvas * 0.5 to get the correct position.
+        public static Vector2 GetWorldObjScreenPos(Vector3 worldPosition, Vector2 canvasSize, bool isAtCenter = true)
+        {
+            var viewportPosition = Camera.main.WorldToViewportPoint(worldPosition);
+            Vector2 worldObjectScreenPosition = new Vector2(
+                ((viewportPosition.x * canvasSize.x) - (canvasSize.x * 0.5f)),
+                ((viewportPosition.y * canvasSize.y) - (canvasSize.y * 0.5f))
+            );
+            if (isAtCenter == false)
+            {
+                worldObjectScreenPosition = new Vector2(
+                    ((viewportPosition.x * canvasSize.x)),
+                    ((viewportPosition.y * canvasSize.y))
+                );
+            }
+            return worldObjectScreenPosition;
         }
 
         public static void SetPivot(ref RectTransform rectTransform, Vector2 pivot)

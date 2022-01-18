@@ -80,6 +80,18 @@ namespace Assets.HeadStart.Core
 
     public static class __
     {
+        private static CoreEvent _event;
+        public static CoreEvent Event
+        {
+            get
+            {
+                if (_event == null)
+                {
+                    _event = new CoreEvent();
+                }
+                return _event;
+            }
+        }
         public static ITime Time
         {
             get
