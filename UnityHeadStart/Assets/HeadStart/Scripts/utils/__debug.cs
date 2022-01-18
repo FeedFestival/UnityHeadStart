@@ -31,6 +31,12 @@ namespace Assets.Scripts.utils
             Debug.Log(output);
         }
 
+        public static string ToJsonString(object obj)
+        {
+            string output = JsonUtility.ToJson(obj, true);
+            return output;
+        }
+
         public static void DumpToJsonConsole(IJsonConsole[] jsonConsoles)
         {
             foreach (var json in jsonConsoles)

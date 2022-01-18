@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class InitialSetup : MonoBehaviour, IUiView
 {
-    public bool NoCameraSetup;
+    public bool SkipCameraSetup;
     public CameraHelper CameraHelper;
     void IUiView.Focus()
     {
-        if (NoCameraSetup)
+#if UNITY_ANDROID
+        SkipCameraSetup = false;
+#endif
+        if (SkipCameraSetup)
         {
             Main._.Game.StartGame();
             return;

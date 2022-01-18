@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb412064f9585746bd4a0958f89df9b, type: 3}
   m_Name: CoreCameraSettings
   m_EditorClassIdentifier: 
-  CameraHelper: {fileID: 4856656116947269180, guid: aca23b4e8ba5bf44b9bafc6a77c1fd7f,
-    type: 3}
+  IngameDebugConsole: {fileID: 132536, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}

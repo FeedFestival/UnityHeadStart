@@ -83,12 +83,12 @@ public class ParticleController : MonoBehaviour
         }
     }
 
-    public void Play()
+    public virtual void Play()
     {
         InternalPlay();
     }
 
-    public void Play(Vector2 point)
+    public virtual void Play(Vector2 point)
     {
         transform.position = new Vector3(point.x, point.y, 0);
         InternalPlay();

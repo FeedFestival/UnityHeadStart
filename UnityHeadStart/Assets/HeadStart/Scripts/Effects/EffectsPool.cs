@@ -1,35 +1,24 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum ParticleType
+{
+    Test
+}
+
 public class EffectsPool : MonoBehaviour
 {
-    public List<ParticleController> ParticleControllers;
-    private int _particleCount;
+    public Dictionary<ParticleType, List<ParticleController>> ParticleControllers;
 
-    public void GenerateParticleControllers()
+    public virtual void GenerateParticleControllers()
     {
-        _particleCount = 3;
-
-        if (ParticleControllers == null)
-        {
-            ParticleControllers = new List<ParticleController>();
-        }
-
-        for (int i = 0; i < _particleCount; i++)
-        {
-            // var go = HiddenSettings._.GetAnInstantiated(PrefabBank._.SmallHitParticle);
-            // ParticleController pc = go.GetComponent<ParticleController>();
-            // pc.Init();
-            // pc.transform.SetParent(transform);
-            // pc.SetAutoplay(on: false);
-            // ParticleControllers.Add(pc);
-        }
     }
 
-    public ParticleController GetParticle()
+    public ParticleController GetParticle(ParticleType particleType)
     {
-        int index = ParticleControllers.FindIndex(pc => pc.AvailableInPool == true);
-        ParticleControllers[index].AvailableInPool = false;
-        return ParticleControllers[index];
+        int index = ParticleControllers[particleType].FindIndex(pc => pc.AvailableInPool == true);
+        ParticleControllers[particleType][index].AvailableInPool = false;
+        return ParticleControllers[particleType][index];
     }
 }

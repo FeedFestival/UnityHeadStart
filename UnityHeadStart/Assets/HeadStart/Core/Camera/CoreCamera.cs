@@ -17,17 +17,15 @@ public class CoreCamera : MonoBehaviour
     private int? _alignCameraToHelperTwid;
     public const float CAMERA_SETUP_TIME = 2f;
     private bool _foundTheSweetSpot;
-    public bool NoCameraSizeCalculation;
+    private bool _debugActivated;
 
     void Start()
     {
         _camera = gameObject.GetComponent<Camera>();
-        if (NoCameraSizeCalculation)
-        {
-            return;
-        }
         _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
-        if (_currentCameraSize == 0) {
+        if (_currentCameraSize == 0)
+        {
+            Debug.LogWarning("Please run MainMenu for [Initial Setup] Camera Adjustment");
             _currentCameraSize = 1;
         }
         _camera.orthographicSize = _currentCameraSize;
@@ -87,5 +85,34 @@ public class CoreCamera : MonoBehaviour
         PlayerPrefs.SetFloat("orthographicSize", _currentCameraSize);
 
         _onCameraSetupDone();
+    }
+
+    void Update()
+    {
+        if (_debugActivated)
+        {
+            return;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Tilde)
+            || Input.GetKeyUp(KeyCode.AltGr)
+            || Input.GetKeyUp(KeyCode.BackQuote)
+        )
+        {
+            ActivateDebug();
+        }
+    }
+
+    private void ActivateDebug()
+    {
+        string debugConsoleName = "IngameDebugConsole";
+        GameObject go = GameObject.Find(debugConsoleName);
+        if (go == null)
+        {
+            go = Instantiate(CoreCameraSettings.IngameDebugConsole, Vector3.zero, Quaternion.identity);
+        }
+        go.name = debugConsoleName;
+        _debugActivated = true;
+        go.SetActive(true);
     }
 }
