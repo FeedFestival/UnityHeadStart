@@ -21,7 +21,7 @@ MonoBehaviour:
       sceneEnabled: 1
   - Scene: 1
     SceneRef:
-      Scene: {fileID: 102900000, guid: a9581545f7885f24a8bbe2de5a25a0e1, type: 3}
-      SceneName: BlobPop
-      sceneIndex: 3
+      Scene: {fileID: 102900000, guid: 098bdeb69ca4e704fabf2e706e72496c, type: 3}
+      SceneName: ExampleGame
+      sceneIndex: 1
       sceneEnabled: 1

@@ -16,13 +16,10 @@ MonoBehaviour:
     type: 3}
   List:
   - Dependency: 0
-    Go: {fileID: 3900219681629069348, guid: bddde7f7c1b9bcc488c7ae22b16ed2f0, type: 3}
+    Go: {fileID: 3900219681629069348, guid: f727d118e54e93146b22eba846f14100, type: 3}
   - Dependency: 1
     Go: {fileID: 5362190555284511845, guid: 0783c4afc08e364458e8e2a712d51b8e, type: 3}
   - Dependency: 2
     Go: {fileID: 610634657260810425, guid: baf46665201fa0b4e9a1bb8b28cd95d3, type: 3}
   - Dependency: 3
     Go: {fileID: 3733636318019234308, guid: ef05124a24706b14183569500c74ec2d, type: 3}
-  SceneDependencies:
-  - Dependency: 4
-    Go: {fileID: 5061721613309553551, guid: 3f96a9b9104b367498b82ee71e5b0204, type: 3}
