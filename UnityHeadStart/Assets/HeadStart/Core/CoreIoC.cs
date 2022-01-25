@@ -12,7 +12,20 @@ namespace Assets.HeadStart.Core
 
         private static void CreateIoCResolver()
         {
-            var drGo = Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
+            string coreExtension = string.Empty;
+            bool hasCoreExtension = false;
+            if (string.IsNullOrWhiteSpace(Main._.CoreExtension) == false)
+            {
+                hasCoreExtension = true;
+                coreExtension = Main._.CoreExtension;
+            }
+            GameObject drGo = Object.Instantiate(Resources.Load(coreExtension + "DependencyResolver")) as GameObject;
+            if (hasCoreExtension && drGo == null)
+            {
+                Debug.LogWarning("<b> NO (" + coreExtension + ") Extension found for </b>"
+                    + " \"HeadStart/Resources/DependencyResolver\". Selecting default one. ");
+                drGo = Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
+            }
             drGo.name = "____________dependencies____________";
             IoCDependencyResolver = drGo.GetComponent<IoCDependencyResolver>();
         }
@@ -43,7 +56,20 @@ namespace Assets.HeadStart.Core
 
         private static void CreateIoCResolver()
         {
-            var drGo = Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
+            string coreExtension = string.Empty;
+            bool hasCoreExtension = false;
+            if (string.IsNullOrWhiteSpace(Main._.CoreExtension) == false)
+            {
+                hasCoreExtension = true;
+                coreExtension = Main._.CoreExtension;
+            }
+            GameObject drGo = Object.Instantiate(Resources.Load(coreExtension + "SceneDependencyResolver")) as GameObject;
+            if (hasCoreExtension && drGo == null)
+            {
+                Debug.LogWarning("<b> NO (" + coreExtension + ") Extension found for </b>"
+                    + " \"HeadStart/Resources/SceneDependencyResolver\". Selecting default one. ");
+                drGo = Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
+            }
             drGo.name = "_________sceneDependencies__________";
             IoCDependencyResolver = drGo.GetComponent<IoCSceneDependencyResolver>();
         }

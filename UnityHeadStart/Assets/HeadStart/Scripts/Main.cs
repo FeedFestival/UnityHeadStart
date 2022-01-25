@@ -21,6 +21,7 @@ public class Main : MonoBehaviour
     public GameBase Game;
     [HideInInspector]
     public CoreCamera CoreCamera;
+    public string CoreExtension = "";
     private Subject<bool> _checkVersionSub__ = new Subject<bool>();
     private Subject<bool> _preStartGameSub__ = new Subject<bool>();
     private const float MILISECONDS_BETWEEN_CHECKS = 100;
