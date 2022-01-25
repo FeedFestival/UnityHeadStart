@@ -120,8 +120,8 @@ namespace MyBox.Internal
 			// this event is for GameObjects in the scene.
 			MyEditorEvents.OnSave += CheckComponentsInScene;
 			// this event is for prefabs saved in edit mode.
-			UnityEditor.SceneManagement.PrefabStage.prefabSaved += CheckComponentsInPrefab;
-			UnityEditor.SceneManagement.PrefabStage.prefabStageOpened += stage => CheckComponentsInPrefab(stage.prefabContentsRoot);
+			// UnityEditor.SceneManagement.PrefabStage.prefabSaved += CheckComponentsInPrefab;
+			// UnityEditor.SceneManagement.PrefabStage.prefabStageOpened += stage => CheckComponentsInPrefab(stage.prefabContentsRoot);
 		}
 
 		private static void CheckComponentsInScene()

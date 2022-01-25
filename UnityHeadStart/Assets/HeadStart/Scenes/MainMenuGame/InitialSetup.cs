@@ -7,11 +7,12 @@ public class InitialSetup : MonoBehaviour, IUiView
     public CameraHelper CameraHelper;
     void IUiView.Focus()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         SkipCameraSetup = false;
 #endif
         if (SkipCameraSetup)
         {
+            Main._.CoreCamera.DestroyLogo();
             Main._.Game.StartGame();
             return;
         }
@@ -29,9 +30,5 @@ public class InitialSetup : MonoBehaviour, IUiView
 
     public void OnFocussed()
     {
-        __.Time.RxWait(() =>
-        {
-            // ButtonHighscore.Interactable = false;
-        }, 1f);
     }
 }

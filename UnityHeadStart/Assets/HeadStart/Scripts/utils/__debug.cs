@@ -8,15 +8,6 @@ namespace Assets.Scripts.utils
 {
     public static class __debug
     {
-        public static void VarDump<T>(T obj)
-        {
-            foreach (var propertyInfo in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                var x = propertyInfo;
-                Debug.Log(propertyInfo);
-            }
-        }
-
         public static void DumpToConsole(object obj, bool isArray = false)
         {
             string output = string.Empty;

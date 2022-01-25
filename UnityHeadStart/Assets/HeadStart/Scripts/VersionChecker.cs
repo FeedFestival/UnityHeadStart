@@ -53,10 +53,6 @@ public class VersionChecker : MonoBehaviour
 
     internal void Check()
     {
-        foreach (VersionCheckFile versionCheckFile in versionCheckFiles)
-        {
-            __debug.VarDump<VersionCheckFile>(versionCheckFile);
-        }
         string version = string.Empty;
         VERSION_CHANGE versionChange = VERSION_CHANGE.OUTDATED;
         foreach (VersionCheckFile versionCheckFile in versionCheckFiles)

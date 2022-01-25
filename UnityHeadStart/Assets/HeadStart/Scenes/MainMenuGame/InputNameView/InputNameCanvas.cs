@@ -20,14 +20,15 @@ public class InputNameCanvas : MonoBehaviour
         ChallengersContainer.SetActive(false);
     }
 
-    private void Init(Transform TLPoint, Transform BRPoint)
+    private void Init(WorldCanvasPoint worldCanvasPoint)
     {
-        __world2d.PositionRtBasedOnScreenAnchors(
-            topLeftAnchor: Camera.main.WorldToScreenPoint(TLPoint.position),
-            bottomRightAnchor: Camera.main.WorldToScreenPoint(BRPoint.position),
-            rt: (transform as RectTransform),
-            screenSize: Main._.CoreCamera.Canvas.sizeDelta
-        );
+        if (worldCanvasPoint)
+        {
+            __world2d.PositionRtBasedOnScreenAnchors(
+                worldCanvasPoint, rt: (transform as RectTransform),
+                screenSize: Main._.CoreCamera.Canvas.sizeDelta
+            );
+        }
 
         if (Main._.Game.DeviceUser().IsFirstTime)
         {
@@ -39,7 +40,7 @@ public class InputNameCanvas : MonoBehaviour
                     _coreCallback(null);
                     return;
                 }
-                
+
                 _coreCallback(_name);
             };
 
@@ -64,14 +65,13 @@ public class InputNameCanvas : MonoBehaviour
     }
 
     public void Show(
-        Transform TLPoint,
-        Transform BRPoint,
+        WorldCanvasPoint worldCanvasPoint,
         CoreObjCallback coreCallback
     )
     {
         if (_isInitialized == false)
         {
-            Init(TLPoint, BRPoint);
+            Init(worldCanvasPoint);
         }
 
         _coreCallback = coreCallback;
@@ -148,9 +148,10 @@ public class InputNameCanvas : MonoBehaviour
 
     public void CancelChallenge()
     {
-        foreach (ButtonWrapper btnName in PredefinedNames)
-        {
-            btnName.Unsubscribe();
-        }
+        // TODO: do we need to unsubscribe?
+        // foreach (ButtonWrapper btnName in PredefinedNames)
+        // {
+        //     btnName.Unsubscribe();
+        // }
     }
 }

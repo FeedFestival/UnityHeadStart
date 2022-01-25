@@ -87,7 +87,7 @@ public class GameSession : MonoBehaviour, IUiView
                 {
                     TryUpdateWeekScore(deviceUser, score);
                 }
-                
+
                 MenuEnvironment._.SetupBackToMainMenuFor(VIEW.Challenge);
                 MenuEnvironment._.SwitchView(VIEW.Challenge);
 
@@ -103,7 +103,7 @@ public class GameSession : MonoBehaviour, IUiView
                     bool wasAHighScore = TryUpdateWeekScore(deviceUser, score);
                     if (wasAHighScore || _sessionOpts.User.IsFirstTime)
                     {
-                        Debug.Log("Ask user if he wants to go Ranked");
+                        ShowUserRankedPossibility();
                         return;
                     }
 
@@ -210,5 +210,15 @@ public class GameSession : MonoBehaviour, IUiView
             return true;
         }
         return false;
+    }
+
+    private void ShowUserRankedPossibility()
+    {
+        // TODO - make the real functionality here
+        // for now we are going to redirect to Main Menu
+
+        Debug.Log("Ask user if he wants to go Ranked");
+
+        MenuEnvironment._.SwitchView(VIEW.MainMenu);
     }
 }

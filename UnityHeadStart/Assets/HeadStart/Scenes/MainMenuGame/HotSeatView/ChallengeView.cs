@@ -8,8 +8,7 @@ public class ChallengeView : MonoBehaviour, IUiView
     private ChallengeCanvas _challengeCanvas;
     public ChallengeSettingsSO ChallengeSettings;
     [Header("Canvas Points")]
-    public Transform TLPoint;
-    public Transform BRPoint;
+    public WorldCanvasPoint tableWCP;
     private bool _isInitialized;
 
     private void Init()
@@ -57,15 +56,12 @@ public class ChallengeView : MonoBehaviour, IUiView
         __.Time.RxWait(() =>
         {
             _challengeCanvas.gameObject.SetActive(true);
-            _challengeCanvas.Show(TLPoint, BRPoint);
-            if (TLPoint == null)
+            _challengeCanvas.Show(tableWCP);
+            if (tableWCP == null)
             {
                 return;
             }
-            Destroy(TLPoint.gameObject);
-            TLPoint = null;
-            Destroy(BRPoint.gameObject);
-            BRPoint = null;
+            CleanUp();
         }, MenuEnvironment._.MOVE_CAMERA_TIME);
     }
 
@@ -83,5 +79,11 @@ public class ChallengeView : MonoBehaviour, IUiView
     private void EnableActions()
     {
         ButtonPlay.Enable();
+    }
+
+    private void CleanUp()
+    {
+        Destroy(tableWCP.gameObject);
+        tableWCP = null;
     }
 }

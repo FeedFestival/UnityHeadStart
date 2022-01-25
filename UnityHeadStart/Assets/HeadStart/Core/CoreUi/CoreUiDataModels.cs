@@ -7,7 +7,9 @@ namespace Assets.HeadStart.CoreUi
 
     public interface IUiDependency
     {
-        void Register(CoreUiObservedValue obj);
+        void InitDependency(object obj);
+        void ListenForChanges(CoreUiObservedValue obj);
+        void UnregisterOnDestroy();
     }
 
     public class CoreUiObservedValue

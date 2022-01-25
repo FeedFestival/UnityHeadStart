@@ -5,8 +5,7 @@ public class InputNameView : MonoBehaviour, IUiView
 {
     public GameButton ButtonBack;
     public GameButton ButtonPlay;
-    public Transform TLPoint;
-    public Transform BRPoint;
+    public WorldCanvasPoint WorldCanvasPoint;
     private InputNameCanvas _inputNameCanvas;
     public InputNameSettings InputNameSettings;
     private bool _isInitialized;
@@ -105,11 +104,12 @@ public class InputNameView : MonoBehaviour, IUiView
     {
         if (_isInputInitialized)
         {
+            _inputNameCanvas.gameObject.SetActive(true);
             return;
         }
         _isInputInitialized = true;
         _inputNameCanvas.gameObject.SetActive(true);
-        _inputNameCanvas.Show(TLPoint, BRPoint, (object obj) =>
+        _inputNameCanvas.Show(WorldCanvasPoint, (object obj) =>
         {
             bool isValid = obj != null;
             ButtonPlay.Interactable = isValid;
@@ -127,14 +127,12 @@ public class InputNameView : MonoBehaviour, IUiView
             }
         });
 
-        if (TLPoint == null)
+        if (WorldCanvasPoint == null)
         {
             return;
         }
-        Destroy(TLPoint.gameObject);
-        TLPoint = null;
-        Destroy(BRPoint.gameObject);
-        BRPoint = null;
+        Destroy(WorldCanvasPoint.gameObject);
+        WorldCanvasPoint = null;
     }
 
     private void ResetActions()

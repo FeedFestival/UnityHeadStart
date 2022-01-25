@@ -7,6 +7,8 @@ public class CoreCamera : MonoBehaviour
     public RectTransform Canvas;
     public RectTransform Views;
     public Image LoadingOverlay;
+    // TODO: add Logo functionality to HeadStart
+    public Transform LogoT;
     public CoreCameraSettings CoreCameraSettings;
     private Camera _camera;
     private CameraHelper _cameraHelper;
@@ -14,19 +16,26 @@ public class CoreCamera : MonoBehaviour
     private OnCameraSetupDone _onCameraSetupDone;
     private float _currentCameraSize;
     private float _toCameraSize;
+    private Vector3 _toLogoSize;
     private int? _alignCameraToHelperTwid;
-    public const float CAMERA_SETUP_TIME = 2f;
+    private int? _enlargeLogoTwid;
+    public const float CAMERA_SETUP_TIME = 4f;
+    private const float HIDE_LOGO_TIME = 0.77f;
+    private readonly Vector3 TO_LOGO_SIZE = new Vector3(44, 44, 44);
     private bool _foundTheSweetSpot;
     private bool _debugActivated;
 
     void Start()
     {
+        // TODO: Test !
+        // Main._.CoreCamera = this;
+
         _camera = gameObject.GetComponent<Camera>();
         _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
         if (_currentCameraSize == 0)
         {
             Debug.LogWarning("Please run MainMenu for [Initial Setup] Camera Adjustment");
-            _currentCameraSize = 1;
+            _currentCameraSize = 3;
         }
         _camera.orthographicSize = _currentCameraSize;
     }
@@ -38,25 +47,37 @@ public class CoreCamera : MonoBehaviour
 
     internal void InitSetup(CameraHelper cameraHelper, OnCameraSetupDone onCameraSetupDone)
     {
-        _camera.orthographicSize = 1;
+        _camera.orthographicSize = _currentCameraSize / 2;
         _cameraHelper = cameraHelper;
         _onCameraSetupDone = onCameraSetupDone;
 
+        LogoT.localScale = new Vector3(4, 4, 4);
+        RevealLogo();
+
         zoomOut();
+    }
+
+    public void DestroyLogo()
+    {
+        Destroy(LogoT.gameObject);
     }
 
     private void zoomOut()
     {
         _currentCameraSize = _camera.orthographicSize;
         _toCameraSize = _currentCameraSize * 2;
+        _toLogoSize = (_toLogoSize + (TO_LOGO_SIZE * 2));
+        Debug.Log("_toLogoSize: " + _toLogoSize);
+
+        EnlargeLogo();
 
         _alignCameraToHelperTwid = LeanTween.value(
-            Main._.CoreCamera.gameObject,
+            gameObject,
             _currentCameraSize,
             _toCameraSize,
             CAMERA_SETUP_TIME
         ).id;
-        LeanTween.descr(_alignCameraToHelperTwid.Value).setEase(LeanTweenType.easeOutCubic);
+        LeanTween.descr(_alignCameraToHelperTwid.Value).setEase(LeanTweenType.linear);
         LeanTween.descr(_alignCameraToHelperTwid.Value).setOnUpdate((float val) =>
         {
             _camera.orthographicSize = val;
@@ -81,10 +102,33 @@ public class CoreCamera : MonoBehaviour
         LeanTween.cancel(_alignCameraToHelperTwid.Value);
         _alignCameraToHelperTwid = null;
 
+        LeanTween.cancel(_enlargeLogoTwid.Value);
+        _enlargeLogoTwid = null;
+
         _currentCameraSize = _camera.orthographicSize;
         PlayerPrefs.SetFloat("orthographicSize", _currentCameraSize);
 
+        HideLogo();
         _onCameraSetupDone();
+    }
+
+    private void EnlargeLogo()
+    {
+        _enlargeLogoTwid = LeanTween.scale(LogoT.gameObject, _toLogoSize, CAMERA_SETUP_TIME).id;
+    }
+
+    private void RevealLogo()
+    {
+        LeanTween.alpha(LogoT.gameObject, 1f, CAMERA_SETUP_TIME);
+    }
+
+    private void HideLogo()
+    {
+        LeanTween.alpha(LogoT.gameObject, 0f, HIDE_LOGO_TIME)
+            .setOnComplete(() =>
+            {
+                DestroyLogo();
+            });
     }
 
     void Update()

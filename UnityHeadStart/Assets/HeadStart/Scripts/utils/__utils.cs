@@ -7,7 +7,7 @@ namespace Assets.Scripts.utils
     public static class __utils
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.0";
+        public static readonly string _version = "2.0.1";
 #pragma warning restore 0414 //
         public static string ConvertNumberToK(int num)
         {
@@ -166,6 +166,19 @@ namespace Assets.Scripts.utils
             rt.offsetMin = new Vector2(
                 rt.offsetMin.x,
                 rt.offsetMax.y + rt.offsetMin.y - height
+            );
+        }
+
+        public static void PositionRtBasedOnScreenAnchors(
+                    WorldCanvasPoint worldCanvasPoint,
+                    RectTransform rt,
+                    Vector2 screenSize
+                )
+        {
+            PositionRtBasedOnScreenAnchors(
+                Camera.main.WorldToScreenPoint(worldCanvasPoint.transform.position),
+                Camera.main.WorldToScreenPoint(worldCanvasPoint.BottomRightPoint.position),
+                rt, screenSize
             );
         }
 

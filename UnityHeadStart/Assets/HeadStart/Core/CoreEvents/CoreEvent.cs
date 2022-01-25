@@ -9,35 +9,35 @@ namespace Assets.HeadStart.Core
     {
         private object s_stationLock = new object();
         private object s_intervalLock = new object();
-        private Dictionary<Evt, List<Passenger>> e_station = new Dictionary<Evt, List<Passenger>>();
-        private Dictionary<string, List<Passenger>> s_station = new Dictionary<string, List<Passenger>>();
+        private Dictionary<Evt, List<EvtPackage>> e_station = new Dictionary<Evt, List<EvtPackage>>();
+        private Dictionary<string, List<EvtPackage>> s_station = new Dictionary<string, List<EvtPackage>>();
         private List<IDisposable> s_intervals = new List<IDisposable>();
 
         public CoreEvent() { }
 
-        public void On(Evt eventId, Action handler)
+        public EvtPackage On(Evt eventId, Action handler)
         {
-            OnEmpty(eventId, handler, Scheduler.MainThread);
+            return OnEmpty(eventId, handler, Scheduler.MainThread);
         }
 
-        public void On(Evt eventId, Action<bool> handler)
+        public EvtPackage On(Evt eventId, Action<bool> handler)
         {
-            On(eventId, handler, Scheduler.MainThread);
+            return On(eventId, handler, Scheduler.MainThread);
         }
 
-        public void On(Evt eventId, Action<object> handler)
+        public EvtPackage On(Evt eventId, Action<object> handler)
         {
-            On(eventId, handler, Scheduler.MainThread);
+            return On(eventId, handler, Scheduler.MainThread);
         }
 
-        public void On(Evt eventId, Action<bool> handler, IScheduler runOn)
+        public EvtPackage On(Evt eventId, Action<bool> handler, IScheduler runOn)
         {
             // create new slot for this bus
-            var newPassenger = new Passenger
+            var newEvtPackage = new EvtPackage
             {
                 evt = eventId
             };
-            newPassenger.disposable = newPassenger.observableBool
+            newEvtPackage.disposable = newEvtPackage.observableBool
                 .ObserveOn(runOn)
                 .Subscribe(obj => handler(obj));
 
@@ -46,23 +46,24 @@ namespace Assets.HeadStart.Core
                 // check if we already add this bus
                 if (e_station.ContainsKey(eventId))
                 {
-                    e_station[eventId].Add(newPassenger);
+                    e_station[eventId].Add(newEvtPackage);
                 }
                 else
                 {
-                    e_station[eventId] = new List<Passenger>() { newPassenger };
+                    e_station[eventId] = new List<EvtPackage>() { newEvtPackage };
                 }
             }
+            return newEvtPackage;
         }
 
-        public void On(Evt eventId, Action<object> handler, IScheduler runOn)
+        public EvtPackage On(Evt eventId, Action<object> handler, IScheduler runOn)
         {
             // create new slot for this bus
-            var newPassenger = new Passenger
+            var newEvtPackage = new EvtPackage
             {
                 evt = eventId
             };
-            newPassenger.disposable = newPassenger.observable
+            newEvtPackage.disposable = newEvtPackage.observable
                 .ObserveOn(runOn)
                 .Subscribe(obj => handler(obj));
 
@@ -71,23 +72,24 @@ namespace Assets.HeadStart.Core
                 // check if we already add this bus
                 if (e_station.ContainsKey(eventId))
                 {
-                    e_station[eventId].Add(newPassenger);
+                    e_station[eventId].Add(newEvtPackage);
                 }
                 else
                 {
-                    e_station[eventId] = new List<Passenger>() { newPassenger };
+                    e_station[eventId] = new List<EvtPackage>() { newEvtPackage };
                 }
             }
+            return newEvtPackage;
         }
 
-        private void OnEmpty(Evt eventId, Action emptyHandler, IScheduler runOn)
+        private EvtPackage OnEmpty(Evt eventId, Action emptyHandler, IScheduler runOn)
         {
             // create new slot for this bus
-            var newPassenger = new Passenger
+            var newEvtPackage = new EvtPackage
             {
                 evt = eventId
             };
-            newPassenger.disposable = newPassenger.observable
+            newEvtPackage.disposable = newEvtPackage.observable
                 .ObserveOn(runOn)
                 .Subscribe(obj => emptyHandler());
 
@@ -96,44 +98,45 @@ namespace Assets.HeadStart.Core
                 // check if we already add this bus
                 if (e_station.ContainsKey(eventId))
                 {
-                    e_station[eventId].Add(newPassenger);
+                    e_station[eventId].Add(newEvtPackage);
                 }
                 else
                 {
-                    e_station[eventId] = new List<Passenger>() { newPassenger };
+                    e_station[eventId] = new List<EvtPackage>() { newEvtPackage };
                 }
             }
+            return newEvtPackage;
         }
 
-        public void Register(object passenger, string eventId, Action<object, object> handler)
+        public void Register(object evtPackage, string eventId, Action<object, object> handler)
         {
-            Register(passenger, eventId, handler, Scheduler.MainThread);
+            Register(evtPackage, eventId, handler, Scheduler.MainThread);
         }
 
-        public void Register(object passenger, string eventId, Action<object, object> handler, IScheduler runOn)
+        public void Register(object evtPackage, string eventId, Action<object, object> handler, IScheduler runOn)
         {
             // create new slot for this bus
-            var newPassenger = new Passenger
+            var newEvtPackage = new EvtPackage
             {
-                id = passenger.GetType().FullName,
+                id = evtPackage.GetType().FullName,
                 busId = eventId
             };
-            newPassenger.disposable = newPassenger.observable
+            newEvtPackage.disposable = newEvtPackage.observable
                 .ObserveOn(runOn)
-                .Subscribe(obj => handler(passenger, obj));
+                .Subscribe(obj => handler(evtPackage, obj));
 
             lock (s_stationLock)
             {
                 // check if we already add this bus
                 if (s_station.ContainsKey(eventId))
                 {
-                    var passengers = s_station[eventId];
+                    var evtPackages = s_station[eventId];
                     var shouldAdd = true;
-                    foreach (var op in passengers)
+                    foreach (var op in evtPackages)
                     {
-                        // there is no glich on matrix that 2 version of passenger on bus
+                        // there is no glich on matrix that 2 version of evtPackage on bus
                         // at same time
-                        if (op.id == newPassenger.id)
+                        if (op.id == newEvtPackage.id)
                         {
                             shouldAdd = false;
                             break;
@@ -141,12 +144,48 @@ namespace Assets.HeadStart.Core
                     }
                     if (shouldAdd)
                     {
-                        passengers.Add(newPassenger);
+                        evtPackages.Add(newEvtPackage);
                     }
                 }
                 else
                 {
-                    s_station[eventId] = new List<Passenger>() { newPassenger };
+                    s_station[eventId] = new List<EvtPackage>() { newEvtPackage };
+                }
+            }
+        }
+
+        public void Unregister(Evt eventId)
+        {
+            lock (s_stationLock)
+            {
+                if (e_station.ContainsKey(eventId))
+                {
+                    List<EvtPackage> evtPackages = e_station[eventId];
+                    evtPackages.ForEach(p => p.disposable?.Dispose());
+                    evtPackages.Clear();
+                    e_station.Remove(eventId);
+                }
+                else
+                {
+                    Debug.LogWarning("[Event Bus] try to unregister event id [" + eventId + "] but not found");
+                }
+            }
+        }
+
+        public void Unregister(Evt eventId, Action handler)
+        {
+            lock (s_stationLock)
+            {
+                if (e_station.ContainsKey(eventId))
+                {
+                    List<EvtPackage> evtPackages = e_station[eventId];
+                    evtPackages.ForEach(p => p.disposable?.Dispose());
+                    evtPackages.Clear();
+                    e_station.Remove(eventId);
+                }
+                else
+                {
+                    Debug.LogWarning("[Event Bus] try to unregister event id [" + eventId + "] but not found");
                 }
             }
         }
@@ -157,9 +196,9 @@ namespace Assets.HeadStart.Core
             {
                 if (s_station.ContainsKey(eventId))
                 {
-                    var passengers = s_station[eventId];
-                    passengers.ForEach(p => p.disposable?.Dispose());
-                    passengers.Clear();
+                    var evtPackages = s_station[eventId];
+                    evtPackages.ForEach(p => p.disposable?.Dispose());
+                    evtPackages.Clear();
                     s_station.Remove(eventId);
                 }
                 else
@@ -169,23 +208,23 @@ namespace Assets.HeadStart.Core
             }
         }
 
-        public void Unregister(object passenger)
+        public void Unregister(object evtPackage)
         {
             lock (s_stationLock)
             {
                 foreach (var eventId in s_station.Keys)
                 {
-                    var passengers = s_station[eventId];
-                    foreach (var p in passengers)
+                    var evtPackages = s_station[eventId];
+                    foreach (var p in evtPackages)
                     {
-                        if (p.id == passenger.GetType().FullName)
+                        if (p.id == evtPackage.GetType().FullName)
                         {
                             p.disposable?.Dispose();
-                            passengers.Remove(p);
+                            evtPackages.Remove(p);
                             break;
                         }
                     }
-                    if (passengers.Count == 0)
+                    if (evtPackages.Count == 0)
                     {
                         s_station.Remove(eventId);
                         break;
@@ -200,12 +239,12 @@ namespace Assets.HeadStart.Core
             {
                 foreach (var eventId in s_station.Keys)
                 {
-                    var passengers = s_station[eventId];
-                    foreach (var p in passengers)
+                    var evtPackages = s_station[eventId];
+                    foreach (var p in evtPackages)
                     {
                         p.disposable?.Dispose();
                     }
-                    passengers.Clear();
+                    evtPackages.Clear();
                 }
                 s_station.Clear();
             }
@@ -217,8 +256,8 @@ namespace Assets.HeadStart.Core
             {
                 if (e_station.ContainsKey(eventId))
                 {
-                    var passengers = e_station[eventId];
-                    passengers.ForEach(p => p.subjectBool.OnNext(data));
+                    var evtPackages = e_station[eventId];
+                    evtPackages.ForEach(p => p.subjectBool.OnNext(data));
                     return true;
                 }
                 else
@@ -235,8 +274,8 @@ namespace Assets.HeadStart.Core
             {
                 if (e_station.ContainsKey(eventId))
                 {
-                    var passengers = e_station[eventId];
-                    passengers.ForEach(p => p.subject.OnNext(data));
+                    var evtPackages = e_station[eventId];
+                    evtPackages.ForEach(p => p.subject.OnNext(data));
                     return true;
                 }
                 else
@@ -253,8 +292,8 @@ namespace Assets.HeadStart.Core
             {
                 if (s_station.ContainsKey(eventId))
                 {
-                    var passengers = s_station[eventId];
-                    passengers.ForEach(p => p.subject.OnNext(data));
+                    var evtPackages = s_station[eventId];
+                    evtPackages.ForEach(p => p.subject.OnNext(data));
                     return true;
                 }
                 else
@@ -319,7 +358,7 @@ namespace Assets.HeadStart.Core
         }
     }
 
-    class Passenger
+    public class EvtPackage
     {
         internal Subject<object> subject = new Subject<object>();
         internal Subject<bool> subjectBool = new Subject<bool>();

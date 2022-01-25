@@ -10,7 +10,7 @@ namespace Assets.Scripts.utils
     public static class __json
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.0";
+        public static readonly string _version = "2.0.1";
 #pragma warning restore 0414 //
         public static T[] FromJson<T>(string json)
         {

@@ -12,6 +12,11 @@ namespace Assets.HeadStart.Core.Player
 
         public PlayerMouse PlayerMouse;
         public PlayerIntention PlayerIntention;
+
+        public virtual void Init()
+        {
+            
+        }
     }
 
     public enum PlayerMouse

@@ -4,6 +4,7 @@ using Assets.Scripts.utils;
 using static UnityEngine.ParticleSystem;
 using System;
 using Assets.HeadStart.Core;
+using UniRx;
 
 public class ParticleController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class ParticleController : MonoBehaviour
     public int Id;
     public bool AvailableInPool;
     public float TimeLength;
+    //
+    private Subject<bool> _playSub__ = new Subject<bool>();
 
     void Start()
     {
@@ -28,6 +31,13 @@ public class ParticleController : MonoBehaviour
         Id = Main._.Game.GetUniqueId();
         AvailableInPool = true;
         gameObject.name = gameObject.name + "    " + Id;
+
+        _playSub__
+            .Delay(TimeSpan.FromMilliseconds(10))
+            .Subscribe((bool _) =>
+            {
+                InternalPlay();
+            });
     }
 
     public void ChangeSize(bool init = false)
@@ -85,13 +95,13 @@ public class ParticleController : MonoBehaviour
 
     public virtual void Play()
     {
-        InternalPlay();
+        _playSub__.OnNext(true);
     }
 
     public virtual void Play(Vector2 point)
     {
         transform.position = new Vector3(point.x, point.y, 0);
-        InternalPlay();
+        _playSub__.OnNext(true);
     }
 
     public void InternalPlay()

@@ -9,6 +9,8 @@ public class Score
     public int Year { get; set; }
     public int Points { get; set; }
 
+    public Score() { }
+
     public ScoreDebug Debug()
     {
         return new ScoreDebug()

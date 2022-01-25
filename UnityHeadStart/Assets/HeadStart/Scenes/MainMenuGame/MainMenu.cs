@@ -59,11 +59,21 @@ public class MainMenu : MonoBehaviour, IUiView
         ResetActions();
 
         User user = Main._.Game.DeviceUser();
-        League league = __data.GetThisWeeksLeague();
-        WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
         UserNameTxt.text = user.Name;
-        ToiletPaperTxt.text = user.ToiletPaper.ToString();
-        HighWeekPointsTxt.text = weekScoreResult.Points.ToString();
+        League league = __data.GetThisWeeksLeague();
+        if (league != null)
+        {
+            WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
+            if (weekScoreResult != null)
+            {
+                ToiletPaperTxt.text = user.ToiletPaper.ToString();
+                HighWeekPointsTxt.text = weekScoreResult.Points.ToString();
+            }
+            return;
+        }
+
+        ToiletPaperTxt.text = string.Empty;
+        HighWeekPointsTxt.text = string.Empty;
     }
 
     public void OnFocussed()

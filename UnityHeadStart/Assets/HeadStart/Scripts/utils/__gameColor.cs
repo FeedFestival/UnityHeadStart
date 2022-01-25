@@ -38,6 +38,7 @@ namespace Assets.Scripts.utils
         private static void SetupHexes()
         {
             _hexes = new Dictionary<string, string>();
+            AddHex("White", "ffffff");
             AddHex("Blue_Dark_Ebony_Clay", "232c40");
 
             // Non Colors

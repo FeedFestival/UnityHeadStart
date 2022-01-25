@@ -12,23 +12,21 @@ public class ChallengeCanvas : MonoBehaviour
         ChallengeTable.gameObject.SetActive(false);
     }
 
-    public void Init(Transform TLPoint, Transform BRPoint)
+    public void Init(WorldCanvasPoint tableWCP)
     {
         __world2d.PositionRtBasedOnScreenAnchors(
-            topLeftAnchor: Camera.main.WorldToScreenPoint(TLPoint.position),
-            bottomRightAnchor: Camera.main.WorldToScreenPoint(BRPoint.position),
-            rt: (transform as RectTransform),
+            tableWCP, rt: (transform as RectTransform),
             screenSize: Main._.CoreCamera.Canvas.sizeDelta
         );
 
         _isInitialized = true;
     }
 
-    public void Show(Transform TLPoint, Transform BRPoint)
+    public void Show(WorldCanvasPoint tableWCP)
     {
         if (_isInitialized == false)
         {
-            Init(TLPoint, BRPoint);
+            Init(tableWCP);
         }
 
         List<HighScore> highscores = Main._.Game.DataService.GetChallengersHighscores();

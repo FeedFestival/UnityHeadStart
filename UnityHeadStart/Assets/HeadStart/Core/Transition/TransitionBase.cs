@@ -9,7 +9,7 @@ public enum Transition
 public class TransitionBase : MonoBehaviour, IDependency, ITransition
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.0";
+    public static readonly string _version = "2.0.1";
 #pragma warning restore 0414 //
 
     public Color StartColor;
@@ -17,7 +17,7 @@ public class TransitionBase : MonoBehaviour, IDependency, ITransition
     internal Transition Transition;
     private CoreCallback _onTransitionEnd;
     private int? _fadeAnimationId;
-    internal const float TRANSITION_TIME = 0.6f;
+    internal readonly float TRANSITION_TIME = 0.44f;
 
     public void Init()
     {
