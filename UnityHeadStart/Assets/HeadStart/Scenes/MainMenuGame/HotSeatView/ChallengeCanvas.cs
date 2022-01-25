@@ -6,6 +6,7 @@ public class ChallengeCanvas : MonoBehaviour
 {
     public GsTable ChallengeTable;
     private bool _isInitialized;
+    private RectTransform _rt;
 
     void Awake()
     {
@@ -14,8 +15,9 @@ public class ChallengeCanvas : MonoBehaviour
 
     public void Init(WorldCanvasPoint tableWCP)
     {
+        _rt = (transform as RectTransform);
         __world2d.PositionRtBasedOnScreenAnchors(
-            tableWCP, rt: (transform as RectTransform),
+            tableWCP, rt: _rt,
             screenSize: Main._.CoreCamera.Canvas.sizeDelta
         );
 
@@ -51,6 +53,7 @@ public class ChallengeCanvas : MonoBehaviour
             orderNr++;
         }
 
+        ChallengeTable.CalculateRowHeight(_rt.sizeDelta.x, _rt.sizeDelta.y, 10);
         ChallengeTable.gameObject.SetActive(true);
         ChallengeTable.SetData(tableData);
     }

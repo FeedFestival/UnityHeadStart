@@ -186,7 +186,7 @@ SELECT
     usr.Name
 FROM User as usr
 ORDER BY usr.Id DESC
-LIMIT 4
+LIMIT 8
         ");
         return users;
     }

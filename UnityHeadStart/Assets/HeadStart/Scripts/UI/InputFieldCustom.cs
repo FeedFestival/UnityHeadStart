@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.utils;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class InputFieldCustom : MonoBehaviour
@@ -9,6 +6,7 @@ public class InputFieldCustom : MonoBehaviour
     public Image BorderDown;
     public Text Label;
     public InputField InputField;
+    public Color LabelColor;
 
     public bool AllUppercase;
 
@@ -30,19 +28,21 @@ public class InputFieldCustom : MonoBehaviour
     public delegate void OnChangeCallback();
     public OnChangeCallback OnChangeDelegate;
 
-    private void Start()
+    public void Init(float pWidth)
     {
-        Init();
+        _labelWidth = pWidth;
+        InternalInit();
         OnBlur();
     }
 
-    private void Init()
+    private void InternalInit()
     {
         _labelMaxHeight = Label.GetComponent<RectTransform>().sizeDelta.y;
-        _labelWidth = Label.GetComponent<RectTransform>().sizeDelta.x;
+        Label.GetComponent<RectTransform>().sizeDelta = new Vector2(_labelWidth, _labelMaxHeight);
         _labelFontSize = Label.fontSize;
 
         _borderDownHeight = BorderDown.GetComponent<RectTransform>().sizeDelta.y;
+        _borderDownMaxWidth = _labelWidth;
     }
 
     public void OnFocus()
@@ -60,7 +60,7 @@ public class InputFieldCustom : MonoBehaviour
         }
         else
         {
-            var color = __gameColor.GetColor(COLOR.Red_Brown_Eggplant);
+            var color = LabelColor;
             color.a = 0;
             Label.color = color;
             LeanTween.alphaText(Label.gameObject.GetComponent<RectTransform>(), 1, _animationSpeed);
@@ -76,7 +76,7 @@ public class InputFieldCustom : MonoBehaviour
     {
         if (initial)
         {
-            Init();
+            InternalInit();
 
             if (string.IsNullOrWhiteSpace(InputField.text) == false)
             {
@@ -101,7 +101,7 @@ public class InputFieldCustom : MonoBehaviour
         }
         else
         {
-            var color = __gameColor.GetColor(COLOR.Red_Brown_Eggplant);
+            var color = LabelColor;
             color.a = 255;
             Label.color = color;
             LeanTween.alphaText(Label.gameObject.GetComponent<RectTransform>(), 0, _animationSpeed);

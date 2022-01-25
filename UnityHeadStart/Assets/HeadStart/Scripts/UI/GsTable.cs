@@ -8,8 +8,13 @@ public class GsTable : MonoBehaviour
     public GsTableRow DefaultRow;
     public List<GsTableRow> Rows;
     private bool _initialized;
+    private float _rowWidth;
+    private float _rowHeight;
+
     void Init()
     {
+        var newSize = new Vector2(_rowWidth, _rowHeight);
+        (DefaultRow.transform as RectTransform).sizeDelta = newSize;
         GameObject go;
         GsTableRow gsRow;
         for (var i = 0; i < 9; i++)
@@ -22,6 +27,7 @@ public class GsTable : MonoBehaviour
             );
             var localP = (go.transform as RectTransform).localPosition;
             (go.transform as RectTransform).localPosition = Vector3.zero;
+            (go.transform as RectTransform).sizeDelta = newSize;
             gsRow = go.GetComponent<GsTableRow>();
             if (i % 2 != 0)
             {
@@ -60,6 +66,12 @@ public class GsTable : MonoBehaviour
                 i++;
             }
         }, 0.1f);
+    }
+
+    public void CalculateRowHeight(float maxWidth, float maxHeight, int maxRows)
+    {
+        _rowHeight = maxHeight / maxRows;
+        _rowWidth = maxWidth;
     }
 }
 

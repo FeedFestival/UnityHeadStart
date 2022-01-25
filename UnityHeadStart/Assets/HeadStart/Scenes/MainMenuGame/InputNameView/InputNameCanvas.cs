@@ -16,6 +16,7 @@ public class InputNameCanvas : MonoBehaviour
 
     void Awake()
     {
+        _rt = transform as RectTransform;
         InputFieldCustom.gameObject.SetActive(false);
         ChallengersContainer.SetActive(false);
     }
@@ -25,10 +26,12 @@ public class InputNameCanvas : MonoBehaviour
         if (worldCanvasPoint)
         {
             __world2d.PositionRtBasedOnScreenAnchors(
-                worldCanvasPoint, rt: (transform as RectTransform),
+                worldCanvasPoint, rt: _rt,
                 screenSize: Main._.CoreCamera.Canvas.sizeDelta
             );
         }
+
+        InputFieldCustom.Init(_rt.sizeDelta.x);
 
         if (Main._.Game.DeviceUser().IsFirstTime)
         {
