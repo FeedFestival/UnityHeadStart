@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class CoreCamera : MonoBehaviour
 {
-    public RectTransform Canvas;
+    public RectTransform CanvasRt;
+    [HideInInspector]
+    public Canvas Canvas;
     public RectTransform Views;
     public Image LoadingOverlay;
     // TODO: add Logo functionality to HeadStart
@@ -25,11 +27,13 @@ public class CoreCamera : MonoBehaviour
     private bool _foundTheSweetSpot;
     private bool _debugActivated;
 
+    void Awake()
+    {
+        Canvas = CanvasRt.GetComponent<Canvas>();
+    }
+
     void Start()
     {
-        // TODO: Test !
-        // Main._.CoreCamera = this;
-
         _camera = gameObject.GetComponent<Camera>();
         _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
         if (_currentCameraSize == 0)

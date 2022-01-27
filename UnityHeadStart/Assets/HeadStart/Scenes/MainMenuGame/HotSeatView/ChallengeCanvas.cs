@@ -18,7 +18,7 @@ public class ChallengeCanvas : MonoBehaviour
         _rt = (transform as RectTransform);
         __world2d.PositionRtBasedOnScreenAnchors(
             tableWCP, rt: _rt,
-            screenSize: Main._.CoreCamera.Canvas.sizeDelta
+            screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
         );
 
         _isInitialized = true;

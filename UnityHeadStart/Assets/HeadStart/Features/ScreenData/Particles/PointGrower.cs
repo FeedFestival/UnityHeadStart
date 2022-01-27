@@ -36,7 +36,7 @@ namespace Assets.HeadStart.Features.ScreenData
             _rt = gameObject.GetComponent<RectTransform>();
             __world2d.PositionRtBasedOnScreenAnchors(
                 pointsWCP, rt: _rt,
-                screenSize: Main._.CoreCamera.Canvas.sizeDelta
+                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
             );
             _normalSize = _rt.sizeDelta;
             Pos = new Vector2(

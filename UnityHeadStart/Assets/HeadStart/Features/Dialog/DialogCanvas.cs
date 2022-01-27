@@ -1,28 +1,38 @@
-using System;
 using Assets.HeadStart.Core;
+using Assets.Scripts.utils;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Assets.HeadStart.Features.Dialog
 {
     public class DialogCanvas : MonoBehaviour
     {
-        public Text TextTitle;
-        public Text TextInfo;
+        public TMP_Text TextTitle;
+        public TMP_Text TextInfo;
         public Button ButtonRetry;
         public Button ButtonContinue;
         private CoreCallback _retryCallback;
         private CoreCallback _continueCallback;
         private bool _initialized;
 
+        public void SetPosition(WorldCanvasPoint dialogWCP)
+        {
+            __world2d.PositionRtBasedOnScreenAnchors(
+                dialogWCP, rt: transform as RectTransform,
+                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+            );
+        }
+
         private void Init()
         {
+
+
             ButtonRetry.onClick.AddListener(() =>
             {
                 if (_retryCallback != null)
                 {
                     _retryCallback();
-                    // Close();
                 }
             });
             ButtonContinue.onClick.AddListener(() =>
@@ -30,7 +40,6 @@ namespace Assets.HeadStart.Features.Dialog
                 if (_continueCallback != null)
                 {
                     _continueCallback();
-                    // Close();
                 }
             });
 

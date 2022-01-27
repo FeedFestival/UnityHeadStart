@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f198d556bd77ab848a322b6c7fa8333a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DialogHelperWCP: {fileID: 6840570617283952941, guid: 305dc2af23b191f45aac37c85078c9df,
+    type: 3}
   DialogCanvasPrefab: {fileID: 4420074961557419332, guid: be475aa856465bf409de645d496831ed,
     type: 3}

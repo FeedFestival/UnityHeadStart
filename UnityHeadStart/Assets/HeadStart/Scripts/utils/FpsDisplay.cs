@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FpsDisplay : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.1";
+    public static readonly string _version = "2.0.6";
 #pragma warning restore 0414 //
     public Text Text;
     float deltaTime = 0.0f;

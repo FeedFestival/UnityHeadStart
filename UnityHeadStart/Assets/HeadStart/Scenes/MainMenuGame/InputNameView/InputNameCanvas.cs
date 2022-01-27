@@ -27,7 +27,7 @@ public class InputNameCanvas : MonoBehaviour
         {
             __world2d.PositionRtBasedOnScreenAnchors(
                 worldCanvasPoint, rt: _rt,
-                screenSize: Main._.CoreCamera.Canvas.sizeDelta
+                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
             );
         }
 

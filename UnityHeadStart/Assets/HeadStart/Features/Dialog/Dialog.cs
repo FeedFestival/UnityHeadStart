@@ -4,6 +4,7 @@ namespace Assets.HeadStart.Features.Dialog
 {
     public class Dialog : MonoBehaviour, IDependency, IDialog
     {
+        public GameObject DialogHelperWCP;
         [SerializeField]
         private GameObject DialogCanvasPrefab;
         private DialogCanvas _dialogCanvas;
@@ -18,6 +19,18 @@ namespace Assets.HeadStart.Features.Dialog
             );
             (go.transform as RectTransform).localPosition = Vector3.zero;
             _dialogCanvas = go.GetComponent<DialogCanvas>();
+
+            go = Instantiate(
+                DialogHelperWCP,
+                Vector3.zero,
+                Quaternion.identity
+            );
+
+            // we need to look insode the dialogHelper
+            WorldCanvasPoint dialogWCP = go.transform.GetChild(0).gameObject.GetComponent<WorldCanvasPoint>();
+            _dialogCanvas.SetPosition(dialogWCP);
+            Destroy(go);
+            dialogWCP = null;
         }
 
         public void Show(DialogOptions options)

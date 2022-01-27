@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fe3499cd033494cbb7a079c040d900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanvasRt: {fileID: 5770114182095718684}
   Canvas: {fileID: 5770114182095718684}
   Views: {fileID: 5770114180525815702}
   LoadingOverlay: {fileID: 5770114181338269958}

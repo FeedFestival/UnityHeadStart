@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Assets.HeadStart.Core.SceneService;
 using Assets.HeadStart.Features.Dialog;
@@ -19,12 +20,21 @@ namespace Assets.HeadStart.Core
                 hasCoreExtension = true;
                 coreExtension = Main._.CoreExtension;
             }
-            GameObject drGo = Object.Instantiate(Resources.Load(coreExtension + "DependencyResolver")) as GameObject;
-            if (hasCoreExtension && drGo == null)
+            GameObject drGo;
+            if (hasCoreExtension)
             {
-                Debug.LogWarning("<b> NO (" + coreExtension + ") Extension found for </b>"
-                    + " \"HeadStart/Resources/DependencyResolver\". Selecting default one. ");
-                drGo = Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
+                try
+                {
+                    drGo = UnityEngine.Object.Instantiate(Resources.Load(coreExtension + "DependencyResolver")) as GameObject;
+                }
+                catch (ArgumentException e)
+                {
+                    Debug.LogWarning("<b> NO (" + coreExtension + ") Extension found for </b>"
+                        + " \"HeadStart/Resources/DependencyResolver\". Selecting default one. \n " + e);
+                    drGo = UnityEngine.Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
+                }
+            } else {
+                drGo = UnityEngine.Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
             }
             drGo.name = "____________dependencies____________";
             IoCDependencyResolver = drGo.GetComponent<IoCDependencyResolver>();
@@ -63,12 +73,21 @@ namespace Assets.HeadStart.Core
                 hasCoreExtension = true;
                 coreExtension = Main._.CoreExtension;
             }
-            GameObject drGo = Object.Instantiate(Resources.Load(coreExtension + "SceneDependencyResolver")) as GameObject;
-            if (hasCoreExtension && drGo == null)
+            GameObject drGo;
+            if (hasCoreExtension)
             {
-                Debug.LogWarning("<b> NO (" + coreExtension + ") Extension found for </b>"
-                    + " \"HeadStart/Resources/SceneDependencyResolver\". Selecting default one. ");
-                drGo = Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
+                try
+                {
+                    drGo = UnityEngine.Object.Instantiate(Resources.Load(coreExtension + "SceneDependencyResolver")) as GameObject;
+                }
+                catch (ArgumentException e)
+                {
+                    Debug.LogWarning("<b> NO (" + coreExtension + ") Extension found for </b>"
+                        + " \"HeadStart/Resources/SceneDependencyResolver\". Selecting default one. \n " + e);
+                    drGo = UnityEngine.Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
+                }
+            } else {
+                drGo = UnityEngine.Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
             }
             drGo.name = "_________sceneDependencies__________";
             IoCDependencyResolver = drGo.GetComponent<IoCSceneDependencyResolver>();
