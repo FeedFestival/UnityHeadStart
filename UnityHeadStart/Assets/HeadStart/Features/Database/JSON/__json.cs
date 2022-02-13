@@ -1,17 +1,28 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace Assets.Scripts.utils
+namespace Assets.HeadStart.Features.Database.JSON
 {
-    public interface IJsonConsole
-    {
-        string ToJsonString();
-    }
-    
     public static class __json
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.7";
+        public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
+
+        private static JSONDatabase _jsonDatabase;
+        public static JSONDatabase Database
+        {
+            get
+            {
+                if (_jsonDatabase == null)
+                {
+                    var go = UnityEngine.Object.Instantiate(Resources.Load("Features/JSONDatabase")) as GameObject;
+                    go.name = "FEATURE JSONDatabase";
+                    _jsonDatabase = go.GetComponent<JSONDatabase>();
+                }
+                return _jsonDatabase;
+            }
+        }
+
         public static T[] FromJson<T>(string json)
         {
             json = FixJson(json);
@@ -47,10 +58,23 @@ namespace Assets.Scripts.utils
             public T ItemsObj;
         }
 
+        public static void DumpToJsonConsole(IJsonConsole[] jsonConsoles)
+        {
+            foreach (var json in jsonConsoles)
+            {
+                Debug.Log(json.ToJsonString());
+            }
+        }
+
         private static string FixJson(string value)
         {
             value = "{\"Items\":" + value + "}";
             return value;
         }
+    }
+
+    public interface IJsonConsole
+    {
+        string ToJsonString();
     }
 }

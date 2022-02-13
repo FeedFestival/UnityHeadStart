@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Assets.HeadStart.Features.Database;
 using Assets.HeadStart.Time;
 using Assets.Scripts.utils;
 using SQLite4Unity3d;
@@ -10,7 +11,7 @@ using UnityEngine;
 public class VersionChecker : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.7";
+    public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
 #if UNITY_EDITOR
     readonly List<VersionCheckFile> versionCheckFiles = new List<VersionCheckFile>()
@@ -26,10 +27,6 @@ public class VersionChecker : MonoBehaviour
         new VersionCheckFile("FpsDisplay",
             "HeadStart/Assets/HeadStart/Scripts/utils/FpsDisplay.cs",
             FpsDisplay._version
-        ),
-        new VersionCheckFile("__json",
-            "HeadStart/Assets/HeadStart/Scripts/utils/__json.cs",
-            __json._version
         ),
         new VersionCheckFile("Main",
             "HeadStart/Assets/HeadStart/Scripts/Main.cs",

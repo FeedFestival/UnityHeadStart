@@ -5,7 +5,7 @@ namespace Assets.HeadStart.CoreUi
     public static class __ui
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.7";
+        public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
         private static Dictionary<UiDependency, IUiDependency> _uiCoreDependencies = new Dictionary<UiDependency, IUiDependency>();
         private static Dictionary<int, IUiDependency> _uiCustomDependencies = new Dictionary<int, IUiDependency>();

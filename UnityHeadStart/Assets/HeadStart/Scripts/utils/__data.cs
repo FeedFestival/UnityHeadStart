@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Globalization;
 using System.IO;
+using Assets.HeadStart.Features.Database;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,7 +11,7 @@ namespace Assets.Scripts.utils
     public static class __data
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.7";
+        public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
         public static string GetDataValue(string data, string index)
         {

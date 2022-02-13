@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Core
     public static class CoreIoC
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.7";
+        public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
         public static IoCDependencyResolver IoCDependencyResolver;
         private static Dictionary<Dependency, bool> _initializedDependencies = new Dictionary<Dependency, bool>();

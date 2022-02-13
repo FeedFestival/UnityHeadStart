@@ -14,7 +14,7 @@ namespace Assets.HeadStart.Time
     public class TimeBase : MonoBehaviour, IDependency, ITime
     {
 #pragma warning disable 0414 //
-        public static readonly string _version = "2.0.7";
+        public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
         private AsyncForEachCallback _asyncForEach;
         private AsyncForEachCallbackIndex _asyncForEachIndex;

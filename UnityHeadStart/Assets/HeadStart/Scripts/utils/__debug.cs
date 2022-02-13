@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
-using System.Reflection;
-using Assets.Scripts.utils;
+using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 
 namespace Assets.Scripts.utils
@@ -9,7 +8,7 @@ namespace Assets.Scripts.utils
     public static class __debug
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.7";
+        public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
         public static void DumpToConsole(object obj, bool isArray = false)
         {
@@ -29,14 +28,6 @@ namespace Assets.Scripts.utils
         {
             string output = JsonUtility.ToJson(obj, true);
             return output;
-        }
-
-        public static void DumpToJsonConsole(IJsonConsole[] jsonConsoles)
-        {
-            foreach (var json in jsonConsoles)
-            {
-                Debug.Log(json.ToJsonString());
-            }
         }
 
         public static string DebugList(List<int> array, string name)
