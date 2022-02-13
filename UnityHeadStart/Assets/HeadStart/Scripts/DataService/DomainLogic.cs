@@ -8,6 +8,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class DomainLogic : MonoBehaviour
 {
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
     public void DeleteDataBase()
     {
         var dataService = new DataService();

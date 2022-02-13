@@ -1,10 +1,12 @@
-using System;
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.SFX;
 using UnityEngine;
 
 public class GameButton : MonoBehaviour
 {
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
     public Color EnableColor;
     public Color DisableColor;
     public ActionDisabler ActionDisabler;

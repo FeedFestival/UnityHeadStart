@@ -8,7 +8,7 @@ namespace Assets.HeadStart.Core.SFX
     public class SFXBase : MonoBehaviour, IDependency, ISFX
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.6";
+        public static readonly string _version = "2.0.7";
 #pragma warning restore 0414 //
         protected  Dictionary<string, MAudio> Sounds;
         public AudioClip MainMenuMusic;

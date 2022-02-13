@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class EffectsPool : MonoBehaviour
 {
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
     public Dictionary<int, List<ParticleController>> ParticleControllers;
 
     public virtual void GenerateParticleControllers()

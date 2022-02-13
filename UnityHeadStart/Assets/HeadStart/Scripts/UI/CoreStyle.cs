@@ -1,11 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
 public static class __style
 {
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
     private static Subject<bool> _calculateDomSub__ = new Subject<bool>();
     private static Subject<int> _eachStyleSub__;
     private static List<LayoutStyle> _layoutStyles;

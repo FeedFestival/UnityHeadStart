@@ -8,6 +8,9 @@ namespace Assets.Scripts.utils
 {
     public static class __debug
     {
+#pragma warning disable 0414 // private field assigned but not used.
+        public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
         public static void DumpToConsole(object obj, bool isArray = false)
         {
             string output = string.Empty;
@@ -48,7 +51,13 @@ namespace Assets.Scripts.utils
 
         public delegate string DebugFunc<T>(T obj);
 
-        public static string DebugList<T>(List<T> array, string name = null, DebugFunc<T> debugFunc = null)
+        public static void DebugList<T>(List<T> array, string name = null, DebugFunc<T> debugFunc = null)
+        {
+            var debugString = GetDebugList(array, name, debugFunc);
+            Debug.Log(debugString);
+        }
+
+        public static string GetDebugList<T>(List<T> array, string name = null, DebugFunc<T> debugFunc = null)
         {
             string debug = string.Empty;
             foreach (T bId in array)

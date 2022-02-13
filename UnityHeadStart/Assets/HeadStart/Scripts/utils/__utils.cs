@@ -7,7 +7,7 @@ namespace Assets.Scripts.utils
     public static class __utils
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.6";
+        public static readonly string _version = "2.0.7";
 #pragma warning restore 0414 //
         public static string ConvertNumberToK(int num)
         {
@@ -141,7 +141,8 @@ namespace Assets.Scripts.utils
             Vector3 topLeftAnchor,
             Vector3 bottomRightAnchor,
             RectTransform rt,
-            Vector2 screenSize
+            Vector2 screenSize,
+            Vector2? pivot
         )
         {
             var left = topLeftAnchor.x;
@@ -149,7 +150,15 @@ namespace Assets.Scripts.utils
             var width = Mathf.Abs(topLeftAnchor.x - bottomRightAnchor.x);
             var height = Mathf.Abs(topLeftAnchor.y - bottomRightAnchor.y);
 
-            rt.pivot = Vector2.zero;
+            if (pivot.HasValue)
+            {
+                rt.pivot = Vector2.one / 2;
+            }
+            else
+            {
+                rt.pivot = Vector2.zero;
+            }
+
             rt.anchorMax = Vector2.zero;
             rt.anchorMin = Vector2.zero;
 
@@ -172,13 +181,14 @@ namespace Assets.Scripts.utils
         public static void PositionRtBasedOnScreenAnchors(
                     WorldCanvasPoint worldCanvasPoint,
                     RectTransform rt,
-                    Vector2 screenSize
+                    Vector2 screenSize,
+                    Vector2? pivot = null
                 )
         {
             PositionRtBasedOnScreenAnchors(
                 Camera.main.WorldToScreenPoint(worldCanvasPoint.transform.position),
                 Camera.main.WorldToScreenPoint(worldCanvasPoint.BottomRightPoint.position),
-                rt, screenSize
+                rt, screenSize, pivot
             );
         }
 

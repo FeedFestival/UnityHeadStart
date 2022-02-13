@@ -7,6 +7,9 @@ namespace Assets.HeadStart.Time
 {
     public class WaitOption
     {
+#pragma warning disable 0414 // private field assigned but not used.
+        public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
         public InternalWaitCallback WaitCallback { get; set; }
         public IEnumerator WaitFunc { get; set; }
         public bool WaitOneFrame { get; set; }

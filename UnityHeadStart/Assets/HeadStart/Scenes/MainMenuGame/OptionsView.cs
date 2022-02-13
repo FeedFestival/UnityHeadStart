@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.HeadStart.Core;
+﻿using Assets.HeadStart.Core;
 using UnityEngine;
 
 public class OptionsView : MonoBehaviour, IUiView

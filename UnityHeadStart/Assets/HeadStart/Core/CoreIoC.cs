@@ -8,6 +8,9 @@ namespace Assets.HeadStart.Core
 {
     public static class CoreIoC
     {
+#pragma warning disable 0414 // private field assigned but not used.
+        public static readonly string _version = "2.0.7";
+#pragma warning restore 0414 //
         public static IoCDependencyResolver IoCDependencyResolver;
         private static Dictionary<Dependency, bool> _initializedDependencies = new Dictionary<Dependency, bool>();
 
@@ -33,7 +36,9 @@ namespace Assets.HeadStart.Core
                         + " \"HeadStart/Resources/DependencyResolver\". Selecting default one. \n " + e);
                     drGo = UnityEngine.Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
                 }
-            } else {
+            }
+            else
+            {
                 drGo = UnityEngine.Object.Instantiate(Resources.Load("DependencyResolver")) as GameObject;
             }
             drGo.name = "____________dependencies____________";
@@ -86,7 +91,9 @@ namespace Assets.HeadStart.Core
                         + " \"HeadStart/Resources/SceneDependencyResolver\". Selecting default one. \n " + e);
                     drGo = UnityEngine.Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
                 }
-            } else {
+            }
+            else
+            {
                 drGo = UnityEngine.Object.Instantiate(Resources.Load("SceneDependencyResolver")) as GameObject;
             }
             drGo.name = "_________sceneDependencies__________";
