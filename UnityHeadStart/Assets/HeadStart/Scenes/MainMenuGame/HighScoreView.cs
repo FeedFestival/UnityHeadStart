@@ -22,7 +22,7 @@ public class HighScoreView : MonoBehaviour, IUiView
         });
         ButtonPlay.OnClick(() =>
         {
-            Debug.Log("Play Game");
+            Debug.Log("TODO: Play Game");
         });
 
         _isInitialized = true;

@@ -30,6 +30,14 @@ namespace Assets.Scripts.utils
             return output;
         }
 
+        public static void DumpToJsonConsole(IJsonConsole[] jsonConsoles)
+        {
+            foreach (var json in jsonConsoles)
+            {
+                Debug.Log(json.ToJsonString());
+            }
+        }
+
         public static string DebugList(List<int> array, string name)
         {
             string debug = string.Empty;

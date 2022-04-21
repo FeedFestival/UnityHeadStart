@@ -31,10 +31,7 @@ public class Main : MonoBehaviour
         CoreCamera = Camera.main.GetComponent<CoreCamera>();
         __.Transition.PitchBlack();
 
-        if (ConsoleLog)
-        {
-            Debug.Log("Starting... Checking to Make Sure Everything is running");
-        }
+        if (ConsoleLog) Debug.Log("Starting... Checking to Make Sure Everything is running");
 
         _checkVersionSub__
             .Delay(TimeSpan.FromMilliseconds(MILISECONDS_BETWEEN_CHECKS))
@@ -44,7 +41,8 @@ public class Main : MonoBehaviour
                 CheckForUpdates = false;
 #endif
 #if UNITY_EDITOR
-                if (CheckForUpdates) {
+                if (CheckForUpdates)
+                {
                     VersionChecker versionChecker = gameObject.AddComponent<VersionChecker>();
                     versionChecker.Check();
                     Destroy(gameObject.GetComponent<VersionChecker>());

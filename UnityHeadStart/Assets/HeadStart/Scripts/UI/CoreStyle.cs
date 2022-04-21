@@ -8,7 +8,7 @@ public static class __style
 #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
-    private static Subject<bool> _calculateDomSub__ = new Subject<bool>();
+    private static Subject<bool> _calculateDomSub__;
     private static Subject<int> _eachStyleSub__;
     private static List<LayoutStyle> _layoutStyles;
 
@@ -18,15 +18,14 @@ public static class __style
         {
             _layoutStyles = new List<LayoutStyle>();
 
+            _calculateDomSub__ = new Subject<bool>();
             _calculateDomSub__
             .Throttle(TimeSpan.FromMilliseconds(10))
             .Subscribe((bool _) =>
             {
-                Debug.Log("CalculateDom");
                 CalculateDom();
             });
         }
-        Debug.Log(layoutStyle.gameObject.name);
         _layoutStyles.Add(layoutStyle);
         _calculateDomSub__.OnNext(true);
     }
@@ -44,8 +43,6 @@ public static class __style
         .Subscribe((int index) =>
         {
             _layoutStyles[index].CalculateDom();
-            Debug.Log("index: " + index);
-            Debug.Log("_layoutStyles.Count: " + _layoutStyles.Count);
             if (index == _layoutStyles.Count - 1)
             {
                 Clear();
@@ -53,7 +50,6 @@ public static class __style
             else
             {
                 int newIndex = index + 1;
-                Debug.Log("newIndex: " + newIndex);
                 _eachStyleSub__.OnNext(newIndex);
             }
         });

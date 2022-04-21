@@ -75,10 +75,7 @@ public class GameBase : MonoBehaviour, IGame
             };
             DataService.CreateUser(_user);
         }
-        if (Main._.ConsoleLog)
-        {
-            Debug.Log(JsonUtility.ToJson(_user.Debug()));
-        }
+        if (Main._.ConsoleLog) Debug.Log(JsonUtility.ToJson(_user.Debug()));
         return _user;
     }
 

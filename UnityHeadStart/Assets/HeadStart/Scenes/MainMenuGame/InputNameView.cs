@@ -43,11 +43,11 @@ public class InputNameView : MonoBehaviour, IUiView
                 {
                     playingUser.LocalId = Main._.Game.DataService.CreateUser(playingUser);
                     MenuEnvironment._.UpdateSessionUserId(playingUser.LocalId);
-                    Debug.Log(JsonUtility.ToJson(MenuEnvironment._.GetChallengeSession().User.Debug()));
+                    if (Main._.ConsoleLog) Debug.Log(JsonUtility.ToJson(MenuEnvironment._.GetChallengeSession().User.Debug()));
                 }
                 else
                 {
-                    Debug.Log("User exists");
+                    if (Main._.ConsoleLog) Debug.Log("User exists");
                 }
                 MenuEnvironment._.GetChallengeSession().IsChallenge = true;
             }
