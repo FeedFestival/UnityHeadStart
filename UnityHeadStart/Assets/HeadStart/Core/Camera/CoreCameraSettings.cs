@@ -5,4 +5,5 @@ public class CoreCameraSettings : ScriptableObject
 {
     [Header("Prefabs")]
     public GameObject IngameDebugConsole;
+    public GameObject Initial2D;
 }
