@@ -339,7 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ButtonBack: {fileID: 1920527989399261128}
   ButtonPlay: {fileID: 2712825084410937384}
-  WorldCanvasPoint: {fileID: 0}
+  WorldCanvasPoint: {fileID: 4739275895389497003}
   InputNameSettings: {fileID: 11400000, guid: 8aef8efafa2bcd74a9d74fee27cf99eb, type: 2}
 --- !u!1 &2712825085231643787
 GameObject:
@@ -449,14 +449,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2712825086140368096}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4300003, y: -3.1200001, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 3.23, y: -3.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2712825086178189673}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &2712825086140368110
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -498,7 +498,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3286163911610860551, guid: 248de70add3d4b8428921247fdd5d2f4,
+  m_Sprite: {fileID: 3286163911610860551, guid: b393ec9c6fcb1eb45bda27db24b701d6,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -536,7 +536,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2712825086178189672}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.57, y: 3.7, z: 0}
+  m_LocalPosition: {x: -1.44, y: 3.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -585,9 +585,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3286163911610860551, guid: 248de70add3d4b8428921247fdd5d2f4,
+  m_Sprite: {fileID: 3286163911610860551, guid: b393ec9c6fcb1eb45bda27db24b701d6,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.47917986, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

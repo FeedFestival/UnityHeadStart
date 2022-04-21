@@ -517,7 +517,7 @@ MonoBehaviour:
   ButtonBack: {fileID: 7886475685636935816}
   ButtonPlay: {fileID: 9021634878255673871}
   ChallengeSettings: {fileID: 11400000, guid: b618149e51969bb43ababa533dad3bab, type: 2}
-  tableWCP: {fileID: 0}
+  tableWCP: {fileID: 4838462407841980575}
 --- !u!1 &5940408262761173507
 GameObject:
   m_ObjectHideFlags: 0
