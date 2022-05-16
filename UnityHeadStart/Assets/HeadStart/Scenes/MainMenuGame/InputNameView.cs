@@ -1,23 +1,27 @@
 ﻿using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InputNameView : MonoBehaviour, IUiView
 {
     public GameButton ButtonBack;
     public GameButton ButtonPlay;
     public WorldCanvasPoint WorldCanvasPoint;
-    private InputNameCanvas _inputNameCanvas;
+    internal InputNameCanvas InputNameCanvas;
     public InputNameSettings InputNameSettings;
     private bool _isInitialized;
     private bool _isInputInitialized;
     private string _userInputChangedName;
 
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+
     private void Init()
     {
         ButtonBack.OnClick(() =>
         {
-            _inputNameCanvas.gameObject.SetActive(false);
-            _inputNameCanvas.CancelChallenge();
+            InputNameCanvas.gameObject.SetActive(false);
+            InputNameCanvas.CancelChallenge();
             MenuEnvironment._.ClearChallengeSession();
             MenuEnvironment._.Back();
         });
@@ -25,8 +29,8 @@ public class InputNameView : MonoBehaviour, IUiView
         ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
-            _inputNameCanvas.CancelChallenge();
-            _inputNameCanvas.gameObject.SetActive(false);
+            InputNameCanvas.CancelChallenge();
+            InputNameCanvas.gameObject.SetActive(false);
 
             if (Main._.Game.DeviceUser().IsFirstTime)
             {
@@ -61,7 +65,9 @@ public class InputNameView : MonoBehaviour, IUiView
             parent: Main._.CoreCamera.Views
         );
         (go.transform as RectTransform).localPosition = Vector3.zero;
-        _inputNameCanvas = go.GetComponent<InputNameCanvas>();
+        InputNameCanvas = go.GetComponent<InputNameCanvas>();
+
+        uiViewFocussed += onFocussed;
 
         _isInitialized = true;
     }
@@ -95,7 +101,7 @@ public class InputNameView : MonoBehaviour, IUiView
         ResetActions();
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
         InitNameCanvas();
     }
@@ -104,28 +110,13 @@ public class InputNameView : MonoBehaviour, IUiView
     {
         if (_isInputInitialized)
         {
-            _inputNameCanvas.gameObject.SetActive(true);
+            InputNameCanvas.gameObject.SetActive(true);
             return;
         }
         _isInputInitialized = true;
-        _inputNameCanvas.gameObject.SetActive(true);
-        _inputNameCanvas.Show(WorldCanvasPoint, (object obj) =>
-        {
-            bool isValid = obj != null;
-            ButtonPlay.Interactable = isValid;
-
-            if (Main._.Game.DeviceUser().IsFirstTime)
-            {
-                _userInputChangedName = (obj as string);
-                return;
-            }
-
-            if (isValid)
-            {
-                SessionOpts sessionOpts = obj as SessionOpts;
-                MenuEnvironment._.SetChallengeSession(sessionOpts);
-            }
-        });
+        InputNameCanvas.gameObject.SetActive(true);
+        InputNameCanvas.Show(WorldCanvasPoint);
+        InputNameCanvas.InputFieldChange += onInputFieldChange;
 
         if (WorldCanvasPoint == null)
         {
@@ -133,6 +124,24 @@ public class InputNameView : MonoBehaviour, IUiView
         }
         Destroy(WorldCanvasPoint.gameObject);
         WorldCanvasPoint = null;
+    }
+
+    private void onInputFieldChange(object obj)
+    {
+        bool isValid = obj != null;
+        ButtonPlay.Interactable = isValid;
+
+        if (Main._.Game.DeviceUser().IsFirstTime)
+        {
+            _userInputChangedName = (obj as string);
+            return;
+        }
+
+        if (isValid)
+        {
+            SessionOpts sessionOpts = obj as SessionOpts;
+            MenuEnvironment._.SetChallengeSession(sessionOpts);
+        }
     }
 
     private void ResetActions()

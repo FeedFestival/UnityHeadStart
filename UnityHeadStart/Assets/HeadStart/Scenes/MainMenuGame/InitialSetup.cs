@@ -1,10 +1,14 @@
 using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InitialSetup : MonoBehaviour, IUiView
 {
     public bool SkipCameraSetup;
     public CameraHelper CameraHelper;
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+    
     void IUiView.Focus()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -28,7 +32,7 @@ public class InitialSetup : MonoBehaviour, IUiView
         return gameObject;
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
     }
 }

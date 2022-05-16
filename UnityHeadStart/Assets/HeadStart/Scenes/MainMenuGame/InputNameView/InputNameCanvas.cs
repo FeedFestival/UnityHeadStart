@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assets.HeadStart.Core;
 using Assets.Scripts.utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InputNameCanvas : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class InputNameCanvas : MonoBehaviour
     private List<User> _users;
     private string _name;
     private RectTransform _rt;
-    private CoreObjCallback _coreCallback;
+    // private CoreObjCallback _coreCallback;
+    public event UnityAction<object> InputFieldChange;
     private bool _isInitialized;
 
     void Awake()
@@ -40,11 +42,12 @@ public class InputNameCanvas : MonoBehaviour
                 _name = InputFieldCustom.InputField.text;
                 if (string.IsNullOrWhiteSpace(_name) || _name.Length > 25)
                 {
-                    _coreCallback(null);
+                    InputFieldChange.Invoke(null);
                     return;
                 }
 
-                _coreCallback(_name);
+                // _coreCallback(_name);
+                InputFieldChange.Invoke(_name);
             };
 
             return;
@@ -55,12 +58,14 @@ public class InputNameCanvas : MonoBehaviour
             _name = InputFieldCustom.InputField.text;
             if (string.IsNullOrWhiteSpace(_name))
             {
-                _coreCallback(null);
+                InputFieldChange.Invoke(null);
+                // _coreCallback(null);
             }
             else
             {
                 SessionOpts sessionOpts = PlayChallenge();
-                _coreCallback(sessionOpts);
+                InputFieldChange.Invoke(sessionOpts);
+                // _coreCallback(sessionOpts);
             }
         };
 
@@ -68,16 +73,13 @@ public class InputNameCanvas : MonoBehaviour
     }
 
     public void Show(
-        WorldCanvasPoint worldCanvasPoint,
-        CoreObjCallback coreCallback
+        WorldCanvasPoint worldCanvasPoint
     )
     {
         if (_isInitialized == false)
         {
             Init(worldCanvasPoint);
         }
-
-        _coreCallback = coreCallback;
 
         InputFieldCustom.InputField.text = "";
         _name = "";

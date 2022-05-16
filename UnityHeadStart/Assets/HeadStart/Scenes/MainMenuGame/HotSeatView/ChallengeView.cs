@@ -1,5 +1,6 @@
 ﻿using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ChallengeView : MonoBehaviour, IUiView
 {
@@ -10,6 +11,9 @@ public class ChallengeView : MonoBehaviour, IUiView
     [Header("Canvas Points")]
     public WorldCanvasPoint tableWCP;
     private bool _isInitialized;
+
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
 
     private void Init()
     {
@@ -35,6 +39,8 @@ public class ChallengeView : MonoBehaviour, IUiView
         );
         (go.transform as RectTransform).localPosition = Vector3.zero;
         _challengeCanvas = go.GetComponent<ChallengeCanvas>();
+
+        uiViewFocussed += onFocussed;
 
         _isInitialized = true;
     }
@@ -65,7 +71,7 @@ public class ChallengeView : MonoBehaviour, IUiView
         }, MenuEnvironment._.MOVE_CAMERA_TIME);
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
         EnableActions();
     }

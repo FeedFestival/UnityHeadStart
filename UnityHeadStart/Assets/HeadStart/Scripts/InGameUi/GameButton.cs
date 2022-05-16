@@ -67,6 +67,11 @@ public class GameButton : MonoBehaviour
 
     void OnMouseDown()
     {
+        MouseDown();
+    }
+
+    public void MouseDown()
+    {
         if (Interactable == false)
         {
             return;

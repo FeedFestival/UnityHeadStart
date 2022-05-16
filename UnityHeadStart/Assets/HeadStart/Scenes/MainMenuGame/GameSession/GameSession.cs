@@ -5,14 +5,20 @@ using Assets.HeadStart.Features.Database;
 using Assets.Scripts.utils;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameSession : MonoBehaviour, IUiView
 {
     private bool _isInitialized;
     private SessionOpts _sessionOpts;
 
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+
     private void Init()
     {
+        uiViewFocussed += onFocussed;
+
         _isInitialized = true;
     }
 
@@ -56,7 +62,7 @@ public class GameSession : MonoBehaviour, IUiView
         }, MenuEnvironment._.MOVE_CAMERA_TIME);
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
         __.Time.RxWait(() =>
         {

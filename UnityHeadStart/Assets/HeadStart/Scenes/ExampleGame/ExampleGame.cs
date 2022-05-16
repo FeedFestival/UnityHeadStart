@@ -2,50 +2,53 @@
 using Assets.HeadStart.Features.Dialog;
 using UnityEngine;
 
-public class ExampleGame : GameBase
+namespace Assets.HeadStart.Scenes.ExampleGame
 {
-    [Header("ExampleGame")]
-    public ExampleRandomPoints ExampleRandomPoints;
-
-    public override void PreStartGame()
+    public class ExampleGame : GameBase
     {
-        bool hasCoreSession = CoreSession._ != null;
-        if (hasCoreSession == false)
+        [Header("ExampleGame")]
+        public ExampleRandomPoints ExampleRandomPoints;
+
+        public override void PreStartGame()
         {
-            SessionOpts sessionOpts = new SessionOpts()
+            bool hasCoreSession = CoreSession._ != null;
+            if (hasCoreSession == false)
             {
-                User = LoadUser()
-            };
-            CoreIoC.IoCDependencyResolver.CreateSession(sessionOpts);
+                SessionOpts sessionOpts = new SessionOpts()
+                {
+                    User = LoadUser()
+                };
+                CoreIoC.IoCDependencyResolver.CreateSession(sessionOpts);
+            }
+
+            StartGame();
         }
 
-        StartGame();
-    }
-
-    public override void StartGame()
-    {
-        __.Transition.Do(Transition.END);
-        ExampleRandomPoints.Init();
-    }
-
-    public override void GameOver()
-    {
-        DialogOptions options = new DialogOptions()
+        public override void StartGame()
         {
-            Title = "Congrats " + CoreSession._.SessionOpts.User.Name + "!",
-            Info = CoreSession._.SessionOpts.Points.ToString(),
-            ContinueCallback = () =>
+            __.Transition.Do(Transition.END);
+            ExampleRandomPoints.Init();
+        }
+
+        public override void GameOver()
+        {
+            DialogOptions options = new DialogOptions()
             {
-                __.Transition.Do(Transition.START, () =>
+                Title = "Congrats " + CoreSession._.SessionOpts.User.Name + "!",
+                Info = CoreSession._.SessionOpts.Points.ToString(),
+                ContinueCallback = () =>
                 {
-                    Main._.Game.GoToMainMenu();
-                });
-            },
-            RetryCallback = () =>
-            {
-                Main._.Game.Restart();
-            }
-        };
-        __.Dialog.Show(options);
+                    __.Transition.Do(Transition.START, () =>
+                    {
+                        Main._.Game.GoToMainMenu();
+                    });
+                },
+                RetryCallback = () =>
+                {
+                    Main._.Game.Restart();
+                }
+            };
+            __.Dialog.Show(options);
+        }
     }
 }

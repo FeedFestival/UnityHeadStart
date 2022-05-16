@@ -38,7 +38,7 @@ namespace Assets.HeadStart.Core
             }
         }
 
-        internal void CreateSession(SessionOpts sessionOpts)
+        public void CreateSession(SessionOpts sessionOpts)
         {
             var go = GameObject.Instantiate(CoreDependencies.CoreSession);
             go.name = go.name.Replace("(Clone)", "[" + sessionOpts.User.Name + "]");

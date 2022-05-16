@@ -2505,7 +2505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891313037edc10c4aa6b694f7220bd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConsoleLog: 1
+  ConsoleLog: 0
   CheckForUpdates: 0
   Game: {fileID: 8882961134748480090}
   CoreCamera: {fileID: 0}

@@ -1,8 +1,8 @@
-﻿using Assets.HeadStart.Core;
-using Assets.HeadStart.Features.Database;
+﻿using Assets.HeadStart.Features.Database;
 using Assets.Scripts.utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public delegate void Clicked();
 
@@ -15,6 +15,9 @@ public class MainMenu : MonoBehaviour, IUiView
     public TextMeshPro UserNameTxt;
     public TextMeshPro ToiletPaperTxt;
     public TextMeshPro HighWeekPointsTxt;
+
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
 
     private bool _isInitialized;
 
@@ -41,6 +44,8 @@ public class MainMenu : MonoBehaviour, IUiView
         {
             MenuEnvironment._.SwitchView(VIEW.Settings);
         });
+
+        uiViewFocussed += onFocussed;
 
         _isInitialized = true;
     }
@@ -77,11 +82,10 @@ public class MainMenu : MonoBehaviour, IUiView
         HighWeekPointsTxt.text = string.Empty;
     }
 
-    public void OnFocussed()
+    private void onFocussed()
     {
         EnableActions();
     }
-
 
     private void ResetActions()
     {

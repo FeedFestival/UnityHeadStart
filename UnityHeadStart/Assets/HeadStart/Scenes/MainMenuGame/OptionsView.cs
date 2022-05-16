@@ -1,8 +1,12 @@
 ﻿using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class OptionsView : MonoBehaviour, IUiView
 {
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+
     GameObject IUiView.GO()
     {
         return gameObject;
@@ -11,11 +15,11 @@ public class OptionsView : MonoBehaviour, IUiView
     {
     }
 
-    public void OnFocussed()
-    {
-        __.Time.RxWait(() =>
-        {
-            // ButtonHighscore.Interactable = false;
-        }, 1f);
-    }
+    // public void onFocussed()
+    // {
+    //     __.Time.RxWait(() =>
+    //     {
+    //         // ButtonHighscore.Interactable = false;
+    //     }, 1f);
+    // }
 }

@@ -22,5 +22,13 @@ namespace Assets.HeadStart.Core
                 Year = league.Year
             };
         }
+
+        public override string ToString()
+        {
+            return "{" + String.Format(@"
+                Points: {0},
+                ToiletPaper: {1}
+            ", Points, ToiletPaper) + "}";
+        }
     }
 }

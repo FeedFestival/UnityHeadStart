@@ -2,21 +2,30 @@ using Assets.HeadStart.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExampleRandomPoints : MonoBehaviour
+namespace Assets.HeadStart.Scenes.ExampleGame
 {
-    public Text TextRandomPoints;
-    public Button ButtonGenerateRandom;
-
-    public void Init()
+    public interface IExampleRandomPoints
     {
-        TextRandomPoints.text = string.Empty;
+        void Init();
+    }
 
-        ButtonGenerateRandom.onClick.AddListener(() =>
+    public class ExampleRandomPoints : MonoBehaviour, IExampleRandomPoints
+    {
+        public Text TextRandomPoints;
+        public Button ButtonGenerateRandom;
+
+        public void Init()
         {
-            CoreSession._.SessionOpts.Points = Random.Range(800, 1500);
-            CoreSession._.SessionOpts.ToiletPaper = Random.Range(0, 5);
+            TextRandomPoints.text = string.Empty;
+
+            ButtonGenerateRandom.onClick.AddListener(onGenerateRandom);
+        }
+
+        private void onGenerateRandom()
+        {
+            ExampleRandomPointsLogic.generateRandomPoints(ref CoreSession._.SessionOpts);
             TextRandomPoints.text = CoreSession._.SessionOpts.Points.ToString();
             Main._.Game.GameOver();
-        });
+        }
     }
 }
