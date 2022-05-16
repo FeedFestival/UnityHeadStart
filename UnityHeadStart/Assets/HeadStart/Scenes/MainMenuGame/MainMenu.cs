@@ -23,6 +23,8 @@ public class MainMenu : MonoBehaviour, IUiView
 
     private void Init()
     {
+        initValues();
+
         ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
@@ -85,6 +87,13 @@ public class MainMenu : MonoBehaviour, IUiView
     private void onFocussed()
     {
         EnableActions();
+    }
+
+    private void initValues()
+    {
+        UserNameTxt.text = "";
+        ToiletPaperTxt.text = "";
+        HighWeekPointsTxt.text = "";
     }
 
     private void ResetActions()

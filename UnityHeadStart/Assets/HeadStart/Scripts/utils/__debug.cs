@@ -1,6 +1,6 @@
 
 using System.Collections.Generic;
-using Assets.HeadStart.Features.Database.JSON;
+// using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 
 namespace Assets.Scripts.utils
@@ -10,32 +10,11 @@ namespace Assets.Scripts.utils
 #pragma warning disable 0414 // private field assigned but not used.
         public static readonly string _version = "2.0.8";
 #pragma warning restore 0414 //
-        public static void DumpToConsole(object obj, bool isArray = false)
-        {
-            string output = string.Empty;
-            if (isArray)
-            {
-                output = __json.ToJson<object>(obj);
-            }
-            else
-            {
-                output = JsonUtility.ToJson(obj, true);
-            }
-            Debug.Log(output);
-        }
-
+        
         public static string ToJsonString(object obj)
         {
             string output = JsonUtility.ToJson(obj, true);
             return output;
-        }
-
-        public static void DumpToJsonConsole(IJsonConsole[] jsonConsoles)
-        {
-            foreach (var json in jsonConsoles)
-            {
-                Debug.Log(json.ToJsonString());
-            }
         }
 
         public static string DebugList(List<int> array, string name)
@@ -72,16 +51,6 @@ namespace Assets.Scripts.utils
             }
             return string.IsNullOrEmpty(name) ? debug
                 : name + " [" + debug + "](" + array.Count + ")";
-        }
-
-        public static string DebugQueue<T>(Queue<T> array, string name)
-        {
-            string debug = string.Empty;
-            foreach (T t in array)
-            {
-                debug += __json.ToJson<T>(t);
-            }
-            return name + " (" + debug + ")[" + array.Count + "]";
         }
 
         public static string DebugDict<T>(Dictionary<T, T> array, string name = null)

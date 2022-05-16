@@ -1,4 +1,3 @@
-using Assets.Scripts.utils;
 using SQLite4Unity3d;
 
 public enum UserType
@@ -38,16 +37,6 @@ public class User
             ToiletPaper = this.ToiletPaper,
             IsFirstTime = this.IsFirstTime,
             UserType = this.UserType
-        };
-    }
-
-    public static User FillData(string properties)
-    {
-        return new User
-        {
-            Id = __data.GetIntDataValue(properties, "ID:"),
-            Name = __data.GetDataValue(properties, "Name:"),
-            IsUsingSound = __data.GetBoolDataValue(properties, "IsUsingSound:")
         };
     }
 }

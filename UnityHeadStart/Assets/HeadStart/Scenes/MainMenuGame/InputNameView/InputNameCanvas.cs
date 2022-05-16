@@ -12,7 +12,6 @@ public class InputNameCanvas : MonoBehaviour
     private List<User> _users;
     private string _name;
     private RectTransform _rt;
-    // private CoreObjCallback _coreCallback;
     public event UnityAction<object> InputFieldChange;
     private bool _isInitialized;
 
@@ -46,7 +45,6 @@ public class InputNameCanvas : MonoBehaviour
                     return;
                 }
 
-                // _coreCallback(_name);
                 InputFieldChange.Invoke(_name);
             };
 
@@ -59,13 +57,11 @@ public class InputNameCanvas : MonoBehaviour
             if (string.IsNullOrWhiteSpace(_name))
             {
                 InputFieldChange.Invoke(null);
-                // _coreCallback(null);
             }
             else
             {
                 SessionOpts sessionOpts = PlayChallenge();
                 InputFieldChange.Invoke(sessionOpts);
-                // _coreCallback(sessionOpts);
             }
         };
 

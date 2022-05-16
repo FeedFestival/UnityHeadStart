@@ -179,7 +179,7 @@ namespace Assets.HeadStart.Features.Database
             return null;
         }
 
-        internal List<User> GetUsers()
+        public List<User> GetUsers()
         {
             List<User> users = _connection.Query<User>(@"
 SELECT
@@ -192,7 +192,7 @@ LIMIT 8
             return users;
         }
 
-        internal User GetUserByName(string name)
+        public User GetUserByName(string name)
         {
             string sql = @"
 SELECT *
@@ -209,7 +209,7 @@ LIMIT 1
             return users[0];
         }
 
-        internal void AddToiletPaper(int userLocalId, int toiletPaper)
+        public void AddToiletPaper(int userLocalId, int toiletPaper)
         {
             string sql = "UPDATE User SET ToiletPaper = " + toiletPaper + " WHERE LocalId = " + userLocalId;
             _connection.Execute(sql);
@@ -221,7 +221,7 @@ LIMIT 1
         //----------------------------------------------
         //-----------------------
 
-        internal ChallengerResult GetChallengerScore(int userLocalId)
+        public ChallengerResult GetChallengerScore(int userLocalId)
         {
             List<ChallengerResult> challengerScores = _connection.Query<ChallengerResult>(@"
 SELECT
@@ -239,7 +239,7 @@ ORDER BY Points DESC
             return null;
         }
 
-        internal void UpdateChallengerScore(int challengeId, int newScoreId)
+        public void UpdateChallengerScore(int challengeId, int newScoreId)
         {
             ChallengerScore challenge = new ChallengerScore()
             {
@@ -249,7 +249,7 @@ ORDER BY Points DESC
             int rowsAffected = _connection.Update(challenge);
         }
 
-        internal void AddChallengerScore(Score score)
+        public void AddChallengerScore(Score score)
         {
             ChallengerScore challenge = new ChallengerScore()
             {
@@ -258,7 +258,7 @@ ORDER BY Points DESC
             _connection.Insert(challenge);
         }
 
-        internal List<HighScore> GetChallengersHighscores()
+        public List<HighScore> GetChallengersHighscores()
         {
             List<HighScore> highscores = _connection.Query<HighScore>(@"
 SELECT
@@ -285,7 +285,7 @@ LIMIT 10;
         //----------------------------------------------
         //-----------------------
 
-        internal WeekScoreResult GetHighestScoreThisWeek(int userLocalId, League league)
+        public WeekScoreResult GetHighestScoreThisWeek(int userLocalId, League league)
         {
             string sql = @"
 SELECT
@@ -302,12 +302,12 @@ ORDER BY Points DESC
             return weekScoreResult.FirstOrDefault();
         }
 
-        internal int AddWeekScore(WeekScore weekScore)
+        public int AddWeekScore(WeekScore weekScore)
         {
             return _connection.Insert(weekScore);
         }
 
-        internal void UpdateWeekScore(WeekScore weekScore)
+        public void UpdateWeekScore(WeekScore weekScore)
         {
             int rowsAffected = _connection.Update(weekScore);
             Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
@@ -319,7 +319,7 @@ ORDER BY Points DESC
         //--------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------------
 
-        internal int AddScore(Score weekScore)
+        public int AddScore(Score weekScore)
         {
             return _connection.Insert(weekScore);
         }

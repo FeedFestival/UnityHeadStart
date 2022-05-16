@@ -67,7 +67,7 @@ public class InputNameView : MonoBehaviour, IUiView
         (go.transform as RectTransform).localPosition = Vector3.zero;
         InputNameCanvas = go.GetComponent<InputNameCanvas>();
 
-        uiViewFocussed += onFocussed;
+        uiViewFocussed += onFocussed; 
 
         _isInitialized = true;
     }
