@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Features.ScreenData
     public class PointGrower : MonoBehaviour
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.0";
 #pragma warning restore 0414 //
         private RectTransform _rt;
         public Vector2 Pos;
@@ -26,7 +26,7 @@ namespace Assets.HeadStart.Features.ScreenData
         //--------------------------- GAME CONSTANTS ------------------------
         private readonly float POINTS_ENLARGE_DURATION_SECONDS = 0.3f;
 
-        internal void Init(
+        public void Init(
             WorldCanvasPoint pointsWCP,
             CoreNrCallback addPoints
         )
@@ -113,7 +113,7 @@ namespace Assets.HeadStart.Features.ScreenData
             SetPoints();
         }
 
-        internal void WriteTotal(int total)
+        public void WriteTotal(int total)
         {
             _text.text = total.ToString();
         }

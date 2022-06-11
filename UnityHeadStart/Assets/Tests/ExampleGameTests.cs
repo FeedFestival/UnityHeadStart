@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEngine.TestTools;
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Scenes.ExampleGame;
