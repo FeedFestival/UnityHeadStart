@@ -66,15 +66,16 @@ public class MainMenu : MonoBehaviour, IUiView
 
         ResetActions();
 
+        DevicePlayer devicePlayer = Main._.Game.DevicePlayer();
         User user = Main._.Game.DeviceUser();
-        UserNameTxt.text = user.Name;
+        UserNameTxt.text = devicePlayer.name;
         League league = __data.GetThisWeeksLeague();
         if (league != null)
         {
             WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
             if (weekScoreResult != null)
             {
-                ToiletPaperTxt.text = user.ToiletPaper.ToString();
+                ToiletPaperTxt.text = devicePlayer.toiletPaper.ToString();
                 HighWeekPointsTxt.text = weekScoreResult.Points.ToString();
             }
             return;

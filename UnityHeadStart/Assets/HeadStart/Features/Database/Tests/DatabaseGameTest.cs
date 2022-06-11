@@ -1,4 +1,5 @@
 using System.Collections;
+using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,8 @@ namespace Assets.HeadStart.Features.Database
         {
             var dataService = new DataService();
             dataService.CleanDB();
+
+            __json.Database.RecreateDatabase();
 
             _waitEnmtor = waitEnumerator();
             StartCoroutine(_waitEnmtor);

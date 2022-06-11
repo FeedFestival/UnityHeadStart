@@ -2,6 +2,7 @@ using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.Player;
 using Assets.HeadStart.Core.SceneService;
 using Assets.HeadStart.Features.Database;
+using Assets.HeadStart.Features.Database.JSON;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,9 +10,10 @@ using UnityEngine.SceneManagement;
 public class GameBase : MonoBehaviour, IGame
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.8";
+    public static readonly string _version = "2.1.0";
 #pragma warning restore 0414 //
     private User _user;
+    private DevicePlayer _devicePlayer;
     public Player Player;
     [HideInInspector]
     public DataService DataService;
@@ -62,21 +64,20 @@ public class GameBase : MonoBehaviour, IGame
 
         if (_user == null)
         {
-            _user = new User()
-            {
-                Id = 0,
-                LocalId = 0,
-                IsFirstTime = true,
-                Name = "no-name-user",
-                ToiletPaper = 10,
-                UserType = UserType.CASUAL,
-                IsUsingSound = true,
-                Language = "en"
-            };
-            DataService.CreateUser(_user);
+            createFirstUser();
         }
-        if (Main._.ConsoleLog) Debug.Log(JsonUtility.ToJson(_user.Debug()));
         return _user;
+    }
+
+    public DevicePlayer LoadDevicePlayer()
+    {
+        _devicePlayer = __json.Database.GetPlayer();
+
+        if (_devicePlayer == null)
+        {
+            createFirstUser();
+        }
+        return _devicePlayer;
     }
 
     public void InitDatabaseConnection()
@@ -104,6 +105,15 @@ public class GameBase : MonoBehaviour, IGame
         sceneRef.LoadScene();
     }
 
+    public DevicePlayer DevicePlayer()
+    {
+        if (_devicePlayer == null)
+        {
+            LoadDevicePlayer();
+        }
+        return _devicePlayer;
+    }
+
     public User DeviceUser()
     {
         if (_user == null)
@@ -111,5 +121,11 @@ public class GameBase : MonoBehaviour, IGame
             LoadUser();
         }
         return _user;
+    }
+
+    private void createFirstUser()
+    {
+        _user = JSONConst.DEFAULT_USER;
+        DataService.CreateUser(_user);
     }
 }

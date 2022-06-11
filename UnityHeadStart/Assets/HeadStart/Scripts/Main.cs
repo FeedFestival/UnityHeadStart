@@ -29,6 +29,7 @@ public class Main : MonoBehaviour
     void Start()
     {
         CoreCamera = Camera.main.GetComponent<CoreCamera>();
+        Debug.Log("CoreCamera: " + CoreCamera);
         __.Transition.PitchBlack();
 
         if (ConsoleLog) Debug.Log("Starting... Checking to Make Sure Everything is running");

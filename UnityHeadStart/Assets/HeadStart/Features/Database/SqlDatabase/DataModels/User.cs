@@ -9,23 +9,16 @@ public enum UserType
 public class User
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.8";
+    public static readonly string _version = "2.1.0";
 #pragma warning restore 0414 //
     [PrimaryKey, AutoIncrement]
     public int LocalId { get; set; }
     public int Id { get; set; }
     public string Email { get; set; }
     public string Name { get; set; }
-
-    // Game Specifics
-    public int ToiletPaper { get; set; }
-    public bool IsFirstTime { get; set; }
-    public bool IsRegistered { get; set; }
     public int UserTypeId { get; set; }
     [Ignore]
     public UserType UserType { get { return (UserType)UserTypeId; } set { UserTypeId = (int)value; } }
-    public bool IsUsingSound { get; set; }
-    public string Language { get; set; }
 
     public UserDebug Debug()
     {
@@ -33,9 +26,8 @@ public class User
         {
             LocalId = this.LocalId,
             Id = this.Id,
+            Email = this.Email,
             Name = this.Name,
-            ToiletPaper = this.ToiletPaper,
-            IsFirstTime = this.IsFirstTime,
             UserType = this.UserType
         };
     }
@@ -45,8 +37,7 @@ public class UserDebug
 {
     public int LocalId;
     public int Id;
+    public string Email;
     public string Name;
-    public int ToiletPaper;
-    public bool IsFirstTime;
     public UserType UserType;
 }

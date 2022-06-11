@@ -1,4 +1,5 @@
 ﻿using Assets.HeadStart.Core;
+using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,13 +33,17 @@ public class InputNameView : MonoBehaviour, IUiView
             InputNameCanvas.CancelChallenge();
             InputNameCanvas.gameObject.SetActive(false);
 
-            if (Main._.Game.DeviceUser().IsFirstTime)
+            if (Main._.Game.DevicePlayer().isFirstTime)
             {
-                User changedUser = Main._.Game.DeviceUser();
-                changedUser.Name = _userInputChangedName;
-                changedUser.IsFirstTime = false;
-                Main._.Game.DataService.UpdateUser(changedUser);
-                Main._.Game.LoadUser();
+                DevicePlayer changedDevicePlayer = Main._.Game.DevicePlayer();
+                changedDevicePlayer.localId = 1;
+                changedDevicePlayer.name = _userInputChangedName;
+                changedDevicePlayer.isFirstTime = false;
+                __json.Database.UpdatePlayer(changedDevicePlayer);
+                User deviceUser = Main._.Game.DeviceUser();
+                deviceUser.Name = _userInputChangedName;
+                Main._.Game.DataService.UpdateUser(deviceUser);
+                Main._.Game.LoadDevicePlayer();
             }
             else
             {
@@ -74,7 +79,7 @@ public class InputNameView : MonoBehaviour, IUiView
 
     private void ReInit()
     {
-        bool isFirstTime = Main._.Game.DeviceUser().IsFirstTime;
+        bool isFirstTime = Main._.Game.DevicePlayer().isFirstTime;
         if (isFirstTime)
         {
             ButtonBack.gameObject.SetActive(false);
@@ -131,7 +136,7 @@ public class InputNameView : MonoBehaviour, IUiView
         bool isValid = obj != null;
         ButtonPlay.Interactable = isValid;
 
-        if (Main._.Game.DeviceUser().IsFirstTime)
+        if (Main._.Game.DevicePlayer().isFirstTime)
         {
             _userInputChangedName = (obj as string);
             return;

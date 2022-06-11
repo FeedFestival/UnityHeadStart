@@ -33,6 +33,8 @@ public class CoreCamera : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Setup Camera");
+        
         _camera = gameObject.GetComponent<Camera>();
         _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
         if (_currentCameraSize == 0)

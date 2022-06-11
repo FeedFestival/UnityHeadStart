@@ -2,6 +2,7 @@ using System;
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.SceneService;
 using Assets.HeadStart.Features.Database;
+using Assets.HeadStart.Features.Database.JSON;
 using Assets.Scripts.utils;
 using UniRx;
 using UnityEngine;
@@ -50,6 +51,7 @@ public class GameSession : MonoBehaviour, IUiView
             {
                 sessionOpts = new SessionOpts()
                 {
+                    DevicePlayer = Main._.Game.DevicePlayer(),
                     User = Main._.Game.DeviceUser()
                 };
             }
@@ -108,7 +110,7 @@ public class GameSession : MonoBehaviour, IUiView
                 if (deviceUser.UserType == UserType.CASUAL)
                 {
                     bool wasAHighScore = TryUpdateWeekScore(deviceUser, score);
-                    if (wasAHighScore || _sessionOpts.User.IsFirstTime)
+                    if (wasAHighScore || _sessionOpts.DevicePlayer.isFirstTime)
                     {
                         ShowUserRankedPossibility();
                         return;
@@ -118,7 +120,7 @@ public class GameSession : MonoBehaviour, IUiView
                 }
                 else
                 {
-                    if (_sessionOpts.User.IsRegistered == false)
+                    if (_sessionOpts.DevicePlayer.isRegistered == false)
                     {
                         string url = "http://localhost/gameScrypt/be/Ranked/RegisterUser.php";
                         var secret = "a=gameScrypt";
@@ -155,9 +157,10 @@ public class GameSession : MonoBehaviour, IUiView
 
     private void UpdateToiletPaper()
     {
-        User deviceUser = Main._.Game.DeviceUser();
-        Main._.Game.DataService.AddToiletPaper(deviceUser.LocalId, deviceUser.ToiletPaper + _sessionOpts.ToiletPaper);
-        Main._.Game.LoadUser();
+        DevicePlayer devicePlayer = Main._.Game.DevicePlayer();
+        devicePlayer.toiletPaper = devicePlayer.toiletPaper + _sessionOpts.ToiletPaper;
+        __json.Database.UpdatePlayer(devicePlayer);
+        Main._.Game.LoadDevicePlayer();
     }
 
     private void TryUpdateChallengerScore(Score score)

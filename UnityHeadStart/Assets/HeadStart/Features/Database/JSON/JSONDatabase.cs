@@ -1,23 +1,65 @@
+using System.IO;
 using UnityEngine;
 
 namespace Assets.HeadStart.Features.Database.JSON
 {
+    public interface IJSONDatabase
+    {
+        void RecreateDatabase();
+        DevicePlayer GetPlayer();
+    }
+
     public class JSONDatabase : MonoBehaviour
     {
-        public JsonDbSettings JsonDbSettings;
-        
-        public PlayerExtension GetPlayer()
+        private static readonly string ASSETS_FILE_PATH = "JSON/player.json";
+
+        public void RecreateDatabase()
         {
-            PlayerJson playerJson = JsonUtility.FromJson<PlayerJson>(JsonDbSettings.PlayerJson.text);
-
-            if (playerJson != null && playerJson.gameSettings != null)
+            var filepath = FileUtils.GetStreamingAssetsFilePath(ASSETS_FILE_PATH, true);
+            using (StreamWriter writer = new StreamWriter(filepath))
             {
-                Debug.Log("player.IsRegistered: " + playerJson.Player.IsRegistered);
-                Debug.Log("player.CompletedPercentage: " + playerJson.Player.CompletedPercentage);
-                Debug.Log("gameSettings.cameraSize2D: " + playerJson.gameSettings.cameraSize2D);
-            }
+                var jsonString = JsonUtility.ToJson(new PlayerJson()
+                {
+                    player = JSONConst.DEFAULT_PLAYER,
+                    gameSettings = JSONConst.DEFAULT_SETTINGS
+                });
 
-            return playerJson.Player;
+                writer.Write(jsonString);
+                writer.Close();
+            }
+        }
+
+        public void UpdatePlayer(DevicePlayer devicePlayer)
+        {
+            var assetsFilePath = "JSON/player.json";
+            var filepath = FileUtils.GetStreamingAssetsFilePath(assetsFilePath, true);
+            var playerJson = GetPlayerJson();
+            using (StreamWriter writer = new StreamWriter(filepath))
+            {
+                playerJson.player = devicePlayer;
+                var jsonString = JsonUtility.ToJson(playerJson);
+
+                writer.Write(jsonString);
+                writer.Close();
+            }
+        }
+
+        public PlayerJson GetPlayerJson()
+        {
+            var filepath = FileUtils.GetStreamingAssetsFilePath(ASSETS_FILE_PATH, true);
+            using (StreamReader reader = new StreamReader(filepath))
+            {
+                var playerJson = reader.ReadToEnd();
+                reader.Close();
+                return JsonUtility.FromJson<PlayerJson>(playerJson);
+            }
+        }
+
+        public DevicePlayer GetPlayer()
+        {
+            var playerJson = GetPlayerJson();
+            if (playerJson == null) { Debug.LogWarning("No PlayerJson"); return null; }
+            return playerJson.player;
         }
     }
 }
@@ -25,19 +67,35 @@ namespace Assets.HeadStart.Features.Database.JSON
 [System.Serializable]
 public class PlayerJson
 {
-    public PlayerExtension Player;
+    public DevicePlayer player;
     public GameSettings gameSettings;
+
+    public PlayerJson() { }
+
+    public PlayerJson(DevicePlayer _devicePlayer, GameSettings _gameSettings)
+    {
+        player = _devicePlayer;
+        gameSettings = _gameSettings;
+    }
 }
 
 [System.Serializable]
-public class PlayerExtension : User
+public class DevicePlayer
 {
-    public float CompletedPercentage { get; set; }
+    public int localId;
+    public string name;
+    public int toiletPaper;
+    public bool isFirstTime;
+    public bool isRegistered;
+    public float completedPercentage;
 }
 
 [System.Serializable]
 public class GameSettings
 {
+    public bool isUsingSound;
+    public string language;
+    public bool isCameraSetForThisDevice;
     public int cameraSize3D;
     public int cameraSize2D;
 }
