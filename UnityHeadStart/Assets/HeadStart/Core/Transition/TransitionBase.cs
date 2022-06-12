@@ -9,7 +9,7 @@ public enum Transition
 public class TransitionBase : MonoBehaviour, IDependency, ITransition
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.0";
+    public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
 
     public Color StartColor;
@@ -32,20 +32,20 @@ public class TransitionBase : MonoBehaviour, IDependency, ITransition
     {
         Transition = transition;
 
-        if (!Main._.CoreCamera.LoadingOverlay) { return; }
+        if (!Main.S.CoreCamera.LoadingOverlay) { return; }
 
         var newColor = GetTransitionColor();
 
         if (instant)
         {
-            Main._.CoreCamera.LoadingOverlay.color = newColor;
+            Main.S.CoreCamera.LoadingOverlay.color = newColor;
             return;
         }
 
         _onTransitionEnd = onTransitionEnd;
-        Main._.CoreCamera.LoadingOverlay.color = GetTransitionColor(reverse: true);
+        Main.S.CoreCamera.LoadingOverlay.color = GetTransitionColor(reverse: true);
         _fadeAnimationId = LeanTween.color(
-            Main._.CoreCamera.LoadingOverlay.gameObject.GetComponent<RectTransform>(),
+            Main.S.CoreCamera.LoadingOverlay.gameObject.GetComponent<RectTransform>(),
             newColor,
             TRANSITION_TIME
         ).id;

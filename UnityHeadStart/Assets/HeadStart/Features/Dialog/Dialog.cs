@@ -5,7 +5,7 @@ namespace Assets.HeadStart.Features.Dialog
     public class Dialog : MonoBehaviour, IDependency, IDialog
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.0";
+        public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
         public GameObject DialogHelperWCP;
         [SerializeField]
@@ -18,7 +18,7 @@ namespace Assets.HeadStart.Features.Dialog
                 DialogCanvasPrefab,
                 Vector3.zero,
                 Quaternion.identity,
-                Main._.CoreCamera.Views
+                Main.S.CoreCamera.Views
             );
             (go.transform as RectTransform).localPosition = Vector3.zero;
             _dialogCanvas = go.GetComponent<DialogCanvas>();
@@ -43,12 +43,12 @@ namespace Assets.HeadStart.Features.Dialog
 
         public void OnContinue()
         {
-            Main._.Game.GoToMainMenu();
+            Main.S.Game.GoToMainMenu();
         }
 
         public void OnRestart()
         {
-            Main._.Game.Restart();
+            Main.S.Game.Restart();
         }
     }
 }

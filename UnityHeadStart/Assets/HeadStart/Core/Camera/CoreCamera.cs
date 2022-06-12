@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class CoreCamera : MonoBehaviour
 {
+#pragma warning disable 0414 // private field assigned but not used.
+    public static readonly string _version = "2.1.2";
+#pragma warning restore 0414 //
     public RectTransform CanvasRt;
     [HideInInspector]
     public Canvas Canvas;
@@ -51,7 +54,7 @@ public class CoreCamera : MonoBehaviour
             _currentCameraSize = gameSettings.cameraSize2D;
             _camera.orthographicSize = _currentCameraSize;
             hideLogo();
-            Main._._CameraReady__.OnNext(true);
+            Main.S._CameraReady__.OnNext(true);
         }
     }
 
@@ -115,7 +118,7 @@ public class CoreCamera : MonoBehaviour
 
         saveCameraSize();
         hideLogo();
-        Main._._CameraReady__.OnNext(true);
+        Main.S._CameraReady__.OnNext(true);
     }
 
     private void saveCameraSize()

@@ -28,13 +28,13 @@ public class InputNameCanvas : MonoBehaviour
         {
             __world2d.PositionRtBasedOnScreenAnchors(
                 worldCanvasPoint, rt: _rt,
-                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+                screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
             );
         }
 
         InputFieldCustom.Init(_rt.sizeDelta.x);
 
-        if (Main._.Game.DevicePlayer().isFirstTime)
+        if (Main.S.Game.DevicePlayer().isFirstTime)
         {
             InputFieldCustom.OnBlurDelegate = () =>
             {
@@ -82,7 +82,7 @@ public class InputNameCanvas : MonoBehaviour
 
         InputFieldCustom.gameObject.SetActive(true);
 
-        if (Main._.Game.DevicePlayer().isFirstTime)
+        if (Main.S.Game.DevicePlayer().isFirstTime)
         {
             return;
         }
@@ -91,7 +91,7 @@ public class InputNameCanvas : MonoBehaviour
 
     public void ShowPreviousChallengers()
     {
-        _users = Main._.Game.DataService.GetUsers();
+        _users = Main.S.Game.DataService.GetUsers();
 
         bool noUsers = _users == null || _users.Count == 0;
         if (noUsers)
@@ -132,7 +132,7 @@ public class InputNameCanvas : MonoBehaviour
 
     public SessionOpts PlayChallenge()
     {
-        User playingUser = Main._.Game.DataService.GetUserByName(InputFieldCustom.InputField.text);
+        User playingUser = Main.S.Game.DataService.GetUserByName(InputFieldCustom.InputField.text);
         if (playingUser == null)
         {
             playingUser = new User()

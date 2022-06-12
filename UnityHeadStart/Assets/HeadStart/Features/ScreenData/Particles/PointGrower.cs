@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Features.ScreenData
     public class PointGrower : MonoBehaviour
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.0";
+        public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
         private RectTransform _rt;
         public Vector2 Pos;
@@ -39,7 +39,7 @@ namespace Assets.HeadStart.Features.ScreenData
             _rt = gameObject.GetComponent<RectTransform>();
             __world2d.PositionRtBasedOnScreenAnchors(
                 pointsWCP, rt: _rt,
-                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+                screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
             );
             _normalSize = _rt.sizeDelta;
             Pos = new Vector2(

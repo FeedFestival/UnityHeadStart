@@ -19,7 +19,7 @@ public class ChallengeCanvas : MonoBehaviour
         _rt = (transform as RectTransform);
         __world2d.PositionRtBasedOnScreenAnchors(
             tableWCP, rt: _rt,
-            screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+            screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
         );
 
         _isInitialized = true;
@@ -32,7 +32,7 @@ public class ChallengeCanvas : MonoBehaviour
             Init(tableWCP);
         }
 
-        List<HighScore> highscores = Main._.Game.DataService.GetChallengersHighscores();
+        List<HighScore> highscores = Main.S.Game.DataService.GetChallengersHighscores();
 
         if (highscores == null || highscores.Count == 0)
         {

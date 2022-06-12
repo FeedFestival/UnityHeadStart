@@ -23,8 +23,8 @@ public class InputNameView : MonoBehaviour, IUiView
         {
             InputNameCanvas.gameObject.SetActive(false);
             InputNameCanvas.CancelChallenge();
-            MenuEnvironment._.ClearChallengeSession();
-            MenuEnvironment._.Back();
+            MenuEnvironment.S.ClearChallengeSession();
+            MenuEnvironment.S.Back();
         });
 
         ButtonPlay.Init();
@@ -33,36 +33,36 @@ public class InputNameView : MonoBehaviour, IUiView
             InputNameCanvas.CancelChallenge();
             InputNameCanvas.gameObject.SetActive(false);
 
-            if (Main._.Game.DevicePlayer().isFirstTime)
+            if (Main.S.Game.DevicePlayer().isFirstTime)
             {
-                DevicePlayer changedDevicePlayer = Main._.Game.DevicePlayer();
+                DevicePlayer changedDevicePlayer = Main.S.Game.DevicePlayer();
                 changedDevicePlayer.localId = 1;
                 changedDevicePlayer.name = _userInputChangedName;
                 changedDevicePlayer.isFirstTime = false;
                 __json.Database.UpdatePlayer(changedDevicePlayer);
-                User deviceUser = Main._.Game.DeviceUser();
+                User deviceUser = Main.S.Game.DeviceUser();
                 deviceUser.Name = _userInputChangedName;
-                Main._.Game.DataService.UpdateUser(deviceUser);
-                Main._.Game.LoadDevicePlayer();
+                Main.S.Game.DataService.UpdateUser(deviceUser);
+                Main.S.Game.LoadDevicePlayer();
             }
             else
             {
-                User playingUser = MenuEnvironment._.GetChallengeSession().User;
+                User playingUser = MenuEnvironment.S.GetChallengeSession().User;
                 if (playingUser.LocalId == 0)
                 {
-                    playingUser.LocalId = Main._.Game.DataService.CreateUser(playingUser);
-                    MenuEnvironment._.UpdateSessionUserId(playingUser.LocalId);
+                    playingUser.LocalId = Main.S.Game.DataService.CreateUser(playingUser);
+                    MenuEnvironment.S.UpdateSessionUserId(playingUser.LocalId);
                 }
-                MenuEnvironment._.GetChallengeSession().IsChallenge = true;
+                MenuEnvironment.S.GetChallengeSession().IsChallenge = true;
             }
-            MenuEnvironment._.SwitchView(VIEW.GameSession);
+            MenuEnvironment.S.SwitchView(VIEW.GameSession);
         });
 
         var go = Instantiate(
             InputNameSettings.InputNameConvas,
             Vector3.zero,
             Quaternion.identity,
-            parent: Main._.CoreCamera.Views
+            parent: Main.S.CoreCamera.Views
         );
         (go.transform as RectTransform).localPosition = Vector3.zero;
         InputNameCanvas = go.GetComponent<InputNameCanvas>();
@@ -74,7 +74,7 @@ public class InputNameView : MonoBehaviour, IUiView
 
     private void ReInit()
     {
-        bool isFirstTime = Main._.Game.DevicePlayer().isFirstTime;
+        bool isFirstTime = Main.S.Game.DevicePlayer().isFirstTime;
         if (isFirstTime)
         {
             ButtonBack.gameObject.SetActive(false);
@@ -131,7 +131,7 @@ public class InputNameView : MonoBehaviour, IUiView
         bool isValid = obj != null;
         ButtonPlay.Interactable = isValid;
 
-        if (Main._.Game.DevicePlayer().isFirstTime)
+        if (Main.S.Game.DevicePlayer().isFirstTime)
         {
             _userInputChangedName = (obj as string);
             return;
@@ -140,7 +140,7 @@ public class InputNameView : MonoBehaviour, IUiView
         if (isValid)
         {
             SessionOpts sessionOpts = obj as SessionOpts;
-            MenuEnvironment._.SetChallengeSession(sessionOpts);
+            MenuEnvironment.S.SetChallengeSession(sessionOpts);
         }
     }
 

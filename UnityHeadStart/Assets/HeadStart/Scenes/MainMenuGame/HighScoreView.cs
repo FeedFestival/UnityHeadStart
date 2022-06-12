@@ -19,11 +19,11 @@ public class HighScoreView : MonoBehaviour, IUiView
     {
         ButtonBack.OnClick(() =>
         {
-            MenuEnvironment._.Back();
+            MenuEnvironment.S.Back();
         });
         ButtonUpload.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.HighScore);
+            MenuEnvironment.S.SwitchView(VIEW.HighScore);
         });
         ButtonPlay.OnClick(() =>
         {

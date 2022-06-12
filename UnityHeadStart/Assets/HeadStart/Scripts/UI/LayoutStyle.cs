@@ -5,7 +5,7 @@ using UnityEngine;
 public class LayoutStyle : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.1";
+    public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
     public bool debug;
     [Separator("Size")]
@@ -44,7 +44,7 @@ public class LayoutStyle : MonoBehaviour
     {
         _rt = (transform as RectTransform);
         _parentRt = (transform.parent as RectTransform);
-        var parentRect = RectTransformUtility.PixelAdjustRect(_parentRt, Main._.CoreCamera.Canvas);
+        var parentRect = RectTransformUtility.PixelAdjustRect(_parentRt, Main.S.CoreCamera.Canvas);
 
         if (Size)
         {

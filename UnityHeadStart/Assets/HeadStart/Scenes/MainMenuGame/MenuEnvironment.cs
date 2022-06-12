@@ -8,7 +8,7 @@ using UnityEngine;
 public class MenuEnvironment : MonoBehaviour
 {
     private static MenuEnvironment _this;
-    public static MenuEnvironment _ { get { return _this; } }
+    public static MenuEnvironment S { get { return _this; } }
     void Awake() { _this = this; }
 
     [Serializable]
@@ -56,10 +56,10 @@ public class MenuEnvironment : MonoBehaviour
         _moveCameraTo = Views[View].GO().transform.position;
         if (instant)
         {
-            Main._.CoreCamera.transform.position = new Vector3(
+            Main.S.CoreCamera.transform.position = new Vector3(
                 _moveCameraTo.x,
                 _moveCameraTo.y,
-                Main._.CoreCamera.transform.position.z
+                Main.S.CoreCamera.transform.position.z
             );
             if (Views[View].UiViewFocussed == null) { return; }
             __.Time.RxWait(() => { Views[View].UiViewFocussed.Invoke(); }, 1);
@@ -123,7 +123,7 @@ public class MenuEnvironment : MonoBehaviour
 
     private void switchViewToTheAppropriateView()
     {
-        bool hasCoreSession = CoreSession._ != null;
+        bool hasCoreSession = CoreSession.S != null;
         if (hasCoreSession)
         {
             SwitchView(VIEW.GameSession, instant: true);
@@ -137,7 +137,7 @@ public class MenuEnvironment : MonoBehaviour
     private void playCameraTransition()
     {
         _moveCameraTwid = LeanTween.move(
-            Main._.CoreCamera.gameObject,
+            Main.S.CoreCamera.gameObject,
             _moveCameraTo,
             MOVE_CAMERA_TIME
         ).id;
@@ -148,8 +148,8 @@ public class MenuEnvironment : MonoBehaviour
         });
 
         _scaleCameraTwid = LeanTween.value(
-            Main._.CoreCamera.gameObject,
-            Main._.CoreCamera.GetCameraCurrentSize(),
+            Main.S.CoreCamera.gameObject,
+            Main.S.CoreCamera.GetCameraCurrentSize(),
             TO_CAMERA_SIZE,
             MOVE_CAMERA_TIME / 2
         ).id;
@@ -161,9 +161,9 @@ public class MenuEnvironment : MonoBehaviour
         LeanTween.descr(_scaleCameraTwid.Value).setOnComplete(() =>
         {
             _scaleCameraTwid = LeanTween.value(
-                Main._.CoreCamera.gameObject,
+                Main.S.CoreCamera.gameObject,
                 TO_CAMERA_SIZE,
-                Main._.CoreCamera.GetCameraCurrentSize(),
+                Main.S.CoreCamera.GetCameraCurrentSize(),
                 MOVE_CAMERA_TIME / 2
             ).id;
             LeanTween.descr(_scaleCameraTwid.Value).setOnUpdate((float val) =>

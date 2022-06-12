@@ -11,7 +11,7 @@ namespace Assets.HeadStart.Scenes.ExampleGame
 
         public override void PreStartGame()
         {
-            bool hasCoreSession = CoreSession._ != null;
+            bool hasCoreSession = CoreSession.S != null;
             if (hasCoreSession == false)
             {
                 SessionOpts sessionOpts = new SessionOpts()
@@ -34,18 +34,18 @@ namespace Assets.HeadStart.Scenes.ExampleGame
         {
             DialogOptions options = new DialogOptions()
             {
-                Title = "Congrats " + CoreSession._.SessionOpts.User.Name + "!",
-                Info = CoreSession._.SessionOpts.Points.ToString(),
+                Title = "Congrats " + CoreSession.S.SessionOpts.User.Name + "!",
+                Info = CoreSession.S.SessionOpts.Points.ToString(),
                 ContinueCallback = () =>
                 {
                     __.Transition.Do(Transition.START, () =>
                     {
-                        Main._.Game.GoToMainMenu();
+                        Main.S.Game.GoToMainMenu();
                     });
                 },
                 RetryCallback = () =>
                 {
-                    Main._.Game.Restart();
+                    Main.S.Game.Restart();
                 }
             };
             __.Dialog.Show(options);

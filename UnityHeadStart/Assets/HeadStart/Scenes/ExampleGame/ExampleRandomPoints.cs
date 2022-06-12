@@ -23,9 +23,9 @@ namespace Assets.HeadStart.Scenes.ExampleGame
 
         private void onGenerateRandom()
         {
-            ExampleRandomPointsLogic.generateRandomPoints(ref CoreSession._.SessionOpts);
-            TextRandomPoints.text = CoreSession._.SessionOpts.Points.ToString();
-            Main._.Game.GameOver();
+            ExampleRandomPointsLogic.generateRandomPoints(ref CoreSession.S.SessionOpts);
+            TextRandomPoints.text = CoreSession.S.SessionOpts.Points.ToString();
+            Main.S.Game.GameOver();
         }
     }
 }

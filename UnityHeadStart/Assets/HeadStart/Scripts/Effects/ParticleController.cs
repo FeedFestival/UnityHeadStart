@@ -9,7 +9,7 @@ using UniRx;
 public class ParticleController : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.0";
+    public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
     [Range(0.0f, 200.0f)]
     public float Size = 100.0f;
@@ -31,7 +31,7 @@ public class ParticleController : MonoBehaviour
 
     public void Init()
     {
-        Id = Main._.Game.GetUniqueId();
+        Id = Main.S.Game.GetUniqueId();
         AvailableInPool = true;
         gameObject.name = gameObject.name + "    " + Id;
 

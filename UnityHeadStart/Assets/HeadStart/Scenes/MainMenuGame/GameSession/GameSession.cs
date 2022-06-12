@@ -35,7 +35,7 @@ public class GameSession : MonoBehaviour, IUiView
             Init();
         }
 
-        bool hasCoreSession = CoreSession._ != null;
+        bool hasCoreSession = CoreSession.S != null;
         if (hasCoreSession)
         {
             AfterTheGame();
@@ -44,24 +44,24 @@ public class GameSession : MonoBehaviour, IUiView
 
         __.Time.RxWait(() =>
         {
-            SessionOpts sessionOpts = MenuEnvironment._.GetChallengeSession();
-            MenuEnvironment._.ClearChallengeSession();
+            SessionOpts sessionOpts = MenuEnvironment.S.GetChallengeSession();
+            MenuEnvironment.S.ClearChallengeSession();
 
             if (sessionOpts == null)
             {
                 sessionOpts = new SessionOpts()
                 {
-                    DevicePlayer = Main._.Game.DevicePlayer(),
-                    User = Main._.Game.DeviceUser()
+                    DevicePlayer = Main.S.Game.DevicePlayer(),
+                    User = Main.S.Game.DeviceUser()
                 };
             }
             CoreIoC.IoCDependencyResolver.CreateSession(sessionOpts);
 
             __.Transition.Do(Transition.START, () =>
             {
-                Main._.Game.LoadScene(SCENE.Game);
+                Main.S.Game.LoadScene(SCENE.Game);
             });
-        }, MenuEnvironment._.MOVE_CAMERA_TIME);
+        }, MenuEnvironment.S.MOVE_CAMERA_TIME);
     }
 
     public void onFocussed()
@@ -74,19 +74,19 @@ public class GameSession : MonoBehaviour, IUiView
 
     private void AfterTheGame()
     {
-        Main._.Game.InitDatabaseConnection();
+        Main.S.Game.InitDatabaseConnection();
 
         __.Transition.Do(Transition.END, () =>
         {
-            _sessionOpts = CoreSession._.SessionOpts;
-            Destroy(CoreSession._.gameObject);
+            _sessionOpts = CoreSession.S.SessionOpts;
+            Destroy(CoreSession.S.gameObject);
 
             Score score = _sessionOpts.GetScore();
-            score.Id = Main._.Game.DataService.AddScore(score);
+            score.Id = Main.S.Game.DataService.AddScore(score);
 
             UpdateToiletPaper();
 
-            User deviceUser = Main._.Game.DeviceUser();
+            User deviceUser = Main.S.Game.DeviceUser();
             bool isDeviceUser = deviceUser.LocalId == _sessionOpts.User.LocalId;
 
             if (_sessionOpts.IsChallenge)
@@ -97,9 +97,9 @@ public class GameSession : MonoBehaviour, IUiView
                     TryUpdateWeekScore(deviceUser, score);
                 }
 
-                MenuEnvironment._.SetupBackToMainMenuFor(VIEW.Challenge);
-                MenuEnvironment._.SwitchView(VIEW.Challenge);
-                Main._._EnvironmentReady__.OnNext(false);
+                MenuEnvironment.S.SetupBackToMainMenuFor(VIEW.Challenge);
+                MenuEnvironment.S.SwitchView(VIEW.Challenge);
+                Main.S._EnvironmentReady__.OnNext(false);
 
                 return;
             }
@@ -117,7 +117,7 @@ public class GameSession : MonoBehaviour, IUiView
                         return;
                     }
 
-                    Main._._EnvironmentReady__.OnNext(true);
+                    Main.S._EnvironmentReady__.OnNext(true);
                 }
                 else
                 {
@@ -142,8 +142,8 @@ public class GameSession : MonoBehaviour, IUiView
                                 _sessionOpts.User.LocalId = user.LocalId;
                                 _sessionOpts.User.Name = user.Name;
 
-                                Main._.Game.DataService.UpdateUser(_sessionOpts.User);
-                                Main._.Game.LoadUser();
+                                Main.S.Game.DataService.UpdateUser(_sessionOpts.User);
+                                Main.S.Game.LoadUser();
 
                                 UpdateHighScore();
                             });
@@ -158,25 +158,25 @@ public class GameSession : MonoBehaviour, IUiView
 
     private void UpdateToiletPaper()
     {
-        DevicePlayer devicePlayer = Main._.Game.DevicePlayer();
+        DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
         devicePlayer.toiletPaper = devicePlayer.toiletPaper + _sessionOpts.ToiletPaper;
         __json.Database.UpdatePlayer(devicePlayer);
-        Main._.Game.LoadDevicePlayer();
+        Main.S.Game.LoadDevicePlayer();
     }
 
     private void TryUpdateChallengerScore(Score score)
     {
-        ChallengerResult challengerResult = Main._.Game.DataService.GetChallengerScore(score.UserLocalId);
+        ChallengerResult challengerResult = Main.S.Game.DataService.GetChallengerScore(score.UserLocalId);
         if (challengerResult != null)
         {
             if (score.Points > challengerResult.Points)
             {
-                Main._.Game.DataService.UpdateChallengerScore(challengerResult.Id, score.Id);
+                Main.S.Game.DataService.UpdateChallengerScore(challengerResult.Id, score.Id);
             }
         }
         else
         {
-            Main._.Game.DataService.AddChallengerScore(score);
+            Main.S.Game.DataService.AddChallengerScore(score);
         }
     }
 
@@ -196,7 +196,7 @@ public class GameSession : MonoBehaviour, IUiView
     private bool TryUpdateWeekScore(User deviceUser, Score score)
     {
         League league = __data.GetThisWeeksLeague();
-        WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(deviceUser.LocalId, league);
+        WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(deviceUser.LocalId, league);
 
         if (weekScoreResult != null)
         {
@@ -207,7 +207,7 @@ public class GameSession : MonoBehaviour, IUiView
                     Id = weekScoreResult.Id,
                     ScoreId = score.Id
                 };
-                Main._.Game.DataService.UpdateWeekScore(weekScore);
+                Main.S.Game.DataService.UpdateWeekScore(weekScore);
                 return true;
             }
         }
@@ -217,7 +217,7 @@ public class GameSession : MonoBehaviour, IUiView
             {
                 ScoreId = score.Id
             };
-            Main._.Game.DataService.AddWeekScore(weekScore);
+            Main.S.Game.DataService.AddWeekScore(weekScore);
             return true;
         }
         return false;
@@ -230,6 +230,6 @@ public class GameSession : MonoBehaviour, IUiView
 
         Debug.Log("Ask user if he wants to go Ranked");
 
-        MenuEnvironment._.SwitchView(VIEW.MainMenu);
+        MenuEnvironment.S.SwitchView(VIEW.MainMenu);
     }
 }

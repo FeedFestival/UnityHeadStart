@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour, IUiView
         ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.GameSession);
+            MenuEnvironment.S.SwitchView(VIEW.GameSession);
         });
 
         ButtonHighscore.Init();
@@ -40,11 +40,11 @@ public class MainMenu : MonoBehaviour, IUiView
         ButtonChallenge.Init();
         ButtonChallenge.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.Challenge);
+            MenuEnvironment.S.SwitchView(VIEW.Challenge);
         });
         ButtonSettings.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.Settings);
+            MenuEnvironment.S.SwitchView(VIEW.Settings);
         });
 
         uiViewFocussed += onFocussed;
@@ -66,13 +66,13 @@ public class MainMenu : MonoBehaviour, IUiView
 
         ResetActions();
 
-        DevicePlayer devicePlayer = Main._.Game.DevicePlayer();
-        User user = Main._.Game.DeviceUser();
+        DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
+        User user = Main.S.Game.DeviceUser();
         UserNameTxt.text = devicePlayer.name;
         League league = __data.GetThisWeeksLeague();
         if (league != null)
         {
-            WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
+            WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
             if (weekScoreResult != null)
             {
                 ToiletPaperTxt.text = devicePlayer.toiletPaper.ToString();

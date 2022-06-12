@@ -9,7 +9,7 @@ public class MainMenuGame : GameBase
 
     public override void PreStartGame()
     {
-        MenuEnvironment._.Init();
+        MenuEnvironment.S.Init();
     }
 
     public override void StartGame()
@@ -20,11 +20,11 @@ public class MainMenuGame : GameBase
             __.Transition.Do(Transition.END);
             if (isFirstTime)
             {
-                MenuEnvironment._.SwitchView(VIEW.InputName);
+                MenuEnvironment.S.SwitchView(VIEW.InputName);
             }
             else
             {
-                MenuEnvironment._.SwitchView(VIEW.MainMenu);
+                MenuEnvironment.S.SwitchView(VIEW.MainMenu);
             }
         }, TIMEWAIT_INIT);
     }

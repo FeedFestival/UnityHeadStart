@@ -14,7 +14,7 @@ public class InitialSetup : MonoBehaviour, IUiView
 
     void IUiView.Focus()
     {
-        Main._._EnvironmentReady__.OnNext(true);
+        Main.S._EnvironmentReady__.OnNext(true);
     }
 
     GameObject IUiView.GO()
