@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/HeadStart/Scenes/ExampleGame/ExampleGame.unity
     guid: 098bdeb69ca4e704fabf2e706e72496c
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameTester/GameTester.unity
     guid: 97574ba00add98c43a845f1f27f4dc0c
   - enabled: 1

@@ -11,11 +11,15 @@ namespace Assets.HeadStart.Features.Database.JSON
 
     public class JSONDatabase : MonoBehaviour
     {
-        private static readonly string ASSETS_FILE_PATH = "JSON/player.json";
+        private static readonly string ASSETS_FILE_PATH = "player.json";
 
-        public void RecreateDatabase()
+        public void RecreateDatabase(string filepath = null)
         {
-            var filepath = FileUtils.GetStreamingAssetsFilePath(ASSETS_FILE_PATH, true);
+            if (string.IsNullOrEmpty(filepath))
+            {
+                filepath = FileUtils.GetStreamingAssetsFilePath(ASSETS_FILE_PATH, true);
+            }
+
             using (StreamWriter writer = new StreamWriter(filepath))
             {
                 var jsonString = JsonUtility.ToJson(new PlayerJson()
@@ -31,7 +35,7 @@ namespace Assets.HeadStart.Features.Database.JSON
 
         public void UpdatePlayer(DevicePlayer devicePlayer)
         {
-            var assetsFilePath = "JSON/player.json";
+            var assetsFilePath = "player.json";
             var filepath = FileUtils.GetStreamingAssetsFilePath(assetsFilePath, true);
             var playerJson = GetPlayerJson();
             using (StreamWriter writer = new StreamWriter(filepath))
@@ -46,7 +50,7 @@ namespace Assets.HeadStart.Features.Database.JSON
 
         public void UpdateGameSettings(GameSettings gameSettings)
         {
-            var assetsFilePath = "JSON/player.json";
+            var assetsFilePath = "player.json";
             var filepath = FileUtils.GetStreamingAssetsFilePath(assetsFilePath, true);
             var playerJson = GetPlayerJson();
             using (StreamWriter writer = new StreamWriter(filepath))

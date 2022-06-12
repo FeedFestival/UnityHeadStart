@@ -69,7 +69,9 @@ public class MainMenuGameTest : GameTestBase
             if (phase == null || phase.Count() == 0)
             {
                 Debug.Log("Testing Completed!");
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+#endif
                 return;
             }
             int key = phase.First().Key;

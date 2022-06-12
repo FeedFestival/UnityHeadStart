@@ -1,11 +1,21 @@
-using System.Collections.Generic;
+using IngameDebugConsole;
 using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuGame : GameBase
 {
     [Header("MainMenuGame")]
     private readonly float TIMEWAIT_INIT = 0.1F;
+
+    void Start()
+    {
+        DebugLogConsole.AddCommand(
+            "test",
+            "Run Tests On The Application",
+            RunTestTheApp
+        );
+    }
 
     public override void PreStartGame()
     {
@@ -27,5 +37,10 @@ public class MainMenuGame : GameBase
                 MenuEnvironment.S.SwitchView(VIEW.MainMenu);
             }
         }, TIMEWAIT_INIT);
+    }
+
+    private void RunTestTheApp()
+    {
+        SceneManager.LoadScene(2);
     }
 }

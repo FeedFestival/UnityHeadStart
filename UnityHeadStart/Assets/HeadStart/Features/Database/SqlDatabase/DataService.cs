@@ -13,24 +13,24 @@ namespace Assets.HeadStart.Features.Database
 #pragma warning restore 0414 //
         public string DefaultDatabaseName = "Database.db";
         private SQLiteConnection _connection;
+        private readonly bool DEBUG_LOG = false;
 
-        public DataService(string databaseName = null)
+        public DataService(string path = null)
         {
-            if (!string.IsNullOrEmpty(databaseName))
+            if (string.IsNullOrEmpty(path))
             {
-                DefaultDatabaseName = databaseName;
+                path = FileUtils.GetStreamingAssetsFilePath(DefaultDatabaseName, DEBUG_LOG);
             }
-            bool debugLog = false;
-            var path = FileUtils.GetStreamingAssetsFilePath(DefaultDatabaseName, debugLog);
+
             _connection = new SQLiteConnection(path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-            if (debugLog) Debug.Log("Final PATH: " + path);
+            if (DEBUG_LOG) Debug.Log("Final PATH: " + path);
         }
 
         public void CleanUpUsers()
         {
             _connection.DropTable<User>();
             _connection.CreateTable<User>();
-            Debug.Log("Removed all from User");
+            if (DEBUG_LOG) Debug.Log("Removed all from User");
         }
 
         public void CleanDB()
@@ -39,7 +39,7 @@ namespace Assets.HeadStart.Features.Database
             _connection.DropTable<Score>();
             _connection.DropTable<WeekScore>();
             _connection.DropTable<ChallengerScore>();
-            Debug.Log("Dropped Tables: User, Score, WeekScore, ChallengerScore");
+            if (DEBUG_LOG) Debug.Log("Dropped Tables: User, Score, WeekScore, ChallengerScore");
         }
 
         public void CreateDB()
@@ -48,7 +48,7 @@ namespace Assets.HeadStart.Features.Database
             _connection.CreateTable<Score>();
             _connection.CreateTable<WeekScore>();
             _connection.CreateTable<ChallengerScore>();
-            Debug.Log("Created Tables: User, Score, WeekScore, ChallengerScore");
+            if (DEBUG_LOG) Debug.Log("Created Tables: User, Score, WeekScore, ChallengerScore");
         }
 
         public void CreateDBIfNotExists()
@@ -59,7 +59,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<User>();
             }
             try
@@ -68,7 +68,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<Score>();
             }
             try
@@ -77,7 +77,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<ChallengerScore>();
             }
             try
@@ -86,7 +86,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<WeekScore>();
             }
         }
@@ -259,7 +259,7 @@ ORDER BY Points DESC
         public void UpdateWeekScore(WeekScore weekScore)
         {
             int rowsAffected = _connection.Update(weekScore);
-            Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
+            if (DEBUG_LOG) Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
         }
 
         //-----------------------
@@ -276,7 +276,7 @@ ORDER BY Points DESC
         internal void AddHighScore(HighScore highScore)
         {
             int rowsAffected = _connection.Insert(highScore);
-            Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
+            if (DEBUG_LOG) Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
         }
     }
 }
