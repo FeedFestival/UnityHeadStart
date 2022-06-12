@@ -20,7 +20,6 @@ public class ExampleGameTests
  
         // ASSERT
         bool passedTest = (sessionOpts.Points >= 800 && sessionOpts.Points <= 1500);
-        // Debug.Log("sessionOpts: " + sessionOpts.ToString());
         Assert.AreEqual(true, passedTest);
     }
 

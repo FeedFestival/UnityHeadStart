@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Assets.HeadStart.Core;
+using Assets.HeadStart.Core.SFX;
 using MyBox;
 using UnityEngine;
 
@@ -32,29 +33,10 @@ public class MenuEnvironment : MonoBehaviour
 
     public void Init()
     {
-        InitViews();
-        bool hasCoreSession = CoreSession._ != null;
-        if (hasCoreSession)
-        {
-            SwitchView(VIEW.GameSession, instant: true);
-        }
-        else
-        {
-            SwitchView(VIEW.Initial, instant: true);
-        }
+        initViews();
+        switchViewToTheAppropriateView();
         playBackgroundAnimations();
-    }
-
-    private void InitViews()
-    {
-        Views = new Dictionary<VIEW, IUiView>();
-        foreach (var obj in UiList)
-        {
-            var uiView = obj.UiViewGo.GetComponent<IUiView>();
-            uiView.GO().SetActive(true);
-            Views.Add(obj.View, uiView);
-        }
-        UiList = null;
+        playBackgroundMusic();
     }
 
     public void SwitchView(VIEW view, bool instant = false, bool storeHistory = true)
@@ -127,6 +109,31 @@ public class MenuEnvironment : MonoBehaviour
         SwitchView(lastView, storeHistory: false);
     }
 
+    private void initViews()
+    {
+        Views = new Dictionary<VIEW, IUiView>();
+        foreach (var obj in UiList)
+        {
+            var uiView = obj.UiViewGo.GetComponent<IUiView>();
+            uiView.GO().SetActive(true);
+            Views.Add(obj.View, uiView);
+        }
+        UiList = null;
+    }
+
+    private void switchViewToTheAppropriateView()
+    {
+        bool hasCoreSession = CoreSession._ != null;
+        if (hasCoreSession)
+        {
+            SwitchView(VIEW.GameSession, instant: true);
+        }
+        else
+        {
+            SwitchView(VIEW.Initial, instant: true);
+        }
+    }
+
     private void playCameraTransition()
     {
         _moveCameraTwid = LeanTween.move(
@@ -172,5 +179,11 @@ public class MenuEnvironment : MonoBehaviour
         {
             obj.As<EnvEllipse>().Play();
         }, 0.25f);
+    }
+
+    private void playBackgroundMusic()
+    {
+        MusicOpts opts = new MusicOpts("MainMenuMusic");
+        __.SFX.PlayBackgroundMusic(opts);
     }
 }

@@ -7,15 +7,10 @@ using Assets.HeadStart.Core;
 public class Main : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.0";
+    public static readonly string _version = "2.1.1";
 #pragma warning restore 0414 //
     private static Main _instance;
     public static Main _ { get { return _instance; } }
-    void Awake()
-    {
-        _instance = this;
-    }
-
     public bool ConsoleLog;
     public bool CheckForUpdates;
     public GameBase Game;
@@ -24,12 +19,30 @@ public class Main : MonoBehaviour
     public string CoreExtension = "";
     private Subject<bool> _checkVersionSub__ = new Subject<bool>();
     private Subject<bool> _preStartGameSub__ = new Subject<bool>();
+    public Subject<bool> _CameraReady__ = new Subject<bool>();
+    public Subject<bool> _EnvironmentReady__ = new Subject<bool>();
+    private IDisposable _combineLatestObs__;
     private const float MILISECONDS_BETWEEN_CHECKS = 100;
+
+    void Awake()
+    {
+        _instance = this;
+
+        _combineLatestObs__ = Observable
+            .CombineLatest(_CameraReady__, _EnvironmentReady__, (cam, env) => cam && env)
+            .Subscribe(continueStartingGame =>
+            {
+                _combineLatestObs__.Dispose();
+                
+                if (!continueStartingGame) return;
+
+                Game.StartGame();
+            });
+    }
 
     void Start()
     {
         CoreCamera = Camera.main.GetComponent<CoreCamera>();
-        Debug.Log("CoreCamera: " + CoreCamera);
         __.Transition.PitchBlack();
 
         if (ConsoleLog) Debug.Log("Starting... Checking to Make Sure Everything is running");

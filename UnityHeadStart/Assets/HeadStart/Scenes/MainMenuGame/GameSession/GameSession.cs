@@ -99,6 +99,7 @@ public class GameSession : MonoBehaviour, IUiView
 
                 MenuEnvironment._.SetupBackToMainMenuFor(VIEW.Challenge);
                 MenuEnvironment._.SwitchView(VIEW.Challenge);
+                Main._._EnvironmentReady__.OnNext(false);
 
                 return;
             }
@@ -116,7 +117,7 @@ public class GameSession : MonoBehaviour, IUiView
                         return;
                     }
 
-                    MenuEnvironment._.SwitchView(VIEW.MainMenu);
+                    Main._._EnvironmentReady__.OnNext(true);
                 }
                 else
                 {

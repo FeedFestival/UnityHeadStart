@@ -5,12 +5,10 @@ using UnityEngine;
 public class MainMenuGame : GameBase
 {
     [Header("MainMenuGame")]
-    public float TIMEWAIT_INIT;
-    public Dictionary<int, string> test;
+    private readonly float TIMEWAIT_INIT = 0.1F;
 
     public override void PreStartGame()
     {
-        // __.SFX.PlayBackgroundMusic("MainMenuMusic");
         MenuEnvironment._.Init();
     }
 

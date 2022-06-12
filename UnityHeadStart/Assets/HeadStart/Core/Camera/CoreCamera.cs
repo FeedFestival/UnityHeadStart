@@ -1,3 +1,4 @@
+using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +14,6 @@ public class CoreCamera : MonoBehaviour
     public CoreCameraSettings CoreCameraSettings;
     private Camera _camera;
     private CameraHelper _cameraHelper;
-    public delegate void OnCameraSetupDone();
-    private OnCameraSetupDone _onCameraSetupDone;
     private float _currentCameraSize;
     private float _toCameraSize;
     private Vector3 _toLogoSize;
@@ -33,16 +32,27 @@ public class CoreCamera : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Setup Camera");
-        
         _camera = gameObject.GetComponent<Camera>();
-        _currentCameraSize = PlayerPrefs.GetFloat("orthographicSize");
-        if (_currentCameraSize == 0)
+        adjustCameraForDevice();
+    }
+
+    private void adjustCameraForDevice()
+    {
+        GameSettings gameSettings = __json.Database.GetGameSettings();
+
+        if (gameSettings.isCameraSetForThisDevice == false)
         {
-            Debug.LogWarning("Please run MainMenu for [Initial Setup] Camera Adjustment");
-            _currentCameraSize = 3;
+            instantiateCameraHelperAndSetup();
+            revealLogo();
+            zoomOut();
         }
-        _camera.orthographicSize = _currentCameraSize;
+        else
+        {
+            _currentCameraSize = gameSettings.cameraSize2D;
+            _camera.orthographicSize = _currentCameraSize;
+            hideLogo();
+            Main._._CameraReady__.OnNext(true);
+        }
     }
 
     internal float GetCameraCurrentSize()
@@ -50,21 +60,15 @@ public class CoreCamera : MonoBehaviour
         return _currentCameraSize;
     }
 
-    internal void InitSetup(CameraHelper cameraHelper, OnCameraSetupDone onCameraSetupDone)
+    private void instantiateCameraHelperAndSetup()
     {
+        var go = Instantiate(CoreCameraSettings.CameraHelperPrefab, Vector3.zero, Quaternion.identity);
+        go.transform.position = new Vector3(-30, -10);
+        _cameraHelper = go.GetComponent<CameraHelper>();
+
+        _currentCameraSize = 3;
         _camera.orthographicSize = _currentCameraSize / 2;
-        _cameraHelper = cameraHelper;
-        _onCameraSetupDone = onCameraSetupDone;
-
         LogoT.localScale = new Vector3(4, 4, 4);
-        RevealLogo();
-
-        zoomOut();
-    }
-
-    public void DestroyLogo()
-    {
-        Destroy(LogoT.gameObject);
     }
 
     private void zoomOut()
@@ -72,9 +76,8 @@ public class CoreCamera : MonoBehaviour
         _currentCameraSize = _camera.orthographicSize;
         _toCameraSize = _currentCameraSize * 2;
         _toLogoSize = (_toLogoSize + (TO_LOGO_SIZE * 2));
-        Debug.Log("_toLogoSize: " + _toLogoSize);
 
-        EnlargeLogo();
+        enlargeLogo();
 
         _alignCameraToHelperTwid = LeanTween.value(
             gameObject,
@@ -110,29 +113,38 @@ public class CoreCamera : MonoBehaviour
         LeanTween.cancel(_enlargeLogoTwid.Value);
         _enlargeLogoTwid = null;
 
-        _currentCameraSize = _camera.orthographicSize;
-        PlayerPrefs.SetFloat("orthographicSize", _currentCameraSize);
-
-        HideLogo();
-        _onCameraSetupDone();
+        saveCameraSize();
+        hideLogo();
+        Main._._CameraReady__.OnNext(true);
     }
 
-    private void EnlargeLogo()
+    private void saveCameraSize()
+    {
+        _currentCameraSize = _camera.orthographicSize;
+
+        GameSettings gameSettings = __json.Database.GetGameSettings();
+        gameSettings.isCameraSetForThisDevice = true;
+        gameSettings.cameraSize2D = _currentCameraSize;
+
+        __json.Database.UpdateGameSettings(gameSettings);
+    }
+
+    private void enlargeLogo()
     {
         _enlargeLogoTwid = LeanTween.scale(LogoT.gameObject, _toLogoSize, CAMERA_SETUP_TIME).id;
     }
 
-    private void RevealLogo()
+    private void revealLogo()
     {
         LeanTween.alpha(LogoT.gameObject, 1f, CAMERA_SETUP_TIME);
     }
 
-    private void HideLogo()
+    private void hideLogo()
     {
         LeanTween.alpha(LogoT.gameObject, 0f, HIDE_LOGO_TIME)
             .setOnComplete(() =>
             {
-                DestroyLogo();
+                Destroy(LogoT.gameObject);
             });
     }
 

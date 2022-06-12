@@ -44,6 +44,21 @@ namespace Assets.HeadStart.Features.Database.JSON
             }
         }
 
+        public void UpdateGameSettings(GameSettings gameSettings)
+        {
+            var assetsFilePath = "JSON/player.json";
+            var filepath = FileUtils.GetStreamingAssetsFilePath(assetsFilePath, true);
+            var playerJson = GetPlayerJson();
+            using (StreamWriter writer = new StreamWriter(filepath))
+            {
+                playerJson.gameSettings = gameSettings;
+                var jsonString = JsonUtility.ToJson(playerJson);
+
+                writer.Write(jsonString);
+                writer.Close();
+            }
+        }
+
         public PlayerJson GetPlayerJson()
         {
             var filepath = FileUtils.GetStreamingAssetsFilePath(ASSETS_FILE_PATH, true);
@@ -60,6 +75,13 @@ namespace Assets.HeadStart.Features.Database.JSON
             var playerJson = GetPlayerJson();
             if (playerJson == null) { Debug.LogWarning("No PlayerJson"); return null; }
             return playerJson.player;
+        }
+
+        public GameSettings GetGameSettings()
+        {
+            var playerJson = GetPlayerJson();
+            if (playerJson == null) { Debug.LogWarning("No PlayerJson"); return null; }
+            return playerJson.gameSettings;
         }
     }
 }
@@ -97,5 +119,5 @@ public class GameSettings
     public string language;
     public bool isCameraSetForThisDevice;
     public int cameraSize3D;
-    public int cameraSize2D;
+    public float cameraSize2D;
 }

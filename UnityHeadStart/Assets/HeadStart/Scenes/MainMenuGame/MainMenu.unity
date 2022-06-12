@@ -2427,7 +2427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  TIMEWAIT_INIT: 0.1
 --- !u!1 &8882961134748480092
 GameObject:
   m_ObjectHideFlags: 0
