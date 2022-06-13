@@ -8,13 +8,13 @@ namespace Assets.HeadStart.Core.SFX
     public class SFXBase : MonoBehaviour, IDependency, ISFX
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.1";
 #pragma warning restore 0414 //
-        protected  Dictionary<string, MAudio> Sounds;
+        protected Dictionary<string, MAudio> Sounds;
         public AudioClip MainMenuMusic;
         public AudioClip ClickSound;
 
-        public virtual  void Init()
+        public virtual void Init()
         {
             Sounds = new Dictionary<string, MAudio>()
         {
@@ -37,12 +37,14 @@ namespace Assets.HeadStart.Core.SFX
             if (_backgroundMusicId.HasValue)
             {
                 audio = EazySoundManager.GetAudio(_backgroundMusicId.Value);
-                if (audio == null)
+                if (audio != null)
                 {
-                    Debug.LogWarning("audio has a problem");
-                    return;
+                    audio.Stop();
                 }
-                audio.Stop();
+                // else
+                // {
+                //     Debug.LogWarning("Audio has a problem as in it doesn't have any audio.");
+                // }
             }
             _backgroundMusicId = EazySoundManager
                 .PrepareMusic(Sounds[opts.MusicName].AudioClip, opts.Volume, opts.Loop, false, opts.FadeInSeconds, opts.FadeOutSeconds);
@@ -75,13 +77,11 @@ namespace Assets.HeadStart.Core.SFX
             {
                 Audio audio = null;
                 audio = EazySoundManager.GetAudio(_ambientMusicId.Value);
-                if (audio == null)
+                if (audio != null)
                 {
-                    Debug.LogWarning("audio has a problem");
-                    return;
+                    audio.Stop();
+                    audio = null;
                 }
-                audio.Stop();
-                audio = null;
             }
         }
 

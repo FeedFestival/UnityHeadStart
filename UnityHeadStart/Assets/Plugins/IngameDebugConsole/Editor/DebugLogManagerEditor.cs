@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 
 namespace IngameDebugConsole
 {
@@ -78,3 +79,4 @@ namespace IngameDebugConsole
 		}
 	}
 }
+#endif

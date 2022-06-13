@@ -6,7 +6,7 @@ namespace Assets.HeadStart.Core
     public class IoCDependencyResolver : MonoBehaviour
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.0";
 #pragma warning restore 0414 //
         public CoreDependencies CoreDependencies;
         public Dictionary<Dependency, GameObject> _dependencies;
@@ -38,7 +38,7 @@ namespace Assets.HeadStart.Core
             }
         }
 
-        internal void CreateSession(SessionOpts sessionOpts)
+        public void CreateSession(SessionOpts sessionOpts)
         {
             var go = GameObject.Instantiate(CoreDependencies.CoreSession);
             go.name = go.name.Replace("(Clone)", "[" + sessionOpts.User.Name + "]");

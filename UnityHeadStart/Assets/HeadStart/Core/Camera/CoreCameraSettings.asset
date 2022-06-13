@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CoreCameraSettings
   m_EditorClassIdentifier: 
   IngameDebugConsole: {fileID: 132536, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
-  Initial2D: {fileID: 5733961173934925428, guid: 75ad85911a6f9e64dbac4386324637f3,
+  CameraHelperPrefab: {fileID: 4856656116947269180, guid: aca23b4e8ba5bf44b9bafc6a77c1fd7f,
     type: 3}

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+using System;
 using Assets.Scripts.utils;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Assets.HeadStart.Features.Database
 {
@@ -109,3 +107,4 @@ namespace Assets.HeadStart.Features.Database
         }
     }
 }
+#endif

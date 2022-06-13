@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Features.ScreenData
     public class PointGrower : MonoBehaviour
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
         private RectTransform _rt;
         public Vector2 Pos;
@@ -26,7 +26,7 @@ namespace Assets.HeadStart.Features.ScreenData
         //--------------------------- GAME CONSTANTS ------------------------
         private readonly float POINTS_ENLARGE_DURATION_SECONDS = 0.3f;
 
-        internal void Init(
+        public void Init(
             WorldCanvasPoint pointsWCP,
             CoreNrCallback addPoints
         )
@@ -39,7 +39,7 @@ namespace Assets.HeadStart.Features.ScreenData
             _rt = gameObject.GetComponent<RectTransform>();
             __world2d.PositionRtBasedOnScreenAnchors(
                 pointsWCP, rt: _rt,
-                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+                screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
             );
             _normalSize = _rt.sizeDelta;
             Pos = new Vector2(
@@ -113,7 +113,7 @@ namespace Assets.HeadStart.Features.ScreenData
             SetPoints();
         }
 
-        internal void WriteTotal(int total)
+        public void WriteTotal(int total)
         {
             _text.text = total.ToString();
         }

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using Assets.HeadStart.Core;
+using Assets.HeadStart.Core.SFX;
 using MyBox;
 using UnityEngine;
 
 public class MenuEnvironment : MonoBehaviour
 {
     private static MenuEnvironment _this;
-    public static MenuEnvironment _ { get { return _this; } }
+    public static MenuEnvironment S { get { return _this; } }
     void Awake() { _this = this; }
 
     [Serializable]
@@ -32,29 +33,10 @@ public class MenuEnvironment : MonoBehaviour
 
     public void Init()
     {
-        InitViews();
-        bool hasCoreSession = CoreSession._ != null;
-        if (hasCoreSession)
-        {
-            SwitchView(VIEW.GameSession, instant: true);
-        }
-        else
-        {
-            SwitchView(VIEW.Initial, instant: true);
-        }
+        initViews();
+        switchViewToTheAppropriateView();
         playBackgroundAnimations();
-    }
-
-    private void InitViews()
-    {
-        Views = new Dictionary<VIEW, IUiView>();
-        foreach (var obj in UiList)
-        {
-            var uiView = obj.UiViewGo.GetComponent<IUiView>();
-            uiView.GO().SetActive(true);
-            Views.Add(obj.View, uiView);
-        }
-        UiList = null;
+        playBackgroundMusic();
     }
 
     public void SwitchView(VIEW view, bool instant = false, bool storeHistory = true)
@@ -74,12 +56,13 @@ public class MenuEnvironment : MonoBehaviour
         _moveCameraTo = Views[View].GO().transform.position;
         if (instant)
         {
-            Main._.CoreCamera.transform.position = new Vector3(
+            Main.S.CoreCamera.transform.position = new Vector3(
                 _moveCameraTo.x,
                 _moveCameraTo.y,
-                Main._.CoreCamera.transform.position.z
+                Main.S.CoreCamera.transform.position.z
             );
-            __.Time.RxWait(() => { Views[View].OnFocussed(); }, 1);
+            if (Views[View].UiViewFocussed == null) { return; }
+            __.Time.RxWait(() => { Views[View].UiViewFocussed.Invoke(); }, 1);
             return;
         }
 
@@ -126,22 +109,47 @@ public class MenuEnvironment : MonoBehaviour
         SwitchView(lastView, storeHistory: false);
     }
 
+    private void initViews()
+    {
+        Views = new Dictionary<VIEW, IUiView>();
+        foreach (var obj in UiList)
+        {
+            var uiView = obj.UiViewGo.GetComponent<IUiView>();
+            uiView.GO().SetActive(true);
+            Views.Add(obj.View, uiView);
+        }
+        UiList = null;
+    }
+
+    private void switchViewToTheAppropriateView()
+    {
+        bool hasCoreSession = CoreSession.S != null;
+        if (hasCoreSession)
+        {
+            SwitchView(VIEW.GameSession, instant: true);
+        }
+        else
+        {
+            SwitchView(VIEW.Initial, instant: true);
+        }
+    }
+
     private void playCameraTransition()
     {
         _moveCameraTwid = LeanTween.move(
-            Main._.CoreCamera.gameObject,
+            Main.S.CoreCamera.gameObject,
             _moveCameraTo,
             MOVE_CAMERA_TIME
         ).id;
         LeanTween.descr(_moveCameraTwid.Value).setEase(LeanTweenType.easeInOutQuart);
         LeanTween.descr(_moveCameraTwid.Value).setOnComplete(() =>
         {
-            Views[View].OnFocussed();
+            Views[View].UiViewFocussed.Invoke();
         });
 
         _scaleCameraTwid = LeanTween.value(
-            Main._.CoreCamera.gameObject,
-            Main._.CoreCamera.GetCameraCurrentSize(),
+            Main.S.CoreCamera.gameObject,
+            Main.S.CoreCamera.GetCameraCurrentSize(),
             TO_CAMERA_SIZE,
             MOVE_CAMERA_TIME / 2
         ).id;
@@ -153,9 +161,9 @@ public class MenuEnvironment : MonoBehaviour
         LeanTween.descr(_scaleCameraTwid.Value).setOnComplete(() =>
         {
             _scaleCameraTwid = LeanTween.value(
-                Main._.CoreCamera.gameObject,
+                Main.S.CoreCamera.gameObject,
                 TO_CAMERA_SIZE,
-                Main._.CoreCamera.GetCameraCurrentSize(),
+                Main.S.CoreCamera.GetCameraCurrentSize(),
                 MOVE_CAMERA_TIME / 2
             ).id;
             LeanTween.descr(_scaleCameraTwid.Value).setOnUpdate((float val) =>
@@ -171,5 +179,11 @@ public class MenuEnvironment : MonoBehaviour
         {
             obj.As<EnvEllipse>().Play();
         }, 0.25f);
+    }
+
+    private void playBackgroundMusic()
+    {
+        MusicOpts opts = new MusicOpts("MainMenuMusic");
+        __.SFX.PlayBackgroundMusic(opts);
     }
 }

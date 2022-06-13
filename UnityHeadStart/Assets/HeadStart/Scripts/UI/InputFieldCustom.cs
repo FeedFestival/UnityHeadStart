@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class InputFieldCustom : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.8";
+    public static readonly string _version = "2.1.0";
 #pragma warning restore 0414 //
     public Image BorderDown;
     public Text Label;
@@ -34,6 +34,7 @@ public class InputFieldCustom : MonoBehaviour
     public void Init(float pWidth)
     {
         _labelWidth = pWidth;
+        setLabelColor(1);
         InternalInit();
         OnBlur();
     }
@@ -63,9 +64,7 @@ public class InputFieldCustom : MonoBehaviour
         }
         else
         {
-            var color = LabelColor;
-            color.a = 0;
-            Label.color = color;
+            setLabelColor();
             LeanTween.alphaText(Label.gameObject.GetComponent<RectTransform>(), 1, _animationSpeed);
         }
 
@@ -104,9 +103,7 @@ public class InputFieldCustom : MonoBehaviour
         }
         else
         {
-            var color = LabelColor;
-            color.a = 255;
-            Label.color = color;
+            setLabelColor(1);
             LeanTween.alphaText(Label.gameObject.GetComponent<RectTransform>(), 0, _animationSpeed);
         }
 
@@ -124,5 +121,12 @@ public class InputFieldCustom : MonoBehaviour
             InputField.text = InputField.text.ToUpper();
 
         OnChangeDelegate?.Invoke();
+    }
+
+    private void setLabelColor(float a = 0)
+    {
+        var color = LabelColor;
+        color.a = a;
+        Label.color = color;
     }
 }

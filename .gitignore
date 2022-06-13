@@ -60,3 +60,6 @@ crashlytics-build.properties
 UnityHeadStart/Library/ArtifactDB
 UnityHeadStart/Library/
 UnityHeadStart/Temp/
+UnityHeadStart/Logs/
+UnityHeadStart/obj/
+

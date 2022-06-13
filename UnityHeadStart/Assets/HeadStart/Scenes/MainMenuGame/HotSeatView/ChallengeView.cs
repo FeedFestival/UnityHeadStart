@@ -1,5 +1,6 @@
 ﻿using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ChallengeView : MonoBehaviour, IUiView
 {
@@ -11,30 +12,35 @@ public class ChallengeView : MonoBehaviour, IUiView
     public WorldCanvasPoint tableWCP;
     private bool _isInitialized;
 
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+
     private void Init()
     {
         ButtonBack.OnClick(() =>
         {
             _challengeCanvas.gameObject.SetActive(false);
-            MenuEnvironment._.Back();
+            MenuEnvironment.S.Back();
         });
 
         ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
             _challengeCanvas.gameObject.SetActive(false);
-            MenuEnvironment._.InputNameForChallenge = true;
-            MenuEnvironment._.SwitchView(VIEW.InputName);
+            MenuEnvironment.S.InputNameForChallenge = true;
+            MenuEnvironment.S.SwitchView(VIEW.InputName);
         });
 
         var go = Instantiate(
             ChallengeSettings.ChallengeConvas,
             Vector3.zero,
             Quaternion.identity,
-            parent: Main._.CoreCamera.Views
+            parent: Main.S.CoreCamera.Views
         );
         (go.transform as RectTransform).localPosition = Vector3.zero;
         _challengeCanvas = go.GetComponent<ChallengeCanvas>();
+
+        uiViewFocussed += onFocussed;
 
         _isInitialized = true;
     }
@@ -62,10 +68,10 @@ public class ChallengeView : MonoBehaviour, IUiView
                 return;
             }
             CleanUp();
-        }, MenuEnvironment._.MOVE_CAMERA_TIME);
+        }, MenuEnvironment.S.MOVE_CAMERA_TIME);
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
         EnableActions();
     }

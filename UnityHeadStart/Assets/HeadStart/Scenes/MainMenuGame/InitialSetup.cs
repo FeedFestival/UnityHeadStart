@@ -1,26 +1,20 @@
 using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InitialSetup : MonoBehaviour, IUiView
 {
-    public bool SkipCameraSetup;
-    public CameraHelper CameraHelper;
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+
+    private void Init()
+    {
+        uiViewFocussed += onFocussed;
+    }
+
     void IUiView.Focus()
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        SkipCameraSetup = false;
-#endif
-        if (SkipCameraSetup)
-        {
-            Main._.CoreCamera.DestroyLogo();
-            Main._.Game.StartGame();
-            return;
-        }
-
-        Main._.CoreCamera.InitSetup(CameraHelper, () =>
-        {
-            Main._.Game.StartGame();
-        });
+        Main.S._EnvironmentReady__.OnNext(true);
     }
 
     GameObject IUiView.GO()
@@ -28,7 +22,8 @@ public class InitialSetup : MonoBehaviour, IUiView
         return gameObject;
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
+        // TODO: no class should be forced to implement a function it doesn't use
     }
 }

@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Core
     public static class CoreIoC
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
         public static IoCDependencyResolver IoCDependencyResolver;
         private static Dictionary<Dependency, bool> _initializedDependencies = new Dictionary<Dependency, bool>();
@@ -18,10 +18,10 @@ namespace Assets.HeadStart.Core
         {
             string coreExtension = string.Empty;
             bool hasCoreExtension = false;
-            if (string.IsNullOrWhiteSpace(Main._.CoreExtension) == false)
+            if (string.IsNullOrWhiteSpace(Main.S.CoreExtension) == false)
             {
                 hasCoreExtension = true;
-                coreExtension = Main._.CoreExtension;
+                coreExtension = Main.S.CoreExtension;
             }
             GameObject drGo;
             if (hasCoreExtension)
@@ -73,10 +73,10 @@ namespace Assets.HeadStart.Core
         {
             string coreExtension = string.Empty;
             bool hasCoreExtension = false;
-            if (string.IsNullOrWhiteSpace(Main._.CoreExtension) == false)
+            if (string.IsNullOrWhiteSpace(Main.S.CoreExtension) == false)
             {
                 hasCoreExtension = true;
-                coreExtension = Main._.CoreExtension;
+                coreExtension = Main.S.CoreExtension;
             }
             GameObject drGo;
             if (hasCoreExtension)

@@ -1,33 +1,46 @@
-using System.Collections.Generic;
+using IngameDebugConsole;
 using Assets.HeadStart.Core;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuGame : GameBase
 {
     [Header("MainMenuGame")]
-    public float TIMEWAIT_INIT;
-    public Dictionary<int, string> test;
+    private readonly float TIMEWAIT_INIT = 0.1F;
+
+    void Start()
+    {
+        DebugLogConsole.AddCommand(
+            "test",
+            "Run Tests On The Application",
+            RunTestTheApp
+        );
+    }
 
     public override void PreStartGame()
     {
-        // __.SFX.PlayBackgroundMusic("MainMenuMusic");
-        MenuEnvironment._.Init();
+        MenuEnvironment.S.Init();
     }
 
     public override void StartGame()
     {
         __.Time.RxWait(() =>
         {
-            bool isFirstTime = DeviceUser().IsFirstTime;
+            bool isFirstTime = DevicePlayer().isFirstTime;
             __.Transition.Do(Transition.END);
             if (isFirstTime)
             {
-                MenuEnvironment._.SwitchView(VIEW.InputName);
+                MenuEnvironment.S.SwitchView(VIEW.InputName);
             }
             else
             {
-                MenuEnvironment._.SwitchView(VIEW.MainMenu);
+                MenuEnvironment.S.SwitchView(VIEW.MainMenu);
             }
         }, TIMEWAIT_INIT);
+    }
+
+    private void RunTestTheApp()
+    {
+        SceneManager.LoadScene(2);
     }
 }

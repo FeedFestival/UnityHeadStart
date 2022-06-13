@@ -1,8 +1,8 @@
-﻿using Assets.HeadStart.Core;
-using Assets.HeadStart.Features.Database;
+﻿using Assets.HeadStart.Features.Database;
 using Assets.Scripts.utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public delegate void Clicked();
 
@@ -16,14 +16,19 @@ public class MainMenu : MonoBehaviour, IUiView
     public TextMeshPro ToiletPaperTxt;
     public TextMeshPro HighWeekPointsTxt;
 
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+
     private bool _isInitialized;
 
     private void Init()
     {
+        initValues();
+
         ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.GameSession);
+            MenuEnvironment.S.SwitchView(VIEW.GameSession);
         });
 
         ButtonHighscore.Init();
@@ -35,12 +40,14 @@ public class MainMenu : MonoBehaviour, IUiView
         ButtonChallenge.Init();
         ButtonChallenge.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.Challenge);
+            MenuEnvironment.S.SwitchView(VIEW.Challenge);
         });
         ButtonSettings.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.Settings);
+            MenuEnvironment.S.SwitchView(VIEW.Settings);
         });
+
+        uiViewFocussed += onFocussed;
 
         _isInitialized = true;
     }
@@ -59,15 +66,16 @@ public class MainMenu : MonoBehaviour, IUiView
 
         ResetActions();
 
-        User user = Main._.Game.DeviceUser();
-        UserNameTxt.text = user.Name;
+        DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
+        User user = Main.S.Game.DeviceUser();
+        UserNameTxt.text = devicePlayer.name;
         League league = __data.GetThisWeeksLeague();
         if (league != null)
         {
-            WeekScoreResult weekScoreResult = Main._.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
+            WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
             if (weekScoreResult != null)
             {
-                ToiletPaperTxt.text = user.ToiletPaper.ToString();
+                ToiletPaperTxt.text = devicePlayer.toiletPaper.ToString();
                 HighWeekPointsTxt.text = weekScoreResult.Points.ToString();
             }
             return;
@@ -77,11 +85,17 @@ public class MainMenu : MonoBehaviour, IUiView
         HighWeekPointsTxt.text = string.Empty;
     }
 
-    public void OnFocussed()
+    private void onFocussed()
     {
         EnableActions();
     }
 
+    private void initValues()
+    {
+        UserNameTxt.text = "";
+        ToiletPaperTxt.text = "";
+        HighWeekPointsTxt.text = "";
+    }
 
     private void ResetActions()
     {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assets.HeadStart.Core;
 using Assets.Scripts.utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InputNameCanvas : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class InputNameCanvas : MonoBehaviour
     private List<User> _users;
     private string _name;
     private RectTransform _rt;
-    private CoreObjCallback _coreCallback;
+    public event UnityAction<object> InputFieldChange;
     private bool _isInitialized;
 
     void Awake()
@@ -27,24 +28,24 @@ public class InputNameCanvas : MonoBehaviour
         {
             __world2d.PositionRtBasedOnScreenAnchors(
                 worldCanvasPoint, rt: _rt,
-                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+                screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
             );
         }
 
         InputFieldCustom.Init(_rt.sizeDelta.x);
 
-        if (Main._.Game.DeviceUser().IsFirstTime)
+        if (Main.S.Game.DevicePlayer().isFirstTime)
         {
             InputFieldCustom.OnBlurDelegate = () =>
             {
                 _name = InputFieldCustom.InputField.text;
                 if (string.IsNullOrWhiteSpace(_name) || _name.Length > 25)
                 {
-                    _coreCallback(null);
+                    InputFieldChange.Invoke(null);
                     return;
                 }
 
-                _coreCallback(_name);
+                InputFieldChange.Invoke(_name);
             };
 
             return;
@@ -55,12 +56,12 @@ public class InputNameCanvas : MonoBehaviour
             _name = InputFieldCustom.InputField.text;
             if (string.IsNullOrWhiteSpace(_name))
             {
-                _coreCallback(null);
+                InputFieldChange.Invoke(null);
             }
             else
             {
                 SessionOpts sessionOpts = PlayChallenge();
-                _coreCallback(sessionOpts);
+                InputFieldChange.Invoke(sessionOpts);
             }
         };
 
@@ -68,8 +69,7 @@ public class InputNameCanvas : MonoBehaviour
     }
 
     public void Show(
-        WorldCanvasPoint worldCanvasPoint,
-        CoreObjCallback coreCallback
+        WorldCanvasPoint worldCanvasPoint
     )
     {
         if (_isInitialized == false)
@@ -77,14 +77,12 @@ public class InputNameCanvas : MonoBehaviour
             Init(worldCanvasPoint);
         }
 
-        _coreCallback = coreCallback;
-
         InputFieldCustom.InputField.text = "";
         _name = "";
 
         InputFieldCustom.gameObject.SetActive(true);
 
-        if (Main._.Game.DeviceUser().IsFirstTime)
+        if (Main.S.Game.DevicePlayer().isFirstTime)
         {
             return;
         }
@@ -93,7 +91,7 @@ public class InputNameCanvas : MonoBehaviour
 
     public void ShowPreviousChallengers()
     {
-        _users = Main._.Game.DataService.GetUsers();
+        _users = Main.S.Game.DataService.GetUsers();
 
         bool noUsers = _users == null || _users.Count == 0;
         if (noUsers)
@@ -134,7 +132,7 @@ public class InputNameCanvas : MonoBehaviour
 
     public SessionOpts PlayChallenge()
     {
-        User playingUser = Main._.Game.DataService.GetUserByName(InputFieldCustom.InputField.text);
+        User playingUser = Main.S.Game.DataService.GetUserByName(InputFieldCustom.InputField.text);
         if (playingUser == null)
         {
             playingUser = new User()

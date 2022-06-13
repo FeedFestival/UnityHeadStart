@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Features.Dialog
     public class DialogCanvas : MonoBehaviour
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
         public TMP_Text TextTitle;
         public TMP_Text TextInfo;
@@ -23,7 +23,7 @@ namespace Assets.HeadStart.Features.Dialog
         {
             __world2d.PositionRtBasedOnScreenAnchors(
                 dialogWCP, rt: transform as RectTransform,
-                screenSize: Main._.CoreCamera.CanvasRt.sizeDelta
+                screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
             );
         }
 

@@ -1,10 +1,6 @@
 using System;
 using SQLite4Unity3d;
 using UnityEngine;
-#if !UNITY_EDITOR
-using System.Collections;
-using System.IO;
-#endif
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,75 +9,28 @@ namespace Assets.HeadStart.Features.Database
     public class DataService
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.0.8";
+        public static readonly string _version = "2.1.0";
 #pragma warning restore 0414 //
         public string DefaultDatabaseName = "Database.db";
-        const string _assetsPath = "Assets/HeadStart";
         private SQLiteConnection _connection;
+        private readonly bool DEBUG_LOG = false;
 
-        public DataService(string databaseName = null)
+        public DataService(string path = null)
         {
-            if (string.IsNullOrEmpty(databaseName) == false)
+            if (string.IsNullOrEmpty(path))
             {
-                DefaultDatabaseName = databaseName;
+                path = FileUtils.GetStreamingAssetsFilePath(DefaultDatabaseName, DEBUG_LOG);
             }
-            #region DataServiceInit
-#if UNITY_EDITOR
-            var dbPath = string.Format(_assetsPath + @"/StreamingAssets/{0}", DefaultDatabaseName);
-#else
-        // check if file exists in Application.persistentDataPath
-        var filepath = string.Format("{0}/{1}", Application.persistentDataPath, DefaultDatabaseName);
 
-        if (!File.Exists(filepath))
-        {
-            Debug.Log("Database not in Persistent path");
-            // if it doesn't ->
-            // open StreamingAssets directory and load the db ->
-
-#if UNITY_ANDROID
-            var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DefaultDatabaseName);  // this is the path to your StreamingAssets in android
-            while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
-            // then save to Application.persistentDataPath
-            File.WriteAllBytes(filepath, loadDb.bytes);
-#elif UNITY_IOS
-                 var loadDb = Application.dataPath + "/Raw/" + DefaultDatabaseName;  // this is the path to your StreamingAssets in iOS
-                // then save to Application.persistentDataPath
-                File.Copy(loadDb, filepath);
-#elif UNITY_WP8
-                var loadDb = Application.dataPath + "/StreamingAssets/" + DefaultDatabaseName;  // this is the path to your StreamingAssets in iOS
-                // then save to Application.persistentDataPath
-                File.Copy(loadDb, filepath);
-
-#elif UNITY_WINRT
-		var loadDb = Application.dataPath + "/StreamingAssets/" + DefaultDatabaseName;  // this is the path to your StreamingAssets in iOS
-		// then save to Application.persistentDataPath
-		File.Copy(loadDb, filepath);
-#else
-	var loadDb = Application.dataPath + "/StreamingAssets/" + DefaultDatabaseName;  // this is the path to your StreamingAssets in iOS
-	// then save to Application.persistentDataPath
-	File.Copy(loadDb, filepath);
-
-#endif
-
-            Debug.Log("Database written");
-        }
-
-        var dbPath = filepath;
-#endif
-
-            #endregion
-
-            _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-#if UNITY_ANDROID
-            Debug.Log("Final PATH: " + dbPath);
-#endif
+            _connection = new SQLiteConnection(path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+            if (DEBUG_LOG) Debug.Log("Final PATH: " + path);
         }
 
         public void CleanUpUsers()
         {
             _connection.DropTable<User>();
             _connection.CreateTable<User>();
-            Debug.Log("Removed all from User");
+            if (DEBUG_LOG) Debug.Log("Removed all from User");
         }
 
         public void CleanDB()
@@ -90,7 +39,7 @@ namespace Assets.HeadStart.Features.Database
             _connection.DropTable<Score>();
             _connection.DropTable<WeekScore>();
             _connection.DropTable<ChallengerScore>();
-            Debug.Log("Dropped Tables: User, Score, WeekScore, ChallengerScore");
+            if (DEBUG_LOG) Debug.Log("Dropped Tables: User, Score, WeekScore, ChallengerScore");
         }
 
         public void CreateDB()
@@ -99,7 +48,7 @@ namespace Assets.HeadStart.Features.Database
             _connection.CreateTable<Score>();
             _connection.CreateTable<WeekScore>();
             _connection.CreateTable<ChallengerScore>();
-            Debug.Log("Created Tables: User, Score, WeekScore, ChallengerScore");
+            if (DEBUG_LOG) Debug.Log("Created Tables: User, Score, WeekScore, ChallengerScore");
         }
 
         public void CreateDBIfNotExists()
@@ -110,7 +59,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<User>();
             }
             try
@@ -119,7 +68,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<Score>();
             }
             try
@@ -128,7 +77,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<ChallengerScore>();
             }
             try
@@ -137,7 +86,7 @@ namespace Assets.HeadStart.Features.Database
             }
             catch (Exception ex)
             {
-                Debug.LogWarning(ex.Message);
+                if (DEBUG_LOG) Debug.LogWarning(ex.Message);
                 _connection.CreateTable<WeekScore>();
             }
         }
@@ -179,7 +128,7 @@ namespace Assets.HeadStart.Features.Database
             return null;
         }
 
-        internal List<User> GetUsers()
+        public List<User> GetUsers()
         {
             List<User> users = _connection.Query<User>(@"
 SELECT
@@ -192,7 +141,7 @@ LIMIT 8
             return users;
         }
 
-        internal User GetUserByName(string name)
+        public User GetUserByName(string name)
         {
             string sql = @"
 SELECT *
@@ -209,7 +158,7 @@ LIMIT 1
             return users[0];
         }
 
-        internal void AddToiletPaper(int userLocalId, int toiletPaper)
+        public void AddToiletPaper(int userLocalId, int toiletPaper)
         {
             string sql = "UPDATE User SET ToiletPaper = " + toiletPaper + " WHERE LocalId = " + userLocalId;
             _connection.Execute(sql);
@@ -221,7 +170,7 @@ LIMIT 1
         //----------------------------------------------
         //-----------------------
 
-        internal ChallengerResult GetChallengerScore(int userLocalId)
+        public ChallengerResult GetChallengerScore(int userLocalId)
         {
             List<ChallengerResult> challengerScores = _connection.Query<ChallengerResult>(@"
 SELECT
@@ -239,7 +188,7 @@ ORDER BY Points DESC
             return null;
         }
 
-        internal void UpdateChallengerScore(int challengeId, int newScoreId)
+        public void UpdateChallengerScore(int challengeId, int newScoreId)
         {
             ChallengerScore challenge = new ChallengerScore()
             {
@@ -249,7 +198,7 @@ ORDER BY Points DESC
             int rowsAffected = _connection.Update(challenge);
         }
 
-        internal void AddChallengerScore(Score score)
+        public void AddChallengerScore(Score score)
         {
             ChallengerScore challenge = new ChallengerScore()
             {
@@ -258,7 +207,7 @@ ORDER BY Points DESC
             _connection.Insert(challenge);
         }
 
-        internal List<HighScore> GetChallengersHighscores()
+        public List<HighScore> GetChallengersHighscores()
         {
             List<HighScore> highscores = _connection.Query<HighScore>(@"
 SELECT
@@ -285,7 +234,7 @@ LIMIT 10;
         //----------------------------------------------
         //-----------------------
 
-        internal WeekScoreResult GetHighestScoreThisWeek(int userLocalId, League league)
+        public WeekScoreResult GetHighestScoreThisWeek(int userLocalId, League league)
         {
             string sql = @"
 SELECT
@@ -302,15 +251,15 @@ ORDER BY Points DESC
             return weekScoreResult.FirstOrDefault();
         }
 
-        internal int AddWeekScore(WeekScore weekScore)
+        public int AddWeekScore(WeekScore weekScore)
         {
             return _connection.Insert(weekScore);
         }
 
-        internal void UpdateWeekScore(WeekScore weekScore)
+        public void UpdateWeekScore(WeekScore weekScore)
         {
             int rowsAffected = _connection.Update(weekScore);
-            Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
+            if (DEBUG_LOG) Debug.Log("(UPDATE WeekScore) rowsAffected : " + rowsAffected);
         }
 
         //-----------------------
@@ -319,7 +268,7 @@ ORDER BY Points DESC
         //--------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------------
 
-        internal int AddScore(Score weekScore)
+        public int AddScore(Score weekScore)
         {
             return _connection.Insert(weekScore);
         }
@@ -327,7 +276,7 @@ ORDER BY Points DESC
         internal void AddHighScore(HighScore highScore)
         {
             int rowsAffected = _connection.Insert(highScore);
-            Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
+            if (DEBUG_LOG) Debug.Log("(CREATED HighScore) rowsAffected : " + rowsAffected);
         }
     }
 }

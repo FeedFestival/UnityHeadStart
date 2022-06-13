@@ -5,7 +5,7 @@ using UnityEngine;
 public class LayoutStyle : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.0.8";
+    public static readonly string _version = "2.1.2";
 #pragma warning restore 0414 //
     public bool debug;
     [Separator("Size")]
@@ -44,7 +44,7 @@ public class LayoutStyle : MonoBehaviour
     {
         _rt = (transform as RectTransform);
         _parentRt = (transform.parent as RectTransform);
-        var parentRect = RectTransformUtility.PixelAdjustRect(_parentRt, Main._.CoreCamera.Canvas);
+        var parentRect = RectTransformUtility.PixelAdjustRect(_parentRt, Main.S.CoreCamera.Canvas);
 
         if (Size)
         {
@@ -52,7 +52,6 @@ public class LayoutStyle : MonoBehaviour
                 Width > 0 ? __percent.Find(Width, parentRect.width) : parentRect.width,
                 Height > 0 ? __percent.Find(Height, parentRect.height) : parentRect.height
             );
-            if (debug) Debug.Log("newSizeDelta: " + newSizeDelta);
             _rt.sizeDelta = newSizeDelta;
         }
 
@@ -80,7 +79,6 @@ public class LayoutStyle : MonoBehaviour
                     __percent.Find(Left, parentRect.width),
                     _rt.anchoredPosition.y
                 );
-                if (debug) Debug.Log("newAnchoredPosition: " + newAnchoredPosition);
                 _rt.anchoredPosition = newAnchoredPosition;
             }
             else

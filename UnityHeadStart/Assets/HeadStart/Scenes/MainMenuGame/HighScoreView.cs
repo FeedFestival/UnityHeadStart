@@ -2,6 +2,7 @@
 using UniRx;
 using System.Collections.Generic;
 using Assets.HeadStart.Core;
+using UnityEngine.Events;
 
 public class HighScoreView : MonoBehaviour, IUiView
 {
@@ -10,21 +11,27 @@ public class HighScoreView : MonoBehaviour, IUiView
     public GameButton ButtonPlay;
     private bool _isInitialized;
     private Dictionary<string, string> _requestHeaders = new Dictionary<string, string>();
+    
+    UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
+    public event UnityAction uiViewFocussed;
+    
     private void Init()
     {
         ButtonBack.OnClick(() =>
         {
-            MenuEnvironment._.Back();
+            MenuEnvironment.S.Back();
         });
         ButtonUpload.OnClick(() =>
         {
-            MenuEnvironment._.SwitchView(VIEW.HighScore);
+            MenuEnvironment.S.SwitchView(VIEW.HighScore);
         });
         ButtonPlay.OnClick(() =>
         {
             Debug.Log("TODO: Play Game");
         });
 
+        uiViewFocussed += onFocussed;
+        
         _isInitialized = true;
     }
 
@@ -75,7 +82,7 @@ public class HighScoreView : MonoBehaviour, IUiView
             });
     }
 
-    public void OnFocussed()
+    public void onFocussed()
     {
         __.Time.RxWait(() =>
         {
