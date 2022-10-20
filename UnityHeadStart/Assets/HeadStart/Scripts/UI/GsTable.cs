@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using Assets.HeadStart.Core;
+using Assets.Scripts.utils;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GsTable : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.0";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     public GsTableRow DefaultRow;
     public List<GsTableRow> Rows;
@@ -55,9 +56,11 @@ public class GsTable : MonoBehaviour
         {
             Init();
         }
-
         __.Time.RxWait(() =>
         {
+            // __debug.DebugList(tableData, "tableData", (GsTableData row) => {
+            //     return __debug.GetDebugList(row.Values, "row: ");
+            // });
             int i = 0;
             foreach (GsTableRow row in Rows)
             {

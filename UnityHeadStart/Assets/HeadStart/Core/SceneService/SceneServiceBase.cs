@@ -6,7 +6,7 @@ namespace Assets.HeadStart.Core.SceneService
     public class SceneServiceBase : MonoBehaviour, IDependency, ISceneService
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.0";
+        public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
         public SceneManagerSO SceneManager;
         SceneReference ISceneService.GetScene(SCENE scene)

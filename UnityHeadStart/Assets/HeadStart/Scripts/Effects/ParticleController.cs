@@ -9,7 +9,7 @@ using UniRx;
 public class ParticleController : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.2";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     [Range(0.0f, 200.0f)]
     public float Size = 100.0f;

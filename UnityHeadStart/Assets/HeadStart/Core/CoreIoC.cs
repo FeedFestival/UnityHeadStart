@@ -9,7 +9,7 @@ namespace Assets.HeadStart.Core
     public static class CoreIoC
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.2";
+        public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
         public static IoCDependencyResolver IoCDependencyResolver;
         private static Dictionary<Dependency, bool> _initializedDependencies = new Dictionary<Dependency, bool>();
@@ -218,7 +218,7 @@ namespace Assets.HeadStart.Core
             CoreSceneIoC.Inject(dependency);
         }
 
-        internal static void ClearSceneDependencies()
+        public static void ClearSceneDependencies()
         {
             _sceneDependencies.Clear();
             CoreSceneIoC.ClearDependencies();

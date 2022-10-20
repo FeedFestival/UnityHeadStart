@@ -8,7 +8,7 @@ namespace Assets.HeadStart.Core
     public class CoreEvent
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.0";
+        public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
         private object s_stationLock = new object();
         private object s_intervalLock = new object();
@@ -176,6 +176,24 @@ namespace Assets.HeadStart.Core
         }
 
         public void Unregister(Evt eventId, Action handler)
+        {
+            lock (s_stationLock)
+            {
+                if (e_station.ContainsKey(eventId))
+                {
+                    List<EvtPackage> evtPackages = e_station[eventId];
+                    evtPackages.ForEach(p => p.disposable?.Dispose());
+                    evtPackages.Clear();
+                    e_station.Remove(eventId);
+                }
+                else
+                {
+                    Debug.LogWarning("[Event Bus] try to unregister event id [" + eventId + "] but not found");
+                }
+            }
+        }
+
+        public void Unregister(Evt eventId, Action<object> handler)
         {
             lock (s_stationLock)
             {
@@ -365,7 +383,7 @@ namespace Assets.HeadStart.Core
     {
         internal Subject<object> subject = new Subject<object>();
         internal Subject<bool> subjectBool = new Subject<bool>();
-        internal IDisposable disposable = null;
+        public IDisposable disposable = null;
         internal IObservable<object> observable { get { return subject; } }
         internal IObservable<bool> observableBool { get { return subjectBool; } }
         internal string busId;

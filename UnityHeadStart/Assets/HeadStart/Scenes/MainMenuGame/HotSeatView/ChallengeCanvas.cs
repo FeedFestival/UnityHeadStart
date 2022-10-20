@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.HeadStart.Core;
 using Assets.HeadStart.Features.Database;
 using Assets.Scripts.utils;
 using UnityEngine;
@@ -14,22 +15,17 @@ public class ChallengeCanvas : MonoBehaviour
         ChallengeTable.gameObject.SetActive(false);
     }
 
-    public void Init(WorldCanvasPoint tableWCP)
+    public void Init()
     {
-        _rt = (transform as RectTransform);
-        __world2d.PositionRtBasedOnScreenAnchors(
-            tableWCP, rt: _rt,
-            screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
-        );
-
+        _rt = transform as RectTransform;
         _isInitialized = true;
     }
 
-    public void Show(WorldCanvasPoint tableWCP)
+    public void Show()
     {
         if (_isInitialized == false)
         {
-            Init(tableWCP);
+            Init();
         }
 
         List<HighScore> highscores = Main.S.Game.DataService.GetChallengersHighscores();

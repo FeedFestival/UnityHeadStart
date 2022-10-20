@@ -22,17 +22,9 @@ public class InputNameCanvas : MonoBehaviour
         ChallengersContainer.SetActive(false);
     }
 
-    private void Init(WorldCanvasPoint worldCanvasPoint)
+    private void Init()
     {
-        if (worldCanvasPoint)
-        {
-            __world2d.PositionRtBasedOnScreenAnchors(
-                worldCanvasPoint, rt: _rt,
-                screenSize: Main.S.CoreCamera.CanvasRt.sizeDelta
-            );
-        }
-
-        InputFieldCustom.Init(_rt.sizeDelta.x);
+        InputFieldCustom.Init();
 
         if (Main.S.Game.DevicePlayer().isFirstTime)
         {
@@ -68,13 +60,11 @@ public class InputNameCanvas : MonoBehaviour
         _isInitialized = true;
     }
 
-    public void Show(
-        WorldCanvasPoint worldCanvasPoint
-    )
+    public void Show()
     {
         if (_isInitialized == false)
         {
-            Init(worldCanvasPoint);
+            Init();
         }
 
         InputFieldCustom.InputField.text = "";

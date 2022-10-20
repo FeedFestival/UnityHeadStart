@@ -5,10 +5,10 @@ using UnityEngine;
 public class LayoutStyle : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.2";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     public bool debug;
-    [Separator("Size")]
+    [Separator("Size %")]
     public bool Size;
     [ConditionalField(nameof(Size), false, true)]
     public float Width;
@@ -40,7 +40,7 @@ public class LayoutStyle : MonoBehaviour
         __style.Register(this);
     }
 
-    public void CalculateDom()
+    public virtual void CalculateDom()
     {
         _rt = (transform as RectTransform);
         _parentRt = (transform.parent as RectTransform);

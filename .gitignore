@@ -61,5 +61,10 @@ UnityHeadStart/Library/ArtifactDB
 UnityHeadStart/Library/
 UnityHeadStart/Temp/
 UnityHeadStart/Logs/
+UnityHeadStart/Logs
 UnityHeadStart/obj/
 
+/UnityHeadStart/Logs/AssetImportWorker0.log
+/UnityHeadStart/Logs/AssetImportWorker0.log
+/UnityHeadStart/Logs/shadercompiler-AssetImportWorker0.log
+/UnityHeadStart/UserSettings/Layouts/default-2021.dwlt

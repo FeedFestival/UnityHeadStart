@@ -1,18 +1,19 @@
 using Assets.HeadStart.Core;
+using UnityEngine;
 
 public class MainMenuPhase_PlayChallenge
 {
-    private MainMenuGameTest _parentTest;
+    protected MainMenuGameTest _parentTest;
 
     public MainMenuPhase_PlayChallenge(MainMenuGameTest parentTest)
     {
         _parentTest = parentTest;
     }
 
-    public void Test()
+    public virtual void Test()
     {
+        Debug.Log("MainMenuPhase_PlayChallenge");
         _parentTest.LoadMainMenuRef();
-
         _parentTest.MainMenuRef.uiViewFocussed += playChallengeGame1;
     }
 
@@ -30,7 +31,7 @@ public class MainMenuPhase_PlayChallenge
         }, _parentTest.TimeBetweenActions);
     }
 
-    private void playChallengeGame2()
+    protected void playChallengeGame2()
     {
         _parentTest.ChallengeRef.uiViewFocussed -= playChallengeGame2;
 
@@ -55,14 +56,17 @@ public class MainMenuPhase_PlayChallenge
 
             var go = _parentTest.GetGo("InputFieldCustom_InputName");
             var input = go.GetComponent<InputFieldCustom>();
+            this.TypeInTesterName(input);
+        }, _parentTest.TimeBetweenActions);
+    }
 
-            input.OnFocus();
-            input.InputField.text = "GameTester";
-            __.Time.RxWait(() =>
-            {
-                input.OnBlur();
-            }, _parentTest.TimeBetweenActions);
-
+    public virtual void TypeInTesterName(InputFieldCustom input)
+    {
+        input.OnFocus();
+        input.InputField.text = "GameTester";
+        __.Time.RxWait(() =>
+        {
+            input.OnBlur();
         }, _parentTest.TimeBetweenActions);
     }
 

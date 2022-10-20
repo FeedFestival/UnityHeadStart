@@ -1,4 +1,5 @@
 using Assets.HeadStart.Core;
+using UnityEngine;
 
 public class MainMenuPhase_PlayWithBackButton
 {
@@ -12,6 +13,7 @@ public class MainMenuPhase_PlayWithBackButton
 
     public void Test()
     {
+        Debug.Log("MainMenuPhase_PlayWithBackButton");
         _parentTest.LoadChallengeRef();
 
         _parentTest.ChallengeRef.uiViewFocussed += PlayWithBackButton1;

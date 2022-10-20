@@ -6,10 +6,8 @@ public class ChallengeView : MonoBehaviour, IUiView
 {
     public GameButton ButtonBack;
     public GameButton ButtonPlay;
-    private ChallengeCanvas _challengeCanvas;
+    public ChallengeCanvas ChallengeCanvas;
     public ChallengeSettingsSO ChallengeSettings;
-    [Header("Canvas Points")]
-    public WorldCanvasPoint tableWCP;
     private bool _isInitialized;
 
     UnityAction IUiView.UiViewFocussed { get => uiViewFocussed; }
@@ -19,29 +17,18 @@ public class ChallengeView : MonoBehaviour, IUiView
     {
         ButtonBack.OnClick(() =>
         {
-            _challengeCanvas.gameObject.SetActive(false);
+            ChallengeCanvas.gameObject.SetActive(false);
             MenuEnvironment.S.Back();
         });
 
         ButtonPlay.Init();
         ButtonPlay.OnClick(() =>
         {
-            _challengeCanvas.gameObject.SetActive(false);
+            ChallengeCanvas.gameObject.SetActive(false);
             MenuEnvironment.S.InputNameForChallenge = true;
             MenuEnvironment.S.SwitchView(VIEW.InputName);
         });
-
-        var go = Instantiate(
-            ChallengeSettings.ChallengeConvas,
-            Vector3.zero,
-            Quaternion.identity,
-            parent: Main.S.CoreCamera.Views
-        );
-        (go.transform as RectTransform).localPosition = Vector3.zero;
-        _challengeCanvas = go.GetComponent<ChallengeCanvas>();
-
         uiViewFocussed += onFocussed;
-
         _isInitialized = true;
     }
 
@@ -61,13 +48,8 @@ public class ChallengeView : MonoBehaviour, IUiView
 
         __.Time.RxWait(() =>
         {
-            _challengeCanvas.gameObject.SetActive(true);
-            _challengeCanvas.Show(tableWCP);
-            if (tableWCP == null)
-            {
-                return;
-            }
-            CleanUp();
+            ChallengeCanvas.gameObject.SetActive(true);
+            ChallengeCanvas.Show();
         }, MenuEnvironment.S.MOVE_CAMERA_TIME);
     }
 
@@ -85,11 +67,5 @@ public class ChallengeView : MonoBehaviour, IUiView
     private void EnableActions()
     {
         ButtonPlay.Enable();
-    }
-
-    private void CleanUp()
-    {
-        Destroy(tableWCP.gameObject);
-        tableWCP = null;
     }
 }

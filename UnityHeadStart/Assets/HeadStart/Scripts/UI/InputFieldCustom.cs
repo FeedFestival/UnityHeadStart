@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class InputFieldCustom : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.0";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     public Image BorderDown;
     public Text Label;
@@ -20,10 +20,13 @@ public class InputFieldCustom : MonoBehaviour
     private float _labelMinHeight = 40f;
     private int _labelFontSize;
     private int _labelMinFontSize = 20;
-
+    [SerializeField]
     private float _borderDownHeight;
+    [SerializeField]
     private float _borderDownMaxWidth = 340f;
+    [SerializeField]
     private float _borderDownMinWidth = 0f;
+    private RectTransform _rt;
 
     public delegate void OnBlurCallback();
     public OnBlurCallback OnBlurDelegate;
@@ -31,9 +34,10 @@ public class InputFieldCustom : MonoBehaviour
     public delegate void OnChangeCallback();
     public OnChangeCallback OnChangeDelegate;
 
-    public void Init(float pWidth)
+    public void Init()
     {
-        _labelWidth = pWidth;
+        _rt = transform as RectTransform;
+        _labelWidth = _rt.sizeDelta.x;
         setLabelColor(1);
         InternalInit();
         OnBlur();

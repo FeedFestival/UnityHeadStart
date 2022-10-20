@@ -5,7 +5,7 @@ namespace Assets.HeadStart.CoreUi
     public static class __ui
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.0";
+        public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
         private static Dictionary<UiDependency, IUiDependency> _uiCoreDependencies = new Dictionary<UiDependency, IUiDependency>();
         private static Dictionary<int, IUiDependency> _uiCustomDependencies = new Dictionary<int, IUiDependency>();
@@ -25,11 +25,27 @@ namespace Assets.HeadStart.CoreUi
             }
         }
 
+        public static void Init(UiDependency dependency)
+        {
+            if (_uiCoreDependencies.ContainsKey(dependency))
+            {
+                _uiCoreDependencies[dependency].InitDependency(null);
+            }
+        }
+
         public static void Init(UiDependency dependency, object obj)
         {
             if (_uiCoreDependencies.ContainsKey(dependency))
             {
                 _uiCoreDependencies[dependency].InitDependency(obj);
+            }
+        }
+
+        public static void Init(int customDependency)
+        {
+            if (_uiCustomDependencies.ContainsKey(customDependency))
+            {
+                _uiCustomDependencies[customDependency].InitDependency(null);
             }
         }
 

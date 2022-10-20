@@ -39,7 +39,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats:
     - _Ambient: 0.5
     - _Bevel: 0.5
@@ -121,8 +120,7 @@ MonoBehaviour:
   materialHashCode: 1470844197
   m_Version: 1.1.0
   m_SourceFontFileGUID: bb640c709659c8a47aa0791b82b72a0f
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: bb640c709659c8a47aa0791b82b72a0f,
-    type: 3}
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: bb640c709659c8a47aa0791b82b72a0f, type: 3}
   m_SourceFontFile: {fileID: 0}
   m_AtlasPopulationMode: 0
   m_FaceInfo:

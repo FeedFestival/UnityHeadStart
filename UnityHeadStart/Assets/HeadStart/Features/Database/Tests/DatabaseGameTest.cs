@@ -14,6 +14,7 @@ namespace Assets.HeadStart.Features.Database
             var dataService = new DataService();
             dataService.CleanDB();
 
+            Debug.Log("__json.Database.RecreateDatabase()");
             __json.Database.RecreateDatabase();
 
             _waitEnmtor = waitEnumerator();
@@ -26,6 +27,7 @@ namespace Assets.HeadStart.Features.Database
 
             StopCoroutine(_waitEnmtor);
             SceneManager.LoadScene("MainMenu");
+            //__.ClearSceneDependencies();
         }
     }
 }

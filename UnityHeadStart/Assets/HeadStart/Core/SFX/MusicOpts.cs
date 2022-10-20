@@ -3,7 +3,7 @@ namespace Assets.HeadStart.Core.SFX
     public class MusicOpts
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.1";
+        public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
         public string MusicName;
         public float Volume;
@@ -33,6 +33,11 @@ namespace Assets.HeadStart.Core.SFX
             MusicName = musicName;
             Loop = loop;
             Time = time;
+        }
+        public MusicOpts(string musicName, bool loop = true)
+        {
+            MusicName = musicName;
+            Loop = loop;
         }
     }
 }

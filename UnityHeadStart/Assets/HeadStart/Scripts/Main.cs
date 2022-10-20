@@ -7,7 +7,7 @@ using Assets.HeadStart.Core;
 public class Main : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.2";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     private static Main _instance;
     public static Main S { get { return _instance; } }

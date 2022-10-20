@@ -5,7 +5,8 @@ namespace Assets.HeadStart.Core
     public delegate void CoreCallback();
     public delegate void CoreNrCallback(float Id);
     public delegate void CoreIdCallback(int Id);
-    public delegate void CoreNumbersCallback(params int[] list);
+    public delegate void CoreNumbersCallback(int[] list);
+    public delegate void CoreNumbersParamsCallback(params int[] list);
     public delegate void CoreIdNCallback(int? Id);
     public delegate void CoreObjCallback(object obj);
 

@@ -112,6 +112,7 @@ public class DevicePlayer
     public string name;
     public int toiletPaper;
     public bool isFirstTime;
+    public bool playedTutorial;
     public bool isRegistered;
     public float completedPercentage;
 }

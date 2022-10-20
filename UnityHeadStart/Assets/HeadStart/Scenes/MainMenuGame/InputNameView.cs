@@ -7,9 +7,7 @@ public class InputNameView : MonoBehaviour, IUiView
 {
     public GameButton ButtonBack;
     public GameButton ButtonPlay;
-    public WorldCanvasPoint WorldCanvasPoint;
-    internal InputNameCanvas InputNameCanvas;
-    public InputNameSettings InputNameSettings;
+    public InputNameCanvas InputNameCanvas;
     private bool _isInitialized;
     private bool _isInputInitialized;
     private string _userInputChangedName;
@@ -57,18 +55,7 @@ public class InputNameView : MonoBehaviour, IUiView
             }
             MenuEnvironment.S.SwitchView(VIEW.GameSession);
         });
-
-        var go = Instantiate(
-            InputNameSettings.InputNameConvas,
-            Vector3.zero,
-            Quaternion.identity,
-            parent: Main.S.CoreCamera.Views
-        );
-        (go.transform as RectTransform).localPosition = Vector3.zero;
-        InputNameCanvas = go.GetComponent<InputNameCanvas>();
-
         uiViewFocussed += onFocussed; 
-
         _isInitialized = true;
     }
 
@@ -115,15 +102,8 @@ public class InputNameView : MonoBehaviour, IUiView
         }
         _isInputInitialized = true;
         InputNameCanvas.gameObject.SetActive(true);
-        InputNameCanvas.Show(WorldCanvasPoint);
+        InputNameCanvas.Show();
         InputNameCanvas.InputFieldChange += onInputFieldChange;
-
-        if (WorldCanvasPoint == null)
-        {
-            return;
-        }
-        Destroy(WorldCanvasPoint.gameObject);
-        WorldCanvasPoint = null;
     }
 
     private void onInputFieldChange(object obj)

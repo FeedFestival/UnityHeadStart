@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour, IUiView
         ButtonHighscore.Init();
         // ButtonHighscore.OnClick(() =>
         // {
-        //     MenuEnvironment._.SwitchView(VIEW.HighScore);
+        //     MenuEnvironment.S.SwitchView(VIEW.HighScore);
         // });
 
         ButtonChallenge.Init();

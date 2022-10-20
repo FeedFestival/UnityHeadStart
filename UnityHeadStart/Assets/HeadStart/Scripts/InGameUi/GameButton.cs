@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameButton : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.0";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     public Color EnableColor;
     public Color DisableColor;
@@ -76,8 +76,8 @@ public class GameButton : MonoBehaviour
         {
             return;
         }
-        MusicOpts mOpts = new MusicOpts("Click");
-        __.SFX.PlaySound(mOpts);
+        MusicOpts mOpts = new MusicOpts("Click", loop: false);
+        __.SFX.PlaySFX(mOpts);
         _clicked();
     }
 

@@ -1,4 +1,5 @@
 using Assets.HeadStart.Core;
+using UnityEngine;
 
 public class MainMenuPhase_FirstTime
 {
@@ -11,8 +12,8 @@ public class MainMenuPhase_FirstTime
 
     public void Test()
     {
+        Debug.Log("MainMenuPhase_FirstTime");
         _parentTest.LoadInputNameRef();
-
         _parentTest.InputNameRef.uiViewFocussed += step1;
     }
 

@@ -12,8 +12,8 @@ public class MainMenuPhase_PlayGame
 
     public void Test()
     {
+        Debug.Log("MainMenuPhase_PlayGame");
         _parentTest.LoadMainMenuRef();
-
         _parentTest.MainMenuRef.uiViewFocussed += PlayGame1;
     }
 

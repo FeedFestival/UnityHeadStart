@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,7 +10,7 @@ namespace Assets.Scripts.utils
     public static class __utils
     {
 #pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.1.0";
+        public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
         public static string ConvertNumberToK(int num)
         {
@@ -57,6 +60,19 @@ namespace Assets.Scripts.utils
             if (aExclude)
                 v = ~v;
             return v;
+        }
+
+        public static string GetUniqueIDS() {
+            StringBuilder builder = new StringBuilder();
+            Enumerable
+               .Range(65, 26)
+                .Select(e => ((char)e).ToString())
+                .Concat(Enumerable.Range(97, 26).Select(e => ((char)e).ToString()))
+                .Concat(Enumerable.Range(0, 10).Select(e => e.ToString()))
+                .OrderBy(e => Guid.NewGuid())
+                .Take(11)
+                .ToList().ForEach(e => builder.Append(e));
+            return builder.ToString();
         }
     }
 

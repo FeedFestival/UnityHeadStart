@@ -1,3 +1,4 @@
+using Assets.HeadStart.Core;
 using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 public class CoreCamera : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.1.2";
+    public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     public RectTransform CanvasRt;
     [HideInInspector]
@@ -15,18 +16,22 @@ public class CoreCamera : MonoBehaviour
     // TODO: add Logo functionality to HeadStart
     public Transform LogoT;
     public CoreCameraSettings CoreCameraSettings;
+    public LoadingVersion LoadingVersion;
     private Camera _camera;
     private CameraHelper _cameraHelper;
     private float _currentCameraSize;
+    private float _multiplierCameraSize;
     private float _toCameraSize;
     private Vector3 _toLogoSize;
     private int? _alignCameraToHelperTwid;
     private int? _enlargeLogoTwid;
-    public const float CAMERA_SETUP_TIME = 4f;
+    public static readonly float CAMERA_SETUP_TIME = 8f;
     private const float HIDE_LOGO_TIME = 0.77f;
     private readonly Vector3 TO_LOGO_SIZE = new Vector3(44, 44, 44);
     private bool _foundTheSweetSpot;
     private bool _debugActivated;
+    private bool _foundBoundsFlag = false;
+    private float _zoomedOutCount;
 
     void Awake()
     {
@@ -37,24 +42,27 @@ public class CoreCamera : MonoBehaviour
     {
         _camera = gameObject.GetComponent<Camera>();
         adjustCameraForDevice();
+        if (LoadingVersion) { LoadingVersion.ChangeLoading(0.1f); }
     }
 
     private void adjustCameraForDevice()
     {
         GameSettings gameSettings = __json.Database.GetGameSettings();
-
         if (gameSettings.isCameraSetForThisDevice == false)
         {
             instantiateCameraHelperAndSetup();
-            revealLogo();
-            zoomOut();
+            if (LogoT)
+            {
+                revealLogo();
+                zoomOut();
+            }
         }
         else
         {
             _currentCameraSize = gameSettings.cameraSize2D;
             _camera.orthographicSize = _currentCameraSize;
-            hideLogo();
-            Main.S._CameraReady__.OnNext(true);
+            if (LoadingVersion) { LoadingVersion.ChangeLoading(1f); }
+            __.Time.RxWait(() => { CameraIsReady(); }, 2f);
         }
     }
 
@@ -66,21 +74,26 @@ public class CoreCamera : MonoBehaviour
     private void instantiateCameraHelperAndSetup()
     {
         var go = Instantiate(CoreCameraSettings.CameraHelperPrefab, Vector3.zero, Quaternion.identity);
-        go.transform.position = new Vector3(-30, -10);
+        go.transform.position = new Vector3(-30, -10, -9.5f);
         _cameraHelper = go.GetComponent<CameraHelper>();
 
-        _currentCameraSize = 3;
+        _multiplierCameraSize = 3;
+        _currentCameraSize = 2;
         _camera.orthographicSize = _currentCameraSize / 2;
-        LogoT.localScale = new Vector3(4, 4, 4);
+        if (LogoT)
+        {
+            LogoT.localScale = new Vector3(4, 4, 4);
+        }
     }
 
     private void zoomOut()
     {
         _currentCameraSize = _camera.orthographicSize;
-        _toCameraSize = _currentCameraSize * 2;
+        _toCameraSize = _currentCameraSize + _multiplierCameraSize;
         _toLogoSize = (_toLogoSize + (TO_LOGO_SIZE * 2));
 
-        enlargeLogo();
+        this.enlargeLogo();
+        this.changeLoading();
 
         _alignCameraToHelperTwid = LeanTween.value(
             gameObject,
@@ -91,9 +104,13 @@ public class CoreCamera : MonoBehaviour
         LeanTween.descr(_alignCameraToHelperTwid.Value).setEase(LeanTweenType.linear);
         LeanTween.descr(_alignCameraToHelperTwid.Value).setOnUpdate((float val) =>
         {
+            if (_foundBoundsFlag) { return; }
+
             _camera.orthographicSize = val;
+            LoadingVersion.ChangeVersion(val);
             if (_cameraHelper.CanSeeBounds())
             {
+                _foundBoundsFlag = true;
                 _foundTheSweetSpot = true;
                 foundSpot();
             }
@@ -117,8 +134,7 @@ public class CoreCamera : MonoBehaviour
         _enlargeLogoTwid = null;
 
         saveCameraSize();
-        hideLogo();
-        Main.S._CameraReady__.OnNext(true);
+        CameraIsReady();
     }
 
     private void saveCameraSize()
@@ -137,6 +153,13 @@ public class CoreCamera : MonoBehaviour
         _enlargeLogoTwid = LeanTween.scale(LogoT.gameObject, _toLogoSize, CAMERA_SETUP_TIME).id;
     }
 
+    private void changeLoading()
+    {
+        _zoomedOutCount++;
+        var newVal = 1f / (1 + _zoomedOutCount);
+        LoadingVersion.ChangeLoading(newVal < 0.1f ? 0.1f : newVal);
+    }
+
     private void revealLogo()
     {
         LeanTween.alpha(LogoT.gameObject, 1f, CAMERA_SETUP_TIME);
@@ -144,11 +167,19 @@ public class CoreCamera : MonoBehaviour
 
     private void hideLogo()
     {
+        if (LogoT == null) { return; }
+
         LeanTween.alpha(LogoT.gameObject, 0f, HIDE_LOGO_TIME)
             .setOnComplete(() =>
             {
                 Destroy(LogoT.gameObject);
             });
+    }
+
+    private void hideLoading()
+    {
+        if (!LoadingVersion) { return; }
+        LoadingVersion.CleanDestroy();
     }
 
     void Update()
@@ -178,5 +209,12 @@ public class CoreCamera : MonoBehaviour
         go.name = debugConsoleName;
         _debugActivated = true;
         go.SetActive(true);
+    }
+
+    private void CameraIsReady()
+    {
+        this.hideLogo();
+        this.hideLoading();
+        Main.S._CameraReady__.OnNext(true);
     }
 }

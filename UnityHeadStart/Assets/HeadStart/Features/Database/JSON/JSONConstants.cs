@@ -8,6 +8,7 @@ namespace Assets.HeadStart.Features.Database.JSON
             name = "no-name-user",
             toiletPaper = 10,
             isFirstTime = true,
+            playedTutorial = false,
             isRegistered = false,
             completedPercentage = 0
         };
