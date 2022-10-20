@@ -1,6 +1,6 @@
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.SFX;
-using Assets.Scripts.utils;
+using GameScrypt.GSUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,7 +59,7 @@ namespace Assets.HeadStart.Features.ScreenData
         }
         public void ShowOnScreen(Vector3 ballsCenterPosition, Vector2 reflectDir)
         {
-            __world2d.ShowOnScreen(ref _rt, ballsCenterPosition, _actualScreenSize, isAtCenter: false);
+            GSWorld2D.ShowOnScreen(ref _rt, ballsCenterPosition, _actualScreenSize, isAtCenter: false);
 
             var multiplier = _actualScreenSize.x / 4;
             reflectDir = new Vector2(reflectDir.x, -1);

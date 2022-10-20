@@ -1,21 +1,19 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Globalization;
 using System.IO;
-using Assets.HeadStart.Features.Database;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace Assets.Scripts.utils
+namespace GameScrypt.GSUtils
 {
-    public static class __data
+    public static class GSData
     {
-#pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.2.0";
-#pragma warning restore 0414 //
+#pragma warning disable 0414
+        public static readonly string _version = "3.0.0";
+#pragma warning restore 0414
         public static string GetDataValue(string data, string index)
         {
-            string value = data.Substring(data.IndexOf(index, System.StringComparison.Ordinal) + index.Length);
+            string value = data.Substring(data.IndexOf(index, StringComparison.Ordinal) + index.Length);
             if (value.Contains("|"))
                 value = value.Remove(value.IndexOf('|'));
             return value;
@@ -121,7 +119,7 @@ namespace Assets.Scripts.utils
 
             // Encode texture into PNG
             byte[] bytes = pic.EncodeToPNG();
-            Object.Destroy(pic);
+            UnityEngine.Object.Destroy(pic);
 
             // For testing purposes, also write to a file in the project folder
             File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
@@ -216,14 +214,14 @@ namespace Assets.Scripts.utils
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
 
-        public static League GetThisWeeksLeague()
+        public static Color GetColor(string hex)
         {
-            DateTime now = DateTime.Now;
-            return new League()
+            Color newCol;
+            if (ColorUtility.TryParseHtmlString(hex, out newCol))
             {
-                Year = now.Year,
-                Week = __data.GetWeekNumberOfTheYear(now, now.Year)
-            };
+                return newCol;
+            }
+            return new Color();
         }
     }
 }

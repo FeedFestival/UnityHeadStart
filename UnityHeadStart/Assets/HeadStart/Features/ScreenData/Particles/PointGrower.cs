@@ -1,6 +1,6 @@
 using System.Collections;
 using Assets.HeadStart.Core;
-using Assets.Scripts.utils;
+using GameScrypt.GSUtils.Constants;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -96,7 +96,7 @@ namespace Assets.HeadStart.Features.ScreenData
             __setTimedPoints = null;
 
             Enlarge(false);
-            ColorizePoints(__gameColor.GetColorByName("White"));
+            ColorizePoints(ColorConstants.GetColorByName("White"));
         }
 
         IEnumerator SetPointsCo()

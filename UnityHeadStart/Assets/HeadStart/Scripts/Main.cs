@@ -54,14 +54,6 @@ public class Main : MonoBehaviour
 #if UNITY_ANDROID
                 CheckForUpdates = false;
 #endif
-#if UNITY_EDITOR
-                if (CheckForUpdates)
-                {
-                    VersionChecker versionChecker = gameObject.AddComponent<VersionChecker>();
-                    versionChecker.Check();
-                    Destroy(gameObject.GetComponent<VersionChecker>());
-                }
-#endif
                 _preStartGameSub__.OnNext(true);
             });
 

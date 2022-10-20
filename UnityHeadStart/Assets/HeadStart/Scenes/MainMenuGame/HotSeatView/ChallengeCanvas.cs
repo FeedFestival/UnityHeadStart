@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Assets.HeadStart.Core;
 using Assets.HeadStart.Features.Database;
-using Assets.Scripts.utils;
 using UnityEngine;
 
 public class ChallengeCanvas : MonoBehaviour

@@ -1,9 +1,7 @@
-using System;
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.SceneService;
 using Assets.HeadStart.Features.Database;
 using Assets.HeadStart.Features.Database.JSON;
-using Assets.Scripts.utils;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -195,7 +193,7 @@ public class GameSession : MonoBehaviour, IUiView
 
     private bool TryUpdateWeekScore(User deviceUser, Score score)
     {
-        League league = __data.GetThisWeeksLeague();
+        League league = MainMenu.GetThisWeeksLeague();
         WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(deviceUser.LocalId, league);
 
         if (weekScoreResult != null)

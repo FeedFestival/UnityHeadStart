@@ -1,6 +1,5 @@
 using System;
 using Assets.HeadStart.Features.Database;
-using Assets.Scripts.utils;
 
 namespace Assets.HeadStart.Core
 {
@@ -14,7 +13,7 @@ namespace Assets.HeadStart.Core
 
         internal Score GetScore()
         {
-            League league = __data.GetThisWeeksLeague();
+            League league = MainMenu.GetThisWeeksLeague();
             return new Score()
             {
                 UserLocalId = User.LocalId,

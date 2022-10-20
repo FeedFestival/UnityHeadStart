@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Assets.Scripts.utils;
 using UnityEngine;
 
 public class RankingLeague

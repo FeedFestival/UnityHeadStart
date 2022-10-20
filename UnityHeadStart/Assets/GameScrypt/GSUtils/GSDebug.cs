@@ -1,22 +1,21 @@
-
+using System.Collections;
 using System.Collections.Generic;
-// using Assets.HeadStart.Features.Database.JSON;
 using UnityEngine;
 
-namespace Assets.Scripts.utils
+namespace GameScrypt.GSUtils
 {
-    public static class __debug
+    public static class GSDebug
     {
-#pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.2.0";
-#pragma warning restore 0414 //
-        
+#pragma warning disable 0414
+        public static readonly string _version = "3.0.0";
+#pragma warning restore 0414
+
         public static string ToJsonString(object obj)
         {
             string output = JsonUtility.ToJson(obj, true);
             return output;
         }
-        
+
         public delegate string DebugFunc<T>(T obj);
         public delegate string DebugFunc<TSource, TProperty>(TSource key, TProperty prop);
 

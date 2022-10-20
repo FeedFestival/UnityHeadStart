@@ -1,5 +1,6 @@
 ﻿using Assets.HeadStart.Features.Database;
-using Assets.Scripts.utils;
+using GameScrypt.GSUtils;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -69,7 +70,7 @@ public class MainMenu : MonoBehaviour, IUiView
         DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
         User user = Main.S.Game.DeviceUser();
         UserNameTxt.text = devicePlayer.name;
-        League league = __data.GetThisWeeksLeague();
+        League league = MainMenu.GetThisWeeksLeague();
         if (league != null)
         {
             WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
@@ -109,5 +110,14 @@ public class MainMenu : MonoBehaviour, IUiView
         ButtonPlay.Enable();
         // ButtonHighscore.Enable();
         ButtonChallenge.Enable();
+    }
+    public static League GetThisWeeksLeague()
+    {
+        DateTime now = DateTime.Now;
+        return new League()
+        {
+            Year = now.Year,
+            Week = GSData.GetWeekNumberOfTheYear(now, now.Year)
+        };
     }
 }

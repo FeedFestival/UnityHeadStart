@@ -1,24 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.utils
+namespace GameScrypt.GSUtils.Constants
 {
-    public static class __gameColor
+    public static class ColorConstants
     {
-#pragma warning disable 0414 // private field assigned but not used.
-        public static readonly string _version = "2.2.0";
-#pragma warning restore 0414 //
         private static Dictionary<string, string> _hexes;
-
-        public static Color GetColor(string hex)
-        {
-            Color newCol;
-            if (ColorUtility.TryParseHtmlString(hex, out newCol))
-            {
-                return newCol;
-            }
-            return new Color();
-        }
 
         public static Color GetColor(COLOR colorEnum)
         {
@@ -27,6 +15,11 @@ namespace Assets.Scripts.utils
                 SetupHexes();
             }
             return GetColor(_hexes[colorEnum.ToString()]);
+        }
+
+        private static Color GetColor(string v)
+        {
+            throw new NotImplementedException();
         }
 
         public static Color GetColorByName(string colorName)
@@ -211,184 +204,185 @@ namespace Assets.Scripts.utils
             _hexes.Add(key, hex[0] == '#' ? hex : "#" + hex);
         }
     }
-}
 
-public enum COLOR
-{
-    // Backgrounds
-    Blue_Dark_Ebony_Clay,
+    public enum COLOR
+    {
+        // Backgrounds
+        Blue_Dark_Ebony_Clay,
 
-    // Non Colors
-    Black_Rangoon_Green,
-    Black_Cod_Gray,
-    White_Orange,
-    White_Tana,
-    White_Bison_Hide,
-    White_Double_Colonial,
-    White_Spring_Wood,
-    White_Black_Haze,
-    White_Coconut_Cream,
+        // Non Colors
+        Black_Rangoon_Green,
+        Black_Cod_Gray,
+        White_Orange,
+        White_Tana,
+        White_Bison_Hide,
+        White_Double_Colonial,
+        White_Spring_Wood,
+        White_Black_Haze,
+        White_Coconut_Cream,
 
-    // Grey
-    Grey_Juniper,
-    Grey_Mantle,
-    Grey_Norway,
-    Grey_Beryl_Green,
+        // Grey
+        Grey_Juniper,
+        Grey_Mantle,
+        Grey_Norway,
+        Grey_Beryl_Green,
 
-    // Yellow
-    Yellow_Texas,
-    Yellow_Putty,
-    Yellow_Orange,
-    Yellow_Portafino,
-    Yellow_Gimblet,
-    Yellow_Limed_Oak,
-    Yellow_Banana_Mania,
-    Yellow_Gold_Sand,
-    Yellow_Winter_Hazel,
-    Yellow_Sweet_Corn,
-    Yellow_Cream,
-    Yellow,
-    Yellow_Thatch_Green,
-    Yellow_Pale_Canary,
+        // Yellow
+        Yellow_Texas,
+        Yellow_Putty,
+        Yellow_Orange,
+        Yellow_Portafino,
+        Yellow_Gimblet,
+        Yellow_Limed_Oak,
+        Yellow_Banana_Mania,
+        Yellow_Gold_Sand,
+        Yellow_Winter_Hazel,
+        Yellow_Sweet_Corn,
+        Yellow_Cream,
+        Yellow,
+        Yellow_Thatch_Green,
+        Yellow_Pale_Canary,
 
-    // Orange
-    Orange_Rajah,
-    Orange_Cherokee,
-    Orange_Koromiko,
-    Orange_Romantic,
-    Orange_Atomic_Tangerine,
-    Orange_Red_Cinnabar,
+        // Orange
+        Orange_Rajah,
+        Orange_Cherokee,
+        Orange_Koromiko,
+        Orange_Romantic,
+        Orange_Atomic_Tangerine,
+        Orange_Red_Cinnabar,
 
-    // Red
-    Red_Torch,
-    Red_Radical,
-    Red_Wild_Watermelon,
-    Red_Mona_Lisa,
-    Red_Sunglo,
-    Red_Amaranth,
+        // Red
+        Red_Torch,
+        Red_Radical,
+        Red_Wild_Watermelon,
+        Red_Mona_Lisa,
+        Red_Sunglo,
+        Red_Amaranth,
 
-    // Dark_Red
-    Red_Razzmatazz,
-    Red_Maroon_Flush,
-    Red_Maroon_Flush_Darker,
-    Red_Night_Shadz,
-    Red_Brown_Eggplant,
-    Red_Tabasco,
+        // Dark_Red
+        Red_Razzmatazz,
+        Red_Maroon_Flush,
+        Red_Maroon_Flush_Darker,
+        Red_Night_Shadz,
+        Red_Brown_Eggplant,
+        Red_Tabasco,
 
-    // Pink
-    Pink_Hot,
-    Pink_Charm,
-    Pink_Hibiscus,
+        // Pink
+        Pink_Hot,
+        Pink_Charm,
+        Pink_Hibiscus,
 
-    // Dark_Pink
-    Pink_Dark_Night_Shadz,
-    Pink_Dark_Tawny_Port,
-    Pink_Dark_Claret,
+        // Dark_Pink
+        Pink_Dark_Night_Shadz,
+        Pink_Dark_Tawny_Port,
+        Pink_Dark_Claret,
 
-    // Purple
-    Purple_Lavender,
-    Purple_Pink_Wisteria,
-    Purple_Pink_Fuchsia,
-    Purple_Fuchsia_Blue,
-    Purple_Heart,
-    Purple_Violet_Electric,
-    Purple_Studio,
-    Purple_Salt_Box,
+        // Purple
+        Purple_Lavender,
+        Purple_Pink_Wisteria,
+        Purple_Pink_Fuchsia,
+        Purple_Fuchsia_Blue,
+        Purple_Heart,
+        Purple_Violet_Electric,
+        Purple_Studio,
+        Purple_Salt_Box,
 
-    // Dark_Purple
-    Purple_Dark_Voodoo,
-    Purple_Dark_Haiti,
-    Purple_Dark_Bastille,
+        // Dark_Purple
+        Purple_Dark_Voodoo,
+        Purple_Dark_Haiti,
+        Purple_Dark_Bastille,
 
-    // Brown
-    Brown_Orange_Coral_Reef,
-    Brown_Orange_Indian_Khaki,
-    Orange_Burnt_Sienna,
-    Brown_Sandrift,
-    Brown_Bazaar,
-    Brown_Orange_Antique_Brass,
-    Brown_Roman_Coffee,
-    Brown_Ferra,
-    Brown_Tobacco,
-    Brown_Mule_Fawn,
-    Brown_Buccaneer,
-    Brown_Kabul,
-    Brown_Muddy_Waters,
+        // Brown
+        Brown_Orange_Coral_Reef,
+        Brown_Orange_Indian_Khaki,
+        Orange_Burnt_Sienna,
+        Brown_Sandrift,
+        Brown_Bazaar,
+        Brown_Orange_Antique_Brass,
+        Brown_Roman_Coffee,
+        Brown_Ferra,
+        Brown_Tobacco,
+        Brown_Mule_Fawn,
+        Brown_Buccaneer,
+        Brown_Kabul,
+        Brown_Muddy_Waters,
 
-    // Dark_Brown
-    Brown_Finn,
-    Brown_Saddle,
-    Brown_Loulou,
-    Brown_Flint,
-    Brown_Dark_Pink_Aubergine,
-    Brown_Bistre,
-    Brown_English_Walnut,
-    Brown_Thunder,
-    Brown_Gondola,
+        // Dark_Brown
+        Brown_Finn,
+        Brown_Saddle,
+        Brown_Loulou,
+        Brown_Flint,
+        Brown_Dark_Pink_Aubergine,
+        Brown_Bistre,
+        Brown_English_Walnut,
+        Brown_Thunder,
+        Brown_Gondola,
 
-    // Light_Green
-    Green_Light_Magic_Mint,
-    Green_Light_Monte_Carlo,
-    Green_Light_Turquoise,
-    Green_Light_Spring_Rain,
-    Green_Light_Spring_Rain_Darker,
-    Green_Light_Coriander,
+        // Light_Green
+        Green_Light_Magic_Mint,
+        Green_Light_Monte_Carlo,
+        Green_Light_Turquoise,
+        Green_Light_Spring_Rain,
+        Green_Light_Spring_Rain_Darker,
+        Green_Light_Coriander,
 
-    // Green
-    Green_Yellow,
-    Green_Sulu,
-    Green_Conifer,
-    Green_Inch_Worm,
-    Green_Pastel,
-    Green_Pastel_Darker,
-    Green_Jade,
-    Green_Java,
-    Green_Aqua_Forest,
-    Green_Highland,
-    Green_Persian,
-    Green_Keppel,
-    Green_De_York,
-    Green_Shamrock,
-    Green_Ocean,
-    Green_Puerto_Rico,
-    Green_Teal,
-    Green_Lochinvar,
-    Green_Como,
-    Green_Patina,
-    Green_Red_Xanadu,
-    Green_Blue_Wedgewood,
-    Green_Wild_Willow,
-    Green_Eucalyptus,
-    Green_Observatory,
-    Green_Jungle,
-    Green_William,
-    Green_Genoa,
+        // Green
+        Green_Yellow,
+        Green_Sulu,
+        Green_Conifer,
+        Green_Inch_Worm,
+        Green_Pastel,
+        Green_Pastel_Darker,
+        Green_Jade,
+        Green_Java,
+        Green_Aqua_Forest,
+        Green_Highland,
+        Green_Persian,
+        Green_Keppel,
+        Green_De_York,
+        Green_Shamrock,
+        Green_Ocean,
+        Green_Puerto_Rico,
+        Green_Teal,
+        Green_Lochinvar,
+        Green_Como,
+        Green_Patina,
+        Green_Red_Xanadu,
+        Green_Blue_Wedgewood,
+        Green_Wild_Willow,
+        Green_Eucalyptus,
+        Green_Observatory,
+        Green_Jungle,
+        Green_William,
+        Green_Genoa,
 
-    // Dark_Green
-    Green_Dark_Deep_Teal,
+        // Dark_Green
+        Green_Dark_Deep_Teal,
 
-    // Blue
-    Blue_Turquoise,
-    Blue_Keppel,
-    Blue_Juniper,
-    Blue_Eastern,
-    Blue_Kimberly,
-    Blue_San_Marino,
-    Blue_Wedgewood,
-    Blue_Lagoon,
-    Blue_Stone,
-    Blue_Fiord,
-    Blue_Cornflower,
+        // Blue
+        Blue_Turquoise,
+        Blue_Keppel,
+        Blue_Juniper,
+        Blue_Eastern,
+        Blue_Kimberly,
+        Blue_San_Marino,
+        Blue_Wedgewood,
+        Blue_Lagoon,
+        Blue_Stone,
+        Blue_Fiord,
+        Blue_Cornflower,
 
-    // Dark_Blue
-    Blue_Darker_Biscay,
-    Blue_Darker_Nile,
-    Blue_Dark_Pickled_Bluewood,
-    Blue_Dark_Pickled_Bluewood_Darker,
-    Blue_Darker_Rhino,
-    Blue_Darker_Ebony_Clay,
-    Blue_Dark_Zodiac,
-    Blue_Dark_Downriver,
-    Blue_Dark_Mirage,
-    Blue_Dark_Mirage_Darker,
+        // Dark_Blue
+        Blue_Darker_Biscay,
+        Blue_Darker_Nile,
+        Blue_Dark_Pickled_Bluewood,
+        Blue_Dark_Pickled_Bluewood_Darker,
+        Blue_Darker_Rhino,
+        Blue_Darker_Ebony_Clay,
+        Blue_Dark_Zodiac,
+        Blue_Dark_Downriver,
+        Blue_Dark_Mirage,
+        Blue_Dark_Mirage_Darker,
+    }
+
 }

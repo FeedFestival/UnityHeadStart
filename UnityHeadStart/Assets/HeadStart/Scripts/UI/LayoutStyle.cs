@@ -1,4 +1,4 @@
-using Assets.Scripts.utils;
+using GameScrypt.GSUtils;
 using MyBox;
 using UnityEngine;
 
@@ -49,8 +49,8 @@ public class LayoutStyle : MonoBehaviour
         if (Size)
         {
             Vector2 newSizeDelta = new Vector2(
-                Width > 0 ? __percent.Find(Width, parentRect.width) : parentRect.width,
-                Height > 0 ? __percent.Find(Height, parentRect.height) : parentRect.height
+                Width > 0 ? GSPercent.Find(Width, parentRect.width) : parentRect.width,
+                Height > 0 ? GSPercent.Find(Height, parentRect.height) : parentRect.height
             );
             _rt.sizeDelta = newSizeDelta;
         }
@@ -61,7 +61,7 @@ public class LayoutStyle : MonoBehaviour
             {
                 _rt.anchoredPosition = new Vector2(
                     _rt.anchoredPosition.x,
-                    0 - __percent.Find(Top, parentRect.height)
+                    0 - GSPercent.Find(Top, parentRect.height)
                 );
             }
             else if (Top < 0)
@@ -69,14 +69,14 @@ public class LayoutStyle : MonoBehaviour
                 Top = Mathf.Abs(Top);
                 _rt.anchoredPosition = new Vector2(
                     _rt.anchoredPosition.x,
-                    __percent.Find(Top, parentRect.height)
+                    GSPercent.Find(Top, parentRect.height)
                 );
             }
 
             if (Left > 0)
             {
                 var newAnchoredPosition = new Vector2(
-                    __percent.Find(Left, parentRect.width),
+                    GSPercent.Find(Left, parentRect.width),
                     _rt.anchoredPosition.y
                 );
                 _rt.anchoredPosition = newAnchoredPosition;
@@ -84,7 +84,7 @@ public class LayoutStyle : MonoBehaviour
             else
             {
                 _rt.anchoredPosition = new Vector2(
-                    0 - __percent.Find(Left, parentRect.width),
+                    0 - GSPercent.Find(Left, parentRect.width),
                     _rt.anchoredPosition.y
                 );
             }
@@ -93,8 +93,8 @@ public class LayoutStyle : MonoBehaviour
         if (PositionFixed)
         {
             _rt.anchoredPosition = new Vector2(
-                __percent.Find(PF_Left, parentRect.width),
-                __percent.Find(PF_Top, parentRect.height)
+                GSPercent.Find(PF_Left, parentRect.width),
+                GSPercent.Find(PF_Top, parentRect.height)
             );
         }
     }

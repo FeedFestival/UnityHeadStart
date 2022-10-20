@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
-using Assets.Scripts.utils;
+using GameScrypt.GSUtils;
 using UnityEditor;
 using UnityEngine;
 
@@ -63,10 +63,10 @@ namespace Assets.HeadStart.Features.Database
 
                 GUILayout.FlexibleSpace();
 
-                if (GUILayout.Button("Confirm", GUILayout.Width(__percent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
+                if (GUILayout.Button("Confirm", GUILayout.Width(GSPercent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
                     ConfirmAccepted();
 
-                if (GUILayout.Button("Cancel", GUILayout.Width(__percent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
+                if (GUILayout.Button("Cancel", GUILayout.Width(GSPercent.Find(_percent: 25, _of: Screen.width)), GUILayout.Height(50)))
                     _setupConfirm = false;
 
                 GUILayout.FlexibleSpace();

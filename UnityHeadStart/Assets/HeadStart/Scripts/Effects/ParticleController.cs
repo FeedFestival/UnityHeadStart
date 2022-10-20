@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.utils;
 using static UnityEngine.ParticleSystem;
 using System;
 using Assets.HeadStart.Core;
 using UniRx;
+using GameScrypt.GSUtils;
 
 public class ParticleController : MonoBehaviour
 {
@@ -76,7 +76,7 @@ public class ParticleController : MonoBehaviour
                 {
                     OriginalSizes.Add(module.startSize.constant);
                 }
-                float newSize = __percent.Find(Size, module.startSize.constant);
+                float newSize = GSPercent.Find(Size, module.startSize.constant);
                 module.startSize = newSize;
             }
         }
@@ -131,8 +131,8 @@ public class ParticleController : MonoBehaviour
                 Original3DSizes.Add(new Vector3(module.startSize.constantMax, module.startSize.constantMax, module.startSize.constantMax));
                 Original3DSizes.Add(new Vector3(module.startSize.constantMin, module.startSize.constantMin, module.startSize.constantMin));
             }
-            float newSizeMax = __percent.Find(Size, module.startSize.constantMax);
-            float newSizeMin = __percent.Find(Size, module.startSize.constantMin);
+            float newSizeMax = GSPercent.Find(Size, module.startSize.constantMax);
+            float newSizeMin = GSPercent.Find(Size, module.startSize.constantMin);
             module.startSizeX = new MinMaxCurve(newSizeMax, newSizeMin);
             module.startSizeY = new MinMaxCurve(newSizeMax, newSizeMin);
             module.startSizeZ = new MinMaxCurve(newSizeMax, newSizeMin);
