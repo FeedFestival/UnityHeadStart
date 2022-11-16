@@ -5,8 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public delegate void Clicked();
-
 public class MainMenu : MonoBehaviour, IUiView
 {
     public GameButton ButtonPlay;
@@ -70,7 +68,7 @@ public class MainMenu : MonoBehaviour, IUiView
         DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
         User user = Main.S.Game.DeviceUser();
         UserNameTxt.text = devicePlayer.name;
-        League league = MainMenu.GetThisWeeksLeague();
+        League league = League.GetThisWeeksLeague();
         if (league != null)
         {
             WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(user.LocalId, league);
@@ -110,14 +108,5 @@ public class MainMenu : MonoBehaviour, IUiView
         ButtonPlay.Enable();
         // ButtonHighscore.Enable();
         ButtonChallenge.Enable();
-    }
-    public static League GetThisWeeksLeague()
-    {
-        DateTime now = DateTime.Now;
-        return new League()
-        {
-            Year = now.Year,
-            Week = GSData.GetWeekNumberOfTheYear(now, now.Year)
-        };
     }
 }

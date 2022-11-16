@@ -98,7 +98,7 @@ public class GameBase : MonoBehaviour, IGame
         SceneManager.LoadScene(scene.buildIndex);
     }
 
-    internal void LoadScene(SCENE scene)
+    public void LoadScene(SCENE scene)
     {
         SceneReference sceneRef = __.SceneService.GetScene(scene);
         __.ClearSceneDependencies();

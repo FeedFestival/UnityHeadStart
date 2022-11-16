@@ -11,9 +11,9 @@ namespace Assets.HeadStart.Core
         public int ToiletPaper;
         public bool IsChallenge;
 
-        internal Score GetScore()
+        public Score GetScore()
         {
-            League league = MainMenu.GetThisWeeksLeague();
+            League league = League.GetThisWeeksLeague();
             return new Score()
             {
                 UserLocalId = User.LocalId,

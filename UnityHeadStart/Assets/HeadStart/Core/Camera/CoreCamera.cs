@@ -66,7 +66,7 @@ public class CoreCamera : MonoBehaviour
         }
     }
 
-    internal float GetCameraCurrentSize()
+    public float GetCameraCurrentSize()
     {
         return _currentCameraSize;
     }

@@ -1,7 +1,7 @@
 using Assets.HeadStart.Core;
 using UnityEngine;
 
-namespace Assets.HeadStart.Scenes.ExampleGame
+namespace Assets.GameScryptExample
 {
     public static class ExampleRandomPointsLogic
     {

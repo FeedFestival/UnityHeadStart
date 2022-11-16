@@ -193,7 +193,7 @@ public class GameSession : MonoBehaviour, IUiView
 
     private bool TryUpdateWeekScore(User deviceUser, Score score)
     {
-        League league = MainMenu.GetThisWeeksLeague();
+        League league = League.GetThisWeeksLeague();
         WeekScoreResult weekScoreResult = Main.S.Game.DataService.GetHighestScoreThisWeek(deviceUser.LocalId, league);
 
         if (weekScoreResult != null)

@@ -1,4 +1,6 @@
-﻿using SQLite4Unity3d;
+﻿using System;
+using System.Globalization;
+using SQLite4Unity3d;
 
 namespace Assets.HeadStart.Features.Database
 {
@@ -27,5 +29,15 @@ namespace Assets.HeadStart.Features.Database
         public int Year;
         public int Week;
         public string Name;
+
+        public static League GetThisWeeksLeague()
+        {
+            DateTime now = DateTime.Now;
+            return new League()
+            {
+                Year = now.Year,
+                Week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
+            };
+        }
     }
 }

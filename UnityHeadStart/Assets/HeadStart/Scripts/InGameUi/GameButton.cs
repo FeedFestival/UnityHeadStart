@@ -2,6 +2,8 @@ using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.SFX;
 using UnityEngine;
 
+public delegate void Clicked();
+
 public class GameButton : MonoBehaviour
 {
 #pragma warning disable 0414 // private field assigned but not used.
@@ -136,7 +138,7 @@ public class GameButton : MonoBehaviour
         LeanTween.descr(_scaleButtonTwid.Value).setEase(LeanTweenType.easeOutElastic);
     }
 
-    internal void Reset()
+    public void Reset()
     {
         ActionDisabler.Reset();
         Interactable = false;

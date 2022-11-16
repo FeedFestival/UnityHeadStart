@@ -1,8 +1,9 @@
 using Assets.HeadStart.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.GameScryptExample;
 
-namespace Assets.HeadStart.Scenes.ExampleGame
+namespace Assets.GameScryptExample
 {
     public interface IExampleRandomPoints
     {
