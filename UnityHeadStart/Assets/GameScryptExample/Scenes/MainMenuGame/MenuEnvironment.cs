@@ -149,7 +149,7 @@ public class MenuEnvironment : MonoBehaviour
 
         _scaleCameraTwid = LeanTween.value(
             Main.S.CoreCamera.gameObject,
-            Main.S.CoreCamera.GetCameraCurrentSize(),
+            Main.S.CoreCamera.CurrentCameraSize,
             TO_CAMERA_SIZE,
             MOVE_CAMERA_TIME / 2
         ).id;
@@ -163,7 +163,7 @@ public class MenuEnvironment : MonoBehaviour
             _scaleCameraTwid = LeanTween.value(
                 Main.S.CoreCamera.gameObject,
                 TO_CAMERA_SIZE,
-                Main.S.CoreCamera.GetCameraCurrentSize(),
+                Main.S.CoreCamera.CurrentCameraSize,
                 MOVE_CAMERA_TIME / 2
             ).id;
             LeanTween.descr(_scaleCameraTwid.Value).setOnUpdate((float val) =>

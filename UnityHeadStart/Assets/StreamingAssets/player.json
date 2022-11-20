@@ -1,8 +1,8 @@
 {"player":{
-"localId":0,
-"name":"no-name-user",
-"toiletPaper":10,
-"isFirstTime":true,
+"localId":1,
+"name":"dani",
+"toiletPaper":14,
+"isFirstTime":false,
 "playedTutorial":false,
 "isRegistered":false,
 "completedPercentage":0.0},
@@ -11,5 +11,5 @@
 "language":"en",
 "isCameraSetForThisDevice":true,
 "cameraSize3D":3,
-"cameraSize2D":4.9998884201049809}
+"cameraSize2D":4.999946594238281}
 }

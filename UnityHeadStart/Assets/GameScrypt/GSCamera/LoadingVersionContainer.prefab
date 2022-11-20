@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4765985930049015334}
   m_RootOrder: 0
@@ -94,6 +95,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4765985930049015334}
   m_RootOrder: 2
@@ -189,6 +191,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4765985930049015334}
   m_RootOrder: 1
@@ -237,7 +240,7 @@ GameObject:
   - component: {fileID: 4765985930049015334}
   - component: {fileID: 4765985930049015332}
   - component: {fileID: 4765985930049015335}
-  - component: {fileID: 1803363077623935999}
+  - component: {fileID: 3419240482252204043}
   m_Layer: 5
   m_Name: LoadingVersionContainer
   m_TagString: Untagged
@@ -255,6 +258,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4765985929072854353}
   - {fileID: 4765985929984252575}
@@ -303,7 +307,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1803363077623935999
+--- !u!114 &3419240482252204043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,10 +316,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4765985930049015329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19cbe2663f71a9e47bf471a0f56da52e, type: 3}
+  m_Script: {fileID: 11500000, guid: c592f5670318ca84085553e16b294882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VersionText: {fileID: 4765985930569627565}
+  Slider: {fileID: 0}
+  VersionText: {fileID: 0}
 --- !u!1 &4765985930410287426
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +349,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4765985930049015334}
   m_RootOrder: 3
@@ -410,6 +416,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4765985930049015334}
   m_RootOrder: 4

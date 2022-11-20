@@ -1,11 +1,7 @@
 {
-    "name": "GSCamera",
+    "name": "GameScrypt.Utils",
     "rootNamespace": "",
-    "references": [
-        "GUID:953b276d19c2c8a44bd86e723201af9e",
-        "GUID:80bb7acb4fcbd6f419e1c3049df8fd0f",
-        "GUID:c46e1c8299d22834ba110be6cf623540"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
