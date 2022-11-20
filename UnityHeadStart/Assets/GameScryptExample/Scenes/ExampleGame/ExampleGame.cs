@@ -1,9 +1,9 @@
 ﻿using Assets.HeadStart.Core;
 using Assets.HeadStart.Features.Dialog;
-using Assets.GameScryptExample;
+using Assets.GameScrypt.Example;
 using UnityEngine;
 
-namespace Assets.GameScryptExample
+namespace Assets.GameScrypt.Example
 {
     public class ExampleGame : GameBase
     {

@@ -1,1 +1,15 @@
-{"player":{"localId":1,"name":"AutomatedTester","toiletPaper":31,"isFirstTime":false,"playedTutorial":false,"isRegistered":false,"completedPercentage":0.0},"gameSettings":{"isUsingSound":true,"language":"en","isCameraSetForThisDevice":true,"cameraSize3D":3,"cameraSize2D":5.000380039215088}}
+{"player":{
+"localId":0,
+"name":"no-name-user",
+"toiletPaper":10,
+"isFirstTime":true,
+"playedTutorial":false,
+"isRegistered":false,
+"completedPercentage":0.0},
+"gameSettings":{
+"isUsingSound":true,
+"language":"en",
+"isCameraSetForThisDevice":true,
+"cameraSize3D":3,
+"cameraSize2D":4.9998884201049809}
+}

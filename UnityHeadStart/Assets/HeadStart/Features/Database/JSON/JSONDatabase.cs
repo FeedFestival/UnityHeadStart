@@ -28,8 +28,7 @@ namespace Assets.HeadStart.Features.Database.JSON
                     gameSettings = JSONConst.DEFAULT_SETTINGS
                 });
 
-                writer.Write(jsonString);
-                writer.Close();
+                this.writeJson(writer, jsonString);
             }
         }
 
@@ -42,9 +41,7 @@ namespace Assets.HeadStart.Features.Database.JSON
             {
                 playerJson.player = devicePlayer;
                 var jsonString = JsonUtility.ToJson(playerJson);
-
-                writer.Write(jsonString);
-                writer.Close();
+                this.writeJson(writer, jsonString);
             }
         }
 
@@ -57,9 +54,7 @@ namespace Assets.HeadStart.Features.Database.JSON
             {
                 playerJson.gameSettings = gameSettings;
                 var jsonString = JsonUtility.ToJson(playerJson);
-
-                writer.Write(jsonString);
-                writer.Close();
+                this.writeJson(writer, jsonString);
             }
         }
 
@@ -77,15 +72,39 @@ namespace Assets.HeadStart.Features.Database.JSON
         public DevicePlayer GetPlayer()
         {
             var playerJson = GetPlayerJson();
-            if (playerJson == null) { Debug.LogWarning("No PlayerJson"); return null; }
+            if (playerJson == null) {
+                Debug.LogWarning("No PlayerJson");
+                RecreateDatabase();
+                playerJson = GetPlayerJson();
+            }
             return playerJson.player;
         }
 
         public GameSettings GetGameSettings()
         {
             var playerJson = GetPlayerJson();
-            if (playerJson == null) { Debug.LogWarning("No PlayerJson"); return null; }
+            if (playerJson == null) {
+                Debug.LogWarning("No PlayerJson");
+                RecreateDatabase();
+                playerJson = GetPlayerJson();
+            }
             return playerJson.gameSettings;
+        }
+
+        private void writeJson(StreamWriter writer, string jsonString) {
+            jsonString = JSONDatabase.formatJson(jsonString);
+            writer.Write(jsonString);
+            writer.Close();
+        }
+
+        private static string formatJson(string jsonString) {
+            jsonString = jsonString.Replace(",\"", @",
+""");
+            jsonString = jsonString.Replace(":{", @":{
+");
+            jsonString = jsonString.Replace("}}", @"}
+}");
+            return jsonString;
         }
     }
 }

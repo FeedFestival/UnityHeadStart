@@ -1,4 +1,5 @@
 using System;
+using GameScrypt.GSCamera;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,7 +37,7 @@ public class LoadingVersion : MonoBehaviour
         var newVal = add.HasValue ? (_loadingValue + add.Value) : _loadingValue;
         _loadingValue = newVal < _loadingValue ? _loadingValue : newVal;
         this.tryStopLoading();
-        _loadingTwId = LeanTween.value(gameObject, Slider.value, _loadingValue, CoreCamera.CAMERA_SETUP_TIME).id;
+        _loadingTwId = LeanTween.value(gameObject, Slider.value, _loadingValue, GSCamera.CAMERA_SETUP_TIME).id;
         LeanTween.descr(_loadingTwId.Value).setEase(LeanTweenType.easeOutCirc);
         LeanTween.descr(_loadingTwId.Value).setOnUpdate((float val) =>
         {

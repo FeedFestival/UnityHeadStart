@@ -1,37 +1,13 @@
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Features.Database.JSON;
+using GameScrypt.GSCamera;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CoreCamera : MonoBehaviour
+public class CoreCamera : GSCamera
 {
-#pragma warning disable 0414 // private field assigned but not used.
-    public static readonly string _version = "2.2.0";
-#pragma warning restore 0414 //
-    public RectTransform CanvasRt;
-    [HideInInspector]
-    public Canvas Canvas;
-    public RectTransform Views;
-    public Image LoadingOverlay;
-    // TODO: add Logo functionality to HeadStart
-    public Transform LogoT;
     public CoreCameraSettings CoreCameraSettings;
     public LoadingVersion LoadingVersion;
-    private Camera _camera;
     private CameraHelper _cameraHelper;
-    private float _currentCameraSize;
-    private float _multiplierCameraSize;
-    private float _toCameraSize;
-    private Vector3 _toLogoSize;
-    private int? _alignCameraToHelperTwid;
-    private int? _enlargeLogoTwid;
-    public static readonly float CAMERA_SETUP_TIME = 8f;
-    private const float HIDE_LOGO_TIME = 0.77f;
-    private readonly Vector3 TO_LOGO_SIZE = new Vector3(44, 44, 44);
-    private bool _foundTheSweetSpot;
-    private bool _debugActivated;
-    private bool _foundBoundsFlag = false;
-    private float _zoomedOutCount;
 
     void Awake()
     {
@@ -41,7 +17,7 @@ public class CoreCamera : MonoBehaviour
     void Start()
     {
         _camera = gameObject.GetComponent<Camera>();
-        adjustCameraForDevice();
+        this.adjustCameraForDevice();
         if (LoadingVersion) { LoadingVersion.ChangeLoading(0.1f); }
     }
 
@@ -62,7 +38,7 @@ public class CoreCamera : MonoBehaviour
             _currentCameraSize = gameSettings.cameraSize2D;
             _camera.orthographicSize = _currentCameraSize;
             if (LoadingVersion) { LoadingVersion.ChangeLoading(1f); }
-            __.Time.RxWait(() => { CameraIsReady(); }, 2f);
+            __.Time.RxWait(() => { this.cameraIsReady(); }, 2f);
         }
     }
 
@@ -99,7 +75,7 @@ public class CoreCamera : MonoBehaviour
             gameObject,
             _currentCameraSize,
             _toCameraSize,
-            CAMERA_SETUP_TIME
+            GSCamera.CAMERA_SETUP_TIME
         ).id;
         LeanTween.descr(_alignCameraToHelperTwid.Value).setEase(LeanTweenType.linear);
         LeanTween.descr(_alignCameraToHelperTwid.Value).setOnUpdate((float val) =>
@@ -133,8 +109,8 @@ public class CoreCamera : MonoBehaviour
         LeanTween.cancel(_enlargeLogoTwid.Value);
         _enlargeLogoTwid = null;
 
-        saveCameraSize();
-        CameraIsReady();
+        this.saveCameraSize();
+        this.cameraIsReady();
     }
 
     private void saveCameraSize()
@@ -150,7 +126,7 @@ public class CoreCamera : MonoBehaviour
 
     private void enlargeLogo()
     {
-        _enlargeLogoTwid = LeanTween.scale(LogoT.gameObject, _toLogoSize, CAMERA_SETUP_TIME).id;
+        _enlargeLogoTwid = LeanTween.scale(LogoT.gameObject, _toLogoSize, GSCamera.CAMERA_SETUP_TIME).id;
     }
 
     private void changeLoading()
@@ -162,7 +138,7 @@ public class CoreCamera : MonoBehaviour
 
     private void revealLogo()
     {
-        LeanTween.alpha(LogoT.gameObject, 1f, CAMERA_SETUP_TIME);
+        LeanTween.alpha(LogoT.gameObject, 1f, GSCamera.CAMERA_SETUP_TIME);
     }
 
     private void hideLogo()
@@ -194,11 +170,11 @@ public class CoreCamera : MonoBehaviour
             || Input.GetKeyUp(KeyCode.BackQuote)
         )
         {
-            ActivateDebug();
+            this.activateDebug();
         }
     }
 
-    private void ActivateDebug()
+    private void activateDebug()
     {
         string debugConsoleName = "IngameDebugConsole";
         GameObject go = GameObject.Find(debugConsoleName);
@@ -211,7 +187,7 @@ public class CoreCamera : MonoBehaviour
         go.SetActive(true);
     }
 
-    private void CameraIsReady()
+    private void cameraIsReady()
     {
         this.hideLogo();
         this.hideLoading();

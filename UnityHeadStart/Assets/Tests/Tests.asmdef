@@ -6,7 +6,7 @@
         "UnityEditor.TestRunner",
         "HeadStart",
         "Database",
-        "GameScrypt_Example"
+        "GameScrypt.Example"
     ],
     "includePlatforms": [
         "Editor"

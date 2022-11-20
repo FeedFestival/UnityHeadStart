@@ -3,7 +3,7 @@ using NSubstitute;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 using Assets.HeadStart.Core;
-using Assets.GameScryptExample;
+using Assets.GameScrypt.Example;
 
 public class ExampleGameTests
 {
