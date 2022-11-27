@@ -3,6 +3,7 @@ using Assets.HeadStart.Core;
 using GameScrypt.GSUtils.Constants;
 using UnityEngine;
 using UnityEngine.UI;
+using DentedPixel;
 
 namespace Assets.HeadStart.Features.ScreenData
 {

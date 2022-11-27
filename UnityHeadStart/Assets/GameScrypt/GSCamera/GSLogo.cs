@@ -1,3 +1,4 @@
+using DentedPixel;
 using UnityEngine;
 
 namespace GameScrypt.GSCamera
@@ -9,8 +10,8 @@ namespace GameScrypt.GSCamera
     {
         public Transform LogoT;
         protected Vector3 _toLogoSize;
-        private GSLeanTween enlargeLogoLT;
-        private GSLeanTween fadeAlphaLT;
+        private GameScryptTween enlargeLogoLT;
+        private GameScryptTween fadeAlphaLT;
         protected readonly float HIDE_LOGO_TIME = 0.77f;
         protected readonly Vector3 TO_LOGO_SIZE = new Vector3(44, 44, 44);
 
@@ -23,7 +24,7 @@ namespace GameScrypt.GSCamera
         {
             _toLogoSize = (_toLogoSize + (TO_LOGO_SIZE * 2));
 
-            if (enlargeLogoLT == null) { enlargeLogoLT = new GSLeanTween(); }
+            if (enlargeLogoLT == null) { enlargeLogoLT = new GameScryptTween(); }
 
             enlargeLogoLT.Start(
                 LeanTween.scale(LogoT.gameObject, _toLogoSize, GSCamera.CAMERA_SETUP_TIME)
@@ -32,7 +33,7 @@ namespace GameScrypt.GSCamera
 
         public void RevealLogo()
         {
-            if (fadeAlphaLT == null) { fadeAlphaLT = new GSLeanTween(); }
+            if (fadeAlphaLT == null) { fadeAlphaLT = new GameScryptTween(); }
 
             fadeAlphaLT.Start(
                 LeanTween.alpha(LogoT.gameObject, 1f, GSCamera.CAMERA_SETUP_TIME)
@@ -43,7 +44,7 @@ namespace GameScrypt.GSCamera
         {
             if (LogoT == null) { return; }
 
-            if (fadeAlphaLT == null) { fadeAlphaLT = new GSLeanTween(); }
+            if (fadeAlphaLT == null) { fadeAlphaLT = new GameScryptTween(); }
 
             fadeAlphaLT.Start
             (

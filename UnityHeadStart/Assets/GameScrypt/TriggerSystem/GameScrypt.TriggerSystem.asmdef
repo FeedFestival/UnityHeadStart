@@ -1,0 +1,16 @@
+{
+    "name": "GameScrypt.TriggerSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5de533c29b3b58d419439bb8bc04a2d6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

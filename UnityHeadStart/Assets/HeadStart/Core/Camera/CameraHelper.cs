@@ -1,4 +1,5 @@
 using System;
+using DentedPixel;
 using GameScrypt.GSCamera;
 using UnityEngine;
 using UnityEngine.Events;

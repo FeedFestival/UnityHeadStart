@@ -1,3 +1,4 @@
+using DentedPixel;
 using UnityEngine;
 
 public class EnvEllipse : MonoBehaviour
