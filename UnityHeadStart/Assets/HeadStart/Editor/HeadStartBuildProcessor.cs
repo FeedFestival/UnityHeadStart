@@ -1,6 +1,5 @@
 #if UNITY_EDITOR
 using Assets.HeadStart.Features.Database;
-using Assets.HeadStart.Features.Database.JSON;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -14,7 +13,7 @@ class HeadStartBuildProcessor : IPreprocessBuildWithReport
         var dataService = new DataService(Application.streamingAssetsPath + "/Database.db");
         dataService.CleanDB();
 
-        __json.Database.RecreateDatabase(Application.streamingAssetsPath + "/player.json");
+        //__json.Database.Recreate(Application.streamingAssetsPath + "/player.json");
     }
 }
 #endif

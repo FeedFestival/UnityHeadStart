@@ -1,5 +1,5 @@
 ﻿using Assets.HeadStart.Core;
-using Assets.HeadStart.Features.Database.JSON;
+using GameScrypt.Example;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,17 +31,20 @@ public class InputNameView : MonoBehaviour, IUiView
             InputNameCanvas.CancelChallenge();
             InputNameCanvas.gameObject.SetActive(false);
 
-            if (Main.S.Game.DevicePlayer().isFirstTime)
+            //if (Main.S.Game.DevicePlayer().isFirstTime)
+            if (false)
             {
-                DevicePlayer changedDevicePlayer = Main.S.Game.DevicePlayer();
+                //PlayerSettings changedDevicePlayer = Main.S.Game.DevicePlayer();
+                PlayerSettings changedDevicePlayer = new PlayerSettings();
                 changedDevicePlayer.localId = 1;
                 changedDevicePlayer.name = _userInputChangedName;
                 changedDevicePlayer.isFirstTime = false;
-                __json.Database.UpdatePlayer(changedDevicePlayer);
+                var deviceJsonData = new DeviceJsonData("player.json");
+                deviceJsonData.UpdatePlayer(changedDevicePlayer);
                 User deviceUser = Main.S.Game.DeviceUser();
                 deviceUser.Name = _userInputChangedName;
                 Main.S.Game.DataService.UpdateUser(deviceUser);
-                Main.S.Game.LoadDevicePlayer();
+                //Main.S.Game.LoadDevicePlayer();
             }
             else
             {
@@ -61,7 +64,8 @@ public class InputNameView : MonoBehaviour, IUiView
 
     private void ReInit()
     {
-        bool isFirstTime = Main.S.Game.DevicePlayer().isFirstTime;
+        //bool isFirstTime = Main.S.Game.DevicePlayer().isFirstTime;
+        bool isFirstTime = false;
         if (isFirstTime)
         {
             ButtonBack.gameObject.SetActive(false);
@@ -111,7 +115,8 @@ public class InputNameView : MonoBehaviour, IUiView
         bool isValid = obj != null;
         ButtonPlay.Interactable = isValid;
 
-        if (Main.S.Game.DevicePlayer().isFirstTime)
+        //if (Main.S.Game.DevicePlayer().isFirstTime)
+        if (false)
         {
             _userInputChangedName = (obj as string);
             return;

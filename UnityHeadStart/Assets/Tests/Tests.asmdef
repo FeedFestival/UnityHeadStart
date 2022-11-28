@@ -2,11 +2,12 @@
     "name": "Tests",
     "rootNamespace": "",
     "references": [
+        "GameScrypt.JsonData",
+        "GameScrypt.Example",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "HeadStart",
-        "Database",
-        "GameScrypt.Example"
+        "Database"
     ],
     "includePlatforms": [
         "Editor"

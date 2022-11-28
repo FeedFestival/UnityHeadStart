@@ -1,5 +1,4 @@
 using Assets.HeadStart.Core;
-using Assets.HeadStart.Features.Database.JSON;
 using GameScrypt.GSCamera;
 using UnityEngine;
 
@@ -11,11 +10,13 @@ public class CoreCamera : GSCamera
     void Start()
     {
         _camera = gameObject.GetComponent<Camera>();
-        GameSettings gameSettings = __json.Database.GetGameSettings();
+        //var deviceJsonData = new DeviceJsonData("player.json");
+        //GameSettings gameSettings = deviceJsonData.GetGameSettings();
 
-        this.setCameraSettings(gameSettings);
+        //this.setCameraSettings(gameSettings);
 
-        bool doWeNeedToAdjustCamera = gameSettings.isCameraSetForThisDevice == false;
+        //bool doWeNeedToAdjustCamera = gameSettings.isCameraSetForThisDevice == false;
+        bool doWeNeedToAdjustCamera = false;
         if (doWeNeedToAdjustCamera)
         {
             this.setDefaultCameraSettings();
@@ -36,10 +37,10 @@ public class CoreCamera : GSCamera
         LoadingVersion?.ChangeLoading(0.1f);
     }
 
-    private void setCameraSettings(GameSettings gameSettings) {
-        CurrentCameraSize = gameSettings.cameraSize2D;
-        OrthographicSize = CurrentCameraSize;
-    }
+    //private void setCameraSettings(GameSettings gameSettings) {
+    //    CurrentCameraSize = gameSettings.cameraSize2D;
+    //    OrthographicSize = CurrentCameraSize;
+    //}
 
     private void setDefaultCameraSettings()
     {
@@ -66,11 +67,12 @@ public class CoreCamera : GSCamera
     {
         CurrentCameraSize = OrthographicSize;
 
-        GameSettings gameSettings = __json.Database.GetGameSettings();
-        gameSettings.isCameraSetForThisDevice = true;
-        gameSettings.cameraSize2D = OrthographicSize;
+        //var deviceJsonData = new DeviceJsonData("player.json");
+        //GameSettings gameSettings = deviceJsonData.GetGameSettings();
+        //gameSettings.isCameraSetForThisDevice = true;
+        //gameSettings.cameraSize2D = OrthographicSize;
 
-        __json.Database.UpdateGameSettings(gameSettings);
+        //deviceJsonData.UpdateGameSettings(gameSettings);
     }
 
     private void changeLoading()

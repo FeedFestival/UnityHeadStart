@@ -2,9 +2,11 @@
     "name": "PlayTests",
     "rootNamespace": "",
     "references": [
+        "GameScrypt.JsonData",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Database"
+        "Database",
+        "GameScrypt.Example"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -3,6 +3,7 @@ using SQLite4Unity3d;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using GameScrypt.GSUtils;
 
 namespace Assets.HeadStart.Features.Database
 {
@@ -19,7 +20,7 @@ namespace Assets.HeadStart.Features.Database
         {
             if (string.IsNullOrEmpty(path))
             {
-                path = FileUtils.GetStreamingAssetsFilePath(DefaultDatabaseName, DEBUG_LOG);
+                path = GSStreamingAssets.GetStreamingAssetsFilePath(DefaultDatabaseName, DEBUG_LOG);
             }
 
             _connection = new SQLiteConnection(path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);

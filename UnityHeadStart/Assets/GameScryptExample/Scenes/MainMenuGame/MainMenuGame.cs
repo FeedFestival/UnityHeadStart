@@ -26,7 +26,8 @@ public class MainMenuGame : GameBase
     {
         __.Time.RxWait(() =>
         {
-            bool isFirstTime = DevicePlayer().isFirstTime;
+            //bool isFirstTime = DevicePlayer().isFirstTime;
+            bool isFirstTime = false;
             __.Transition.Do(Transition.END);
             if (isFirstTime)
             {

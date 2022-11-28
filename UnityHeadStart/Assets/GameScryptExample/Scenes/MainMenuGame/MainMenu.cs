@@ -1,4 +1,5 @@
 ﻿using Assets.HeadStart.Features.Database;
+using GameScrypt.Example;
 using GameScrypt.GSUtils;
 using System;
 using TMPro;
@@ -65,7 +66,8 @@ public class MainMenu : MonoBehaviour, IUiView
 
         ResetActions();
 
-        DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
+        //PlayerSettings devicePlayer = Main.S.Game.DevicePlayer();
+        PlayerSettings devicePlayer = new PlayerSettings();
         User user = Main.S.Game.DeviceUser();
         UserNameTxt.text = devicePlayer.name;
         League league = League.GetThisWeeksLeague();

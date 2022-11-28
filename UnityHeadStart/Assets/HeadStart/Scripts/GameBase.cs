@@ -2,7 +2,6 @@ using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.Player;
 using Assets.HeadStart.Core.SceneService;
 using Assets.HeadStart.Features.Database;
-using Assets.HeadStart.Features.Database.JSON;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,12 +12,20 @@ public class GameBase : MonoBehaviour, IGame
     public static readonly string _version = "2.2.0";
 #pragma warning restore 0414 //
     private User _user;
-    private DevicePlayer _devicePlayer;
+    //private PlayerSettings _devicePlayer;
     public Player Player;
     [HideInInspector]
     public DataService DataService;
     private int _uniqueId;
     private bool _isGamePaused;
+
+    public static readonly User DEFAULT_USER = new User()
+    {
+        Id = 0,
+        LocalId = 0,
+        Name = "no-name-user",
+        UserType = UserType.CASUAL
+    };
 
     public virtual void PreStartGame()
     {
@@ -69,16 +76,17 @@ public class GameBase : MonoBehaviour, IGame
         return _user;
     }
 
-    public DevicePlayer LoadDevicePlayer()
-    {
-        _devicePlayer = __json.Database.GetPlayer();
+    //public PlayerSettings LoadDevicePlayer()
+    //{
+    //    var deviceJsonData = new DeviceJsonData("player.json");
+    //    _devicePlayer = deviceJsonData.GetPlayer();
 
-        if (_devicePlayer == null)
-        {
-            createFirstUser();
-        }
-        return _devicePlayer;
-    }
+    //    if (_devicePlayer == null)
+    //    {
+    //        createFirstUser();
+    //    }
+    //    return _devicePlayer;
+    //}
 
     public void InitDatabaseConnection()
     {
@@ -105,14 +113,14 @@ public class GameBase : MonoBehaviour, IGame
         sceneRef.LoadScene();
     }
 
-    public DevicePlayer DevicePlayer()
-    {
-        if (_devicePlayer == null)
-        {
-            LoadDevicePlayer();
-        }
-        return _devicePlayer;
-    }
+    //public PlayerSettings DevicePlayer()
+    //{
+    //    if (_devicePlayer == null)
+    //    {
+    //        LoadDevicePlayer();
+    //    }
+    //    return _devicePlayer;
+    //}
 
     public User DeviceUser()
     {
@@ -125,7 +133,7 @@ public class GameBase : MonoBehaviour, IGame
 
     private void createFirstUser()
     {
-        _user = JSONConst.DEFAULT_USER;
+        _user = GameBase.DEFAULT_USER;
         DataService.CreateUser(_user);
     }
 }

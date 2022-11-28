@@ -1,9 +1,8 @@
 {
-    "name": "Database",
+    "name": "GameScrypt.JsonData",
     "rootNamespace": "",
     "references": [
-        "GUID:953b276d19c2c8a44bd86e723201af9e",
-        "GUID:4a88abe3cab40974c862333f3fbc82dd"
+        "GUID:953b276d19c2c8a44bd86e723201af9e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

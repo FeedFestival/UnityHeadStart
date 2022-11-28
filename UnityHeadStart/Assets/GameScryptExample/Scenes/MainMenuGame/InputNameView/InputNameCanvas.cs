@@ -25,7 +25,8 @@ public class InputNameCanvas : MonoBehaviour
     {
         InputFieldCustom.Init();
 
-        if (Main.S.Game.DevicePlayer().isFirstTime)
+        //if (Main.S.Game.DevicePlayer().isFirstTime)
+        if (false)
         {
             InputFieldCustom.OnBlurDelegate = () =>
             {
@@ -71,7 +72,8 @@ public class InputNameCanvas : MonoBehaviour
 
         InputFieldCustom.gameObject.SetActive(true);
 
-        if (Main.S.Game.DevicePlayer().isFirstTime)
+        //if (Main.S.Game.DevicePlayer().isFirstTime)
+        if (false)
         {
             return;
         }

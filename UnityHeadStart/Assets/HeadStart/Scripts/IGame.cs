@@ -1,6 +1,6 @@
 public interface IGame
 {
-    DevicePlayer DevicePlayer();
+    //PlayerSettings DevicePlayer();
     void PreStartGame();
     void StartGame();
 }

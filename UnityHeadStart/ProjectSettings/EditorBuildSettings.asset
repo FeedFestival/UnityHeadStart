@@ -15,10 +15,10 @@ EditorBuildSettings:
     path: Assets/GameTester/GameTester.unity
     guid: 97574ba00add98c43a845f1f27f4dc0c
   - enabled: 1
-    path: Assets/HeadStart/Features/Database/Tests/DatabaseTest.unity
+    path: Assets/Tests/JsonTests/DatabaseTest.unity
     guid: b35de2d21fa7a7740802e15f01411a3d
   - enabled: 1
-    path: Assets/HeadStart/Features/Database/Tests/JSONDatabaseTest.unity
+    path: Assets/Tests/JsonTests/JSONDatabaseTest.unity
     guid: 054d887e37c48cd4db258c71e58ea4fb
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 48eb48d92c18c92488a8721a9ef0cb06,

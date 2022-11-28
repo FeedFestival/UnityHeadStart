@@ -5,7 +5,7 @@ namespace Assets.HeadStart.Core
 {
     public class SessionOpts
     {
-        public DevicePlayer DevicePlayer;
+        //public PlayerSettings DevicePlayer;
         public User User;
         public int Points;
         public int ToiletPaper;

@@ -1,7 +1,7 @@
 using Assets.HeadStart.Core;
 using Assets.HeadStart.Core.SceneService;
 using Assets.HeadStart.Features.Database;
-using Assets.HeadStart.Features.Database.JSON;
+using GameScrypt.Example;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -49,7 +49,7 @@ public class GameSession : MonoBehaviour, IUiView
             {
                 sessionOpts = new SessionOpts()
                 {
-                    DevicePlayer = Main.S.Game.DevicePlayer(),
+                    //DevicePlayer = Main.S.Game.DevicePlayer(),
                     User = Main.S.Game.DeviceUser()
                 };
             }
@@ -109,7 +109,9 @@ public class GameSession : MonoBehaviour, IUiView
                 if (deviceUser.UserType == UserType.CASUAL)
                 {
                     bool wasAHighScore = TryUpdateWeekScore(deviceUser, score);
-                    if (wasAHighScore || _sessionOpts.DevicePlayer.isFirstTime)
+                    //bool isFirstTime = _sessionOpts.DevicePlayer.isFirstTime;
+                    bool isFirstTime = false;
+                    if (wasAHighScore || isFirstTime)
                     {
                         ShowUserRankedPossibility();
                         return;
@@ -119,7 +121,9 @@ public class GameSession : MonoBehaviour, IUiView
                 }
                 else
                 {
-                    if (_sessionOpts.DevicePlayer.isRegistered == false)
+                    //bool isRegistered = _sessionOpts.DevicePlayer.isRegistered;
+                    bool isRegistered = false;
+                    if (isRegistered == false)
                     {
                         string url = "http://localhost/gameScrypt/be/Ranked/RegisterUser.php";
                         var secret = "a=gameScrypt";
@@ -156,10 +160,12 @@ public class GameSession : MonoBehaviour, IUiView
 
     private void UpdateToiletPaper()
     {
-        DevicePlayer devicePlayer = Main.S.Game.DevicePlayer();
+        //PlayerSettings devicePlayer = Main.S.Game.DevicePlayer();
+        PlayerSettings devicePlayer = new PlayerSettings();
         devicePlayer.toiletPaper = devicePlayer.toiletPaper + _sessionOpts.ToiletPaper;
-        __json.Database.UpdatePlayer(devicePlayer);
-        Main.S.Game.LoadDevicePlayer();
+        var deviceJsonData = new DeviceJsonData("player.json");
+        deviceJsonData.UpdatePlayer(devicePlayer);
+        //Main.S.Game.LoadDevicePlayer();
     }
 
     private void TryUpdateChallengerScore(Score score)

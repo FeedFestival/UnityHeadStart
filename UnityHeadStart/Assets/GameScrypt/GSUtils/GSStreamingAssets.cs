@@ -1,9 +1,9 @@
 using System.IO;
 using UnityEngine;
 
-namespace Assets.HeadStart.Features.Database
+namespace GameScrypt.GSUtils
 {
-    public static class FileUtils
+    public static class GSStreamingAssets
     {
         public static readonly string ASSETS_PATH = "Assets/";
 

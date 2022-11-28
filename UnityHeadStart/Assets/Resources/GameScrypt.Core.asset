@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1fceda47c07cf45a2cd9d3164e8a36, type: 3}
-  m_Name: JsonDbSettings
+  m_Script: {fileID: 11500000, guid: fb3e6e484e35d314eb0d36bf4991d6fc, type: 3}
+  m_Name: GameScrypt.Core
   m_EditorClassIdentifier: 
-  PlayerJson: {fileID: 4900000, guid: 5c69922e40e84f748a95a59940a3cc10, type: 3}
+  CorePrefab: {fileID: 7716989785932279395, guid: 1b8f46bb35d9bd4449261632d7f81f9f,
+    type: 3}

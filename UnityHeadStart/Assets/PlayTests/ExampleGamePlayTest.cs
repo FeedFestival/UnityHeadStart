@@ -1,6 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Assets.HeadStart.Features.Database.JSON;
+using GameScrypt.Example;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +16,8 @@ public class ExampleGamePlayTest
         yield return null;
 
         // ACT
-        __json.Database.RecreateDatabase();
+        var deviceJsonData = new DeviceJsonData("player.json");
+        deviceJsonData.Recreate();
         yield return null;
 
         // ASSERT
@@ -35,10 +35,11 @@ public class ExampleGamePlayTest
 
 
         // ACT
-        DevicePlayer playerExtension = __json.Database.GetPlayer();
+        var deviceJsonData = new DeviceJsonData("player.json");
+        PlayerSettings playerSettings = deviceJsonData.GetPlayer();
 
         yield return null;
-        Debug.Log("playerExtension: " + playerExtension);
+        Debug.Log("playerExtension: " + playerSettings);
 
         // ASSERT
         Assert.AreEqual(true, true);
