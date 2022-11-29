@@ -4,6 +4,7 @@ using GameScrypt.GSUtils.Constants;
 using UnityEngine;
 using UnityEngine.UI;
 using DentedPixel;
+using UnityEngine.Events;
 
 namespace Assets.HeadStart.Features.ScreenData
 {
@@ -15,7 +16,7 @@ namespace Assets.HeadStart.Features.ScreenData
         private RectTransform _rt;
         public Vector2 Pos;
         private Text _text;
-        private CoreNrCallback _addPoints;
+        private UnityAction<float> _addPoints;
         float _time;
         float _splitAdd;
         float _addPoint;
@@ -28,7 +29,7 @@ namespace Assets.HeadStart.Features.ScreenData
         private readonly float POINTS_ENLARGE_DURATION_SECONDS = 0.3f;
 
         public void Init(
-            CoreNrCallback addPoints
+            UnityAction<float> addPoints
         )
         {
             _addPoints = addPoints;
@@ -76,7 +77,7 @@ namespace Assets.HeadStart.Features.ScreenData
                 __setTimedPoints = null;
                 var lastAdditionalPoints = _splitAdd * _addPoint;
 
-                _addPoints(lastAdditionalPoints);
+                _addPoints?.Invoke(lastAdditionalPoints);
             }
             if (toAdd > 10)
             {
@@ -105,7 +106,7 @@ namespace Assets.HeadStart.Features.ScreenData
             yield return new WaitForSeconds(_time);
 
             _splitAdd -= 1;
-            _addPoints(_addPoint);
+            _addPoints?.Invoke(_addPoint);
             SetPoints();
         }
 

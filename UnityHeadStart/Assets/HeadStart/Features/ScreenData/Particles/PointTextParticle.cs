@@ -148,12 +148,12 @@ namespace Assets.HeadStart.Features.ScreenData
             {
                 _onPointsUpdated(_pointsValue, _currentColor);
                 var sound = new MusicOpts("MoneyPump", 1f, false);
-                __.SFX.PlaySFX(sound);
+                //__.SFX.PlaySFX(sound);
                 InternalShow(false);
             });
 
             var sound = new MusicOpts("MoneyTravel", 1f, false);
-            __.SFX.PlaySFX(sound);
+            //__.SFX.PlaySFX(sound);
         }
 
         void ShowPointsTrail()

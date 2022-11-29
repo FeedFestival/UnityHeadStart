@@ -1,7 +1,7 @@
-using Assets.HeadStart.Core;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 namespace Assets.HeadStart.Features.Dialog
 {
@@ -14,25 +14,19 @@ namespace Assets.HeadStart.Features.Dialog
         public TMP_Text TextInfo;
         public Button ButtonRetry;
         public Button ButtonContinue;
-        private CoreCallback _retryCallback;
-        private CoreCallback _continueCallback;
+        private UnityAction _retryCallback;
+        private UnityAction _continueCallback;
         private bool _initialized;
 
         private void Init()
         {
             ButtonRetry.onClick.AddListener(() =>
             {
-                if (_retryCallback != null)
-                {
-                    _retryCallback();
-                }
+                _retryCallback?.Invoke();
             });
             ButtonContinue.onClick.AddListener(() =>
             {
-                if (_continueCallback != null)
-                {
-                    _continueCallback();
-                }
+                _continueCallback?.Invoke();
             });
 
             _initialized = true;

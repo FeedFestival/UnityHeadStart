@@ -1,4 +1,4 @@
-using Assets.HeadStart.Core;
+using UnityEngine.Events;
 
 namespace Assets.HeadStart.Features.Dialog
 {
@@ -11,8 +11,8 @@ namespace Assets.HeadStart.Features.Dialog
     {
         public string Title;
         public string Info;
-        public CoreCallback RetryCallback;
-        public CoreCallback ContinueCallback;
+        public UnityAction RetryCallback;
+        public UnityAction ContinueCallback;
         public DialogOptions()
         {
 
@@ -20,8 +20,8 @@ namespace Assets.HeadStart.Features.Dialog
 
         public DialogOptions(
             string title, string info,
-            CoreCallback retryCallback = null,
-            CoreCallback continueCallback = null
+            UnityAction retryCallback = null,
+            UnityAction continueCallback = null
         ) {
             Title = title;
             Info = info;

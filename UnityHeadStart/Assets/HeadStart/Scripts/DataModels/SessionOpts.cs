@@ -1,11 +1,12 @@
 using System;
 using Assets.HeadStart.Features.Database;
+using HeadStart;
 
 namespace Assets.HeadStart.Core
 {
     public class SessionOpts
     {
-        //public PlayerSettings DevicePlayer;
+        public PlayerSettings PlayerSettings;
         public User User;
         public int Points;
         public int ToiletPaper;

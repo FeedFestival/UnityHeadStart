@@ -10,7 +10,7 @@ namespace Assets.HeadStart.Time
     public delegate void AsyncForEachCallback();
     public delegate void AsyncForEachCallbackT(object obj);
 
-    public class TimeBase : MonoBehaviour, IDependency, ITime
+    public class TimeBase : MonoBehaviour, ITime
     {
 #pragma warning disable 0414 //
         public static readonly string _version = "2.2.0";

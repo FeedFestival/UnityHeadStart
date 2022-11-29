@@ -31,7 +31,7 @@ public class ParticleController : MonoBehaviour
 
     public void Init()
     {
-        Id = Main.S.Game.GetUniqueId();
+        Id = 1; // Main.S.Game.GetUniqueId();
         AvailableInPool = true;
         gameObject.name = gameObject.name + "    " + Id;
 
@@ -116,7 +116,7 @@ public class ParticleController : MonoBehaviour
             index++;
         }
 
-        __.Time.RxWait(() =>
+        __.Timeout.RxSeconds(() =>
         {
             AvailableInPool = true;
         }, TimeLength);

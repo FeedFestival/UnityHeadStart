@@ -21,6 +21,12 @@ public class GameButton : MonoBehaviour
     private Vector3 _minLocalPos;
     private int? _scaleButtonTwid;
 
+    public static readonly float ROTATE_ANIM_TIME = 6f;
+    public static readonly float ROTATE_ENABLE_PERCENT = 0.3f;
+    public static readonly Vector3 FROM_ROTATE = new Vector3(0, 0, 0);
+    public static readonly Vector3 ROTATE_TO = new Vector3(0, 0, 359.99f);
+    public static readonly float MIN_SCALE_PERCENT = 0.2f;
+
     public bool Interactable
     {
         get { return _interactable; }
@@ -57,9 +63,9 @@ public class GameButton : MonoBehaviour
         _defaultLocalPos = transform.localPosition;
         _minLocalPos = new Vector3(_defaultLocalPos.x, _defaultLocalPos.y, 0);
         _minSize = new Vector3(
-            _defaultSize.x * CoreReadonly.MIN_SCALE_PERCENT,
-            _defaultSize.y * CoreReadonly.MIN_SCALE_PERCENT,
-            _defaultSize.z * CoreReadonly.MIN_SCALE_PERCENT
+            _defaultSize.x * GameButton.MIN_SCALE_PERCENT,
+            _defaultSize.y * GameButton.MIN_SCALE_PERCENT,
+            _defaultSize.z * GameButton.MIN_SCALE_PERCENT
         );
     }
 
@@ -80,7 +86,7 @@ public class GameButton : MonoBehaviour
             return;
         }
         MusicOpts mOpts = new MusicOpts("Click", loop: false);
-        __.SFX.PlaySFX(mOpts);
+        //__.SFX.PlaySFX(mOpts);
         _clicked();
     }
 
@@ -106,7 +112,7 @@ public class GameButton : MonoBehaviour
         _scaleButtonTwid = LeanTween.scale(
             gameObject,
             _minSize,
-            CoreReadonly.ROTATE_ANIM_TIME * CoreReadonly.ROTATE_ENABLE_PERCENT
+            GameButton.ROTATE_ANIM_TIME * GameButton.ROTATE_ENABLE_PERCENT
         ).id;
         LeanTween.descr(_scaleButtonTwid.Value).setEase(LeanTweenType.easeOutElastic);
     }
@@ -134,7 +140,7 @@ public class GameButton : MonoBehaviour
         _scaleButtonTwid = LeanTween.scale(
             gameObject,
             _defaultSize,
-            CoreReadonly.ROTATE_ANIM_TIME * CoreReadonly.ROTATE_ENABLE_PERCENT
+            GameButton.ROTATE_ANIM_TIME * GameButton.ROTATE_ENABLE_PERCENT
         ).id;
         LeanTween.descr(_scaleButtonTwid.Value).setEase(LeanTweenType.easeOutElastic);
     }

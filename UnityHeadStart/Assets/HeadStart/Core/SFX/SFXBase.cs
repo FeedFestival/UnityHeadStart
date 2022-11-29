@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.HeadStart.Core.SFX
 {
-    public class SFXBase : MonoBehaviour, IDependency, ISFX
+    public class SFXBase : MonoBehaviour, ISFX
     {
 #pragma warning disable 0414 // private field assigned but not used.
         public static readonly string _version = "2.2.0";

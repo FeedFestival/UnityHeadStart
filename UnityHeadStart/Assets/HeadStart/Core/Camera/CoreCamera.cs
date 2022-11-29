@@ -31,7 +31,7 @@ public class CoreCamera : GSCamera
         else
         {
             LoadingVersion?.ChangeLoading(1f);
-            __.Time.RxWait(() => { this.cameraIsReady(); }, 2f);
+            __.Timeout.RxSeconds(() => { this.cameraIsReady(); }, 2f);
         }
 
         LoadingVersion?.ChangeLoading(0.1f);
@@ -99,7 +99,7 @@ public class CoreCamera : GSCamera
     {
         GSLogo?.HideLogo();
         LoadingVersion?.CleanDestroy();
-        Main.S._CameraReady__.OnNext(true);
+        // Main.S._CameraReady__.OnNext(true);
     }
 
     // ---- testing ----

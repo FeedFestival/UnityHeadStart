@@ -6,19 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GameScryptExample/Scenes/MainMenuGame/MainMenu.unity
+    path: Assets/HeadStart/Scenes/MainMenuGame/MainMenu.unity
     guid: 22a18c8ed614de141865fa973a4304f0
   - enabled: 1
-    path: Assets/GameScryptExample/Scenes/ExampleGame/ExampleGame.unity
+    path: Assets/HeadStart/Scenes/ExampleGame/ExampleGame.unity
     guid: 098bdeb69ca4e704fabf2e706e72496c
   - enabled: 1
     path: Assets/GameTester/GameTester.unity
     guid: 97574ba00add98c43a845f1f27f4dc0c
   - enabled: 1
-    path: Assets/Tests/JsonTests/DatabaseTest.unity
+    path: Assets/TEST.PlayTest/GameScrypt/GSJsonData/DatabaseTest.unity
     guid: b35de2d21fa7a7740802e15f01411a3d
   - enabled: 1
-    path: Assets/Tests/JsonTests/JSONDatabaseTest.unity
+    path: Assets/TEST.PlayTest/GameScrypt/GSJsonData/JSONDatabaseTest.unity
     guid: 054d887e37c48cd4db258c71e58ea4fb
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 48eb48d92c18c92488a8721a9ef0cb06,

@@ -1,13 +1,14 @@
 using Assets.HeadStart.Core;
 using DentedPixel;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum Transition
 {
     START, END
 }
 
-public class TransitionBase : MonoBehaviour, IDependency, ITransition
+public class TransitionBase : MonoBehaviour, ITransition
 {
 #pragma warning disable 0414 // private field assigned but not used.
     public static readonly string _version = "2.2.0";
@@ -16,7 +17,7 @@ public class TransitionBase : MonoBehaviour, IDependency, ITransition
     public Color StartColor;
     public Color EndColor;
     internal Transition Transition;
-    private CoreCallback _onTransitionEnd;
+    private UnityAction _onTransitionEnd;
     private int? _fadeAnimationId;
     internal readonly float TRANSITION_TIME = 0.44f;
 
@@ -29,33 +30,33 @@ public class TransitionBase : MonoBehaviour, IDependency, ITransition
         Do(Transition.START, instant: true);
     }
 
-    public void Do(Transition transition, bool instant = false, CoreCallback onTransitionEnd = null)
+    public void Do(Transition transition, bool instant = false, UnityAction onTransitionEnd = null)
     {
         Transition = transition;
 
-        if (!Main.S.CoreCamera.LoadingOverlay) { return; }
+        //if (!// Main.S.CoreCamera.LoadingOverlay) { return; }
 
         var newColor = GetTransitionColor();
 
         if (instant)
         {
-            Main.S.CoreCamera.LoadingOverlay.color = newColor;
+            //// Main.S.CoreCamera.LoadingOverlay.color = newColor;
             return;
         }
 
         _onTransitionEnd = onTransitionEnd;
-        Main.S.CoreCamera.LoadingOverlay.color = GetTransitionColor(reverse: true);
-        _fadeAnimationId = LeanTween.color(
-            Main.S.CoreCamera.LoadingOverlay.gameObject.GetComponent<RectTransform>(),
-            newColor,
-            TRANSITION_TIME
-        ).id;
+        // Main.S.CoreCamera.LoadingOverlay.color = GetTransitionColor(reverse: true);
+        //_fadeAnimationId = LeanTween.color(
+            // Main.S.CoreCamera.LoadingOverlay.gameObject.GetComponent<RectTransform>(),
+        //    newColor,
+        //    TRANSITION_TIME
+        //).id;
         LeanTween.descr(_fadeAnimationId.Value).setEase(LeanTweenType.easeInOutQuart);
         if (_onTransitionEnd != null)
         {
             LeanTween.descr(_fadeAnimationId.Value).setOnComplete(() =>
             {
-                _onTransitionEnd();
+                _onTransitionEnd?.Invoke();
                 _onTransitionEnd = null;
             });
         }
@@ -71,7 +72,7 @@ public class TransitionBase : MonoBehaviour, IDependency, ITransition
         Do(transition, instant);
     }
 
-    void ITransition.Do(Transition transition, CoreCallback onTransitionEnd)
+    void ITransition.Do(Transition transition, UnityAction onTransitionEnd)
     {
         Do(transition, false, onTransitionEnd);
     }

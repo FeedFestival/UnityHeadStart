@@ -1,6 +1,7 @@
 using Assets.HeadStart.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ButtonWrapper : MonoBehaviour
@@ -11,13 +12,13 @@ public class ButtonWrapper : MonoBehaviour
     public int Id;
     public Button Btn;
     public TextMeshProUGUI Txt;
-    private CoreIdCallback _coreIdCallback;
-    public void Subscribe(CoreIdCallback coreIdCallback)
+    private UnityAction<int> _coreIdCallback;
+    public void Subscribe(UnityAction<int> coreIdCallback)
     {
         _coreIdCallback = coreIdCallback;
         Btn.onClick.AddListener(() =>
         {
-            _coreIdCallback(Id);
+            _coreIdCallback?.Invoke(Id);
         });
     }
     public void Unsubscribe()

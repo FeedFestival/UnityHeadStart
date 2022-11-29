@@ -16,12 +16,12 @@ public class ActionDisabler : MonoBehaviour
             return;
         }
 
-        _rotateAnimTime = CoreReadonly.ROTATE_ANIM_TIME;
-        transform.eulerAngles = CoreReadonly.FROM_ROTATE;
+        _rotateAnimTime = GameButton.ROTATE_ANIM_TIME;
+        transform.eulerAngles = GameButton.FROM_ROTATE;
         _rotateEllipseTwid = LeanTween.rotateAround(
             gameObject,
             Vector3.forward,
-            CoreReadonly.ROTATE_TO.z,
+            GameButton.ROTATE_TO.z,
             _rotateAnimTime
         ).id;
         LeanTween.descr(_rotateEllipseTwid.Value).setEase(LeanTweenType.linear);
@@ -42,7 +42,7 @@ public class ActionDisabler : MonoBehaviour
         _enableWhenAnimFinish = true;
         if (_rotateEllipseTwid.HasValue)
         {
-            _rotateAnimTime = CoreReadonly.ROTATE_ANIM_TIME * CoreReadonly.ROTATE_ENABLE_PERCENT;
+            _rotateAnimTime = GameButton.ROTATE_ANIM_TIME * GameButton.ROTATE_ENABLE_PERCENT;
             LTDescr ltd = LeanTween.descr(_rotateEllipseTwid.Value);
             if (ltd == null)
             {

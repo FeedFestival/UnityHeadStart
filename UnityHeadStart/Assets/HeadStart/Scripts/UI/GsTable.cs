@@ -55,7 +55,9 @@ public class GsTable : MonoBehaviour
         {
             Init();
         }
-        __.Time.RxWait(() =>
+
+        //__.Timeout.RxSeconds(() =>
+        __.Timeout.RxSeconds(() =>
         {
             // __debug.DebugList(tableData, "tableData", (GsTableData row) => {
             //     return __debug.GetDebugList(row.Values, "row: ");
